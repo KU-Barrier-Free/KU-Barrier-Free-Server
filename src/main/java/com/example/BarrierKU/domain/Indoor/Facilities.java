@@ -20,6 +20,6 @@ public class Facilities {
     private String floor;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "building_id")
+    @JoinColumn(name = "building_id", nullable = false)
     private Building building;
 }

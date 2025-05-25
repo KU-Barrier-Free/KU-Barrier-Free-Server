@@ -25,6 +25,7 @@ public class Building {
 
     private String department;
 
+    @Column(nullable = false)
     private Point spot;
 
     @OneToMany(mappedBy = "building")
