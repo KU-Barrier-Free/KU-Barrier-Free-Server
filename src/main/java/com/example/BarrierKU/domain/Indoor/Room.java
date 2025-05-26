@@ -24,7 +24,7 @@ public class Room {
     private String roomName;
 
     @Column(nullable = false)
-    private int lecture; // 수업 여부
+    private boolean lecture; // 수업 여부
 
     @Column(nullable = false)
     private String floor;

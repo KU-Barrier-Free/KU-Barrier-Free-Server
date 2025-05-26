@@ -13,29 +13,29 @@ public class RoomInfo {
     private Long id;
 
     @Column(nullable = false)
-    private int allInOne;
+    private boolean allInOne;
     @Column(nullable = false)
-    private int cinemaSeat;
+    private boolean cinemaSeat;
     @Column(name = "one_seat", nullable = false)
-    private int single; //oneSeat를 임의로 변경
+    private boolean single; //oneSeat를 임의로 변경
     @Column(name = "two_seat",nullable = false)
-    private int couple;
+    private boolean couple;
     @Column(name = "multi_seat",nullable = false)
-    private int multiple;
+    private boolean multiple;
     @Column(nullable = false)
-    private int sneezeGuard; // 왜...?
+    private boolean sneezeGuard; // 왜...?
     @Column(name = "back_of_chair",nullable = false)
-    private int backChair; // 백 오브 체어를 임의로 변경
+    private boolean backChair; // 백 오브 체어를 임의로 변경
     @Column(nullable = false)
-    private int wheelchairTable;
+    private boolean wheelchairTable;
     @Column(nullable = false)
-    private int wheelChair;
+    private boolean wheelChair;
     @Column(nullable = false)
-    private int computerTable;
+    private boolean computerTable;
     @Column(nullable = false)
-    private int frontDoor;
+    private boolean frontDoor;
     @Column(nullable = false)
-    private int backDoor;
+    private boolean backDoor;
 
     @OneToOne(mappedBy = "roomInfo", fetch = FetchType.LAZY)
     private Room room;
