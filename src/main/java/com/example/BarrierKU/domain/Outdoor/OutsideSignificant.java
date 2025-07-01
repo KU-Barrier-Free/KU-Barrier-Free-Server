@@ -19,8 +19,8 @@ public class OutsideSignificant {
     @Column(name = "outside_significant_id")
     private Long id;
 
-//    @Column(nullable = false)
-//    private Point spot;
+    @Column(nullable = false)
+    private Point spot;
 
     @Column(nullable = false)
     private String description;
