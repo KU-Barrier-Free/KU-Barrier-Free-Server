@@ -2,6 +2,7 @@ package com.example.BarrierKU.domain.Indoor;
 
 import com.example.BarrierKU.domain.Type.Purpose;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,10 +14,16 @@ public class Facilities {
     @Column(name = "facilities_id")
     private Long id;
 
+    @Column(nullable = false)
+    @NotNull
+    private String name;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "purpose", nullable = false)
     private Purpose purpose;
 
+    @Column(nullable = false)
+    @NotNull
     private String floor;
 
     @ManyToOne(fetch = FetchType.LAZY)
