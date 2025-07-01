@@ -1,5 +1,6 @@
 package com.example.BarrierKU.domain.Outdoor;
 
+import com.example.BarrierKU.domain.Image.OutsideSignificantImage;
 import jakarta.persistence.*;
 import lombok.Generated;
 import lombok.Getter;
@@ -18,12 +19,12 @@ public class OutsideSignificant {
     @Column(name = "outside_significant_id")
     private Long id;
 
-    @Column(nullable = false)
-    private Point spot;
+//    @Column(nullable = false)
+//    private Point spot;
 
     @Column(nullable = false)
     private String description;
 
     @OneToMany(mappedBy = "outsideSignificant")
-    private List<OutsideSignificant> outsideSignificants = new ArrayList<>();
+    private List<OutsideSignificantImage> outsideSignificantImages = new ArrayList<>();
 }

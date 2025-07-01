@@ -29,7 +29,12 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.hibernate:hibernate-spatial:6.4.4.Final'
 	implementation 'org.locationtech.jts:jts-core:1.19.0'
+	implementation 'org.orbisgis:h2gis:1.5.0'
+	implementation 'org.hibernate:hibernate-spatial:6.2.6.Final'
+	implementation 'org.locationtech.jts:jts-core:1.18.2'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	runtimeOnly 'com.h2database:h2'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

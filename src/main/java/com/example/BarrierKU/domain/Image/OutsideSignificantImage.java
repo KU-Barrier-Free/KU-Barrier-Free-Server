@@ -17,6 +17,6 @@ public class OutsideSignificantImage {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "outside_significant_id", nullable = false)
-    private OutsideSignificant outsideSignificants;
+    private OutsideSignificant outsideSignificant;
 
 }
