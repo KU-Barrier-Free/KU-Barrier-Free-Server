@@ -2,6 +2,7 @@ package com.example.BarrierKU.domain.Image;
 
 import com.example.BarrierKU.domain.Indoor.Door;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,8 @@ public class DoorImage {
     @Column(name = "door_image_id")
     private Long id;
 
+    @Column(nullable = false)
+    @NotNull
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
