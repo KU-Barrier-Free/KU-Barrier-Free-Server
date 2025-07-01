@@ -11,5 +11,6 @@ public enum Purpose {
     CONVINIENCE,
     KHUB,
     KCUBE,
-    FOYER
+    FOYER,
+    PARKINGLOT
 }
