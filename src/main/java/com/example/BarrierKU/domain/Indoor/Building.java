@@ -2,6 +2,7 @@ package com.example.BarrierKU.domain.Indoor;
 
 import com.example.BarrierKU.domain.Type.Purpose;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.locationtech.jts.geom.Point;
@@ -21,9 +22,15 @@ public class Building {
 
     private int number; // 건물 번호
 
+    @Column(nullable = false)
+    @NotNull
     private String name;
 
     private String department;
+
+    @Column(nullable = false)
+    @NotNull
+    private String url; // 건물 사진...?
 
     @Column(nullable = false)
     private Point spot;
