@@ -13,9 +13,9 @@ public class Obstacle {
     @Id @GeneratedValue
     @Column(name = "obstacle_id")
     private Long id;
-//
-//    @Column(nullable = false)
-//    private Point spot;
+
+    @Column(nullable = false)
+    private Point spot;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type", nullable = false)
