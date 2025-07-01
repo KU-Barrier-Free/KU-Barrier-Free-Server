@@ -30,7 +30,7 @@ public class Building {
 
     @Column(nullable = false)
     @NotNull
-    private String url; // 건물 사진...?
+    private String image; // 건물 사진...?
 
     @Column(nullable = false)
     private Point spot;
