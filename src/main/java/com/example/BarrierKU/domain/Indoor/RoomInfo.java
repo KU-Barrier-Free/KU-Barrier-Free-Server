@@ -17,15 +17,15 @@ public class RoomInfo {
     @Column(nullable = false)
     private boolean cinemaSeat;
     @Column(name = "one_seat", nullable = false)
-    private boolean single; //oneSeat를 임의로 변경
+    private boolean oneSeat; //oneSeat를 임의로 변경
     @Column(name = "two_seat",nullable = false)
-    private boolean couple;
+    private boolean twoSeat;
     @Column(name = "multi_seat",nullable = false)
-    private boolean multiple;
+    private boolean multiSeat;
     @Column(nullable = false)
-    private boolean sneezeGuard; // 왜...?
+    private boolean panel; // 왜...?
     @Column(name = "back_of_chair",nullable = false)
-    private boolean backChair; // 백 오브 체어를 임의로 변경
+    private boolean backOfChair; // 백 오브 체어를 임의로 변경
     @Column(nullable = false)
     private boolean wheelchairTable;
     @Column(nullable = false)
