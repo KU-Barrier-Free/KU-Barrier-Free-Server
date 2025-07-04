@@ -2,6 +2,7 @@ package com.example.BarrierKU.dto.response;
 
 import com.example.BarrierKU.domain.Indoor.Building;
 import com.example.BarrierKU.domain.Indoor.Door;
+import com.example.BarrierKU.domain.Indoor.Significant;
 import com.example.BarrierKU.domain.Type.Purpose;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,6 +27,8 @@ public class BuildingResponse {
 
     private Set<Purpose> FacilityPurposes;
 
+    private List<Significant> significants;
+
     public BuildingResponse from(Building building){
         return new BuildingResponse(building.getId(), building.getNumber(),
                 building.getName(), building.getDepartment(),
@@ -33,6 +36,6 @@ public class BuildingResponse {
                 building.getDoors().stream()
                 .map(DoorResponse::from)
                 .toList(),
-                building.getFacilityPurposes());
+                building.getFacilityPurposes(), building.getSignificants());
     }
 }
