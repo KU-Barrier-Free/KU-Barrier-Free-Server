@@ -25,4 +25,10 @@ public class RoomRepository {
         return em.createQuery("select r from Room r", Room.class)
                 .getResultList();
     }
+
+    public List<Room> findByName(String name) {
+        return em.createQuery("select r from Room r where r.roomName = :name", Room.class)
+                .setParameter("name", name) // 쿼리 name 설정
+                .getResultList();
+    }
 }
