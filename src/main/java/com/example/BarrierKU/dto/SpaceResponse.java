@@ -15,7 +15,7 @@ public class SpaceResponse {
     private String roomName;
     private Boolean lecture;
 //    private String floor;
-    private Integer capacity;
+    private Long capacity;
     private Float area;
     private String roomComment;
     private Float floorSpace;
@@ -30,11 +30,10 @@ public class SpaceResponse {
                 ? RoomInfoResponse.from(room.getRoomInfo()) : null;
 
         List<ImageResponse> images = (type == 1)
-                ? room.getImages().stream().map(ImageResponse::from).toList()
-                : List.of();
+                ? room.getImages().stream().map(ImageResponse::from).toList() : List.of();
 
-        return RoomResponse.builder()
-                .roomId(room.getId())
+        return SpaceResponse.builder()
+                .spaceId(room.getId())
                 .roomNumber(room.getRoomNumber())
                 .roomName(room.getRoomName())
                 .lecture(room.isLecture())
