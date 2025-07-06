@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Builder
 public class SpaceResponse {
-//    private Long spaceId;
+    private Long spaceId;
     private String roomNumber;
     private String roomName;
     private Boolean lecture;
@@ -34,7 +34,7 @@ public class SpaceResponse {
                 : List.of();
 
         return RoomResponse.builder()
-//                .roomId(room.getId())
+                .roomId(room.getId())
                 .roomNumber(room.getRoomNumber())
                 .roomName(room.getRoomName())
                 .lecture(room.isLecture())
