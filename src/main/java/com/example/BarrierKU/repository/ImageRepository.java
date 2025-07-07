@@ -1,7 +1,6 @@
 package com.example.BarrierKU.repository;
 
-import com.example.BarrierKU.domain.Image.Image;
-import com.example.BarrierKU.domain.Indoor.Facilities;
+import com.example.BarrierKU.domain.Image.RoomImage;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -14,16 +13,16 @@ public class ImageRepository {
 
     private final EntityManager em;
 
-    public void save(Image image) {
-        em.persist(image);
+    public void save(RoomImage roomImage) {
+        em.persist(roomImage);
     }
 
-    public Image findById(Long id) {
-        return em.find(Image.class, id);
+    public RoomImage findById(Long id) {
+        return em.find(RoomImage.class, id);
     }
 
-    public List<Image> findAll() {
-        return em.createQuery("select img from Image img", Image.class)
+    public List<RoomImage> findAll() {
+        return em.createQuery("select img from RoomImage img", RoomImage.class)
                 .getResultList();
     }
 

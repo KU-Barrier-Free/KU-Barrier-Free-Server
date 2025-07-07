@@ -1,6 +1,6 @@
 package com.example.BarrierKU.domain.Indoor;
 
-import com.example.BarrierKU.domain.Image.Image;
+import com.example.BarrierKU.domain.Image.RoomImage;
 import com.example.BarrierKU.domain.Type.RoomType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -58,6 +58,6 @@ public class Room {
     private RoomInfo roomInfo;
 
     @OneToMany(mappedBy = "room")
-    private List<Image> images = new ArrayList<>();
+    private List<RoomImage> roomImages = new ArrayList<>();
 
 }

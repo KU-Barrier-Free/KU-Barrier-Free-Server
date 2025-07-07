@@ -1,7 +1,6 @@
 package com.example.BarrierKU.dto;
 
 import com.example.BarrierKU.domain.Indoor.Room;
-import com.example.BarrierKU.domain.Type.RoomType;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -21,14 +20,14 @@ public class SpaceResponse {
     private String department;
     private String departmentNumber;
     private RoomInfoResponse roomInfo;
-    private List<ImageResponse> images;
+    private List<RoomImageResponse> images;
 
     public static SpaceResponse of(Room room, int type) {
         RoomInfoResponse info = (type == 1 && room.getRoomInfo() != null)
                 ? RoomInfoResponse.from(room.getRoomInfo()) : null;
 
-        List<ImageResponse> images = (type == 1)
-                ? room.getImages().stream().map(ImageResponse::from).toList() : List.of();
+        List<RoomImageResponse> images = (type == 1)
+                ? room.getRoomImages().stream().map(RoomImageResponse::from).toList() : List.of();
 
         return SpaceResponse.builder()
                 .roomNumber(room.getRoomNumber())
