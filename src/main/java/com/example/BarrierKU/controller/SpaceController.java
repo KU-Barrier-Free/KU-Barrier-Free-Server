@@ -24,7 +24,7 @@ public class SpaceController {
             SpaceResponse response = spaceService.getResponse(spaceId, type);
             return ResponseEntity.ok(ApiResponse.success(response));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(ApiResponse.fail(50000, "서버 내부 오류가 발생했습니다"))
+            return ResponseEntity.status(500).body(ApiResponse.fail(50000, "서버 내부 오류가 발생했습니다"));
         }
     }
 }
