@@ -1,5 +1,8 @@
 package com.example.BarrierKU.service;
 
+import com.example.BarrierKU.domain.Indoor.Facilities;
+import com.example.BarrierKU.domain.Indoor.Room;
+import com.example.BarrierKU.dto.SpaceResponse;
 import com.example.BarrierKU.repository.FacilitiesRepository;
 import com.example.BarrierKU.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,4 +16,9 @@ public class SpaceService {
 
     private final RoomRepository roomRepository;
     private final FacilitiesRepository facilitiesRepository;
+
+    public SpaceResponse getResponse(Long spaceId, int type) {
+        Room room = roomRepository.findById(spaceId);
+        return SpaceResponse.of(room, type);
+    }
 }
