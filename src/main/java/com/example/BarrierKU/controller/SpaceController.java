@@ -1,5 +1,6 @@
 package com.example.BarrierKU.controller;
 
+import com.example.BarrierKU.dto.ApiResponse;
 import com.example.BarrierKU.dto.SpaceResponse;
 import com.example.BarrierKU.service.SpaceService;
 import lombok.RequiredArgsConstructor;
@@ -14,12 +15,16 @@ public class SpaceController {
     private final SpaceService spaceService;
 
     @GetMapping("/spaces/{spaceId}")
-    public ResponseEntity<SpaceResponse> getSpaceDetail(
+    public ResponseEntity<ApiResponse<SpaceResponse>> getSpaceDetail(
             @PathVariable Long buildingId,
             @PathVariable Long spaceId,
             @RequestParam int type
     ) {
-        SpaceResponse response = spaceService.getResponse(spaceId, type);
-        return ResponseEntity.ok(response);
+        try {
+            SpaceResponse response = spaceService.getResponse(spaceId, type);
+            return ResponseEntity.ok(ApiResponse.success(response));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(ApiResponse.fail(50000, "서버 내부 오류가 발생했습니다"))
+        }
     }
 }
