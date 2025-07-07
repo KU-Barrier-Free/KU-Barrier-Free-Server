@@ -10,11 +10,9 @@ import java.util.List;
 @Getter
 @Builder
 public class SpaceResponse {
-    private Long spaceId;
     private String roomNumber;
     private String roomName;
     private Boolean lecture;
-//    private String floor;
     private Long capacity;
     private Float area;
     private String roomComment;
@@ -33,11 +31,9 @@ public class SpaceResponse {
                 ? room.getImages().stream().map(ImageResponse::from).toList() : List.of();
 
         return SpaceResponse.builder()
-                .spaceId(room.getId())
                 .roomNumber(room.getRoomNumber())
                 .roomName(room.getRoomName())
                 .lecture(room.isLecture())
-//                .floor(room.getFloor())
                 .capacity(room.getCapacity())
                 .area(room.getArea())
                 .roomComment(room.getRoomComment())
