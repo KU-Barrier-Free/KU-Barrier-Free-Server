@@ -29,7 +29,7 @@ public class BuildingResponse {
 
     private List<Significant> significants;
 
-    public BuildingResponse from(Building building){
+    public static BuildingResponse from(Building building){
         return new BuildingResponse(building.getId(), building.getNumber(),
                 building.getName(), building.getDepartment(),
                 building.getImage(),
