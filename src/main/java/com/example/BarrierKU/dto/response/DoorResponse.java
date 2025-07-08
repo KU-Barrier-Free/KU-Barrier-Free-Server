@@ -19,7 +19,7 @@ public class DoorResponse {
     private List<DoorImage> images;
 
     public static DoorResponse from(Door door) {
-        return new DoorResponse(door.getId(), door.getWheelchair(), door.getSignificant(), door.getImages());
+        return new DoorResponse(door.getId(), door.isWheelchair(), door.getSignificant(), door.getImages());
     }
 
 }
