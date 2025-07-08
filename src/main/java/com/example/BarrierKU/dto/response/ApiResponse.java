@@ -11,7 +11,7 @@ public record ApiResponse<T>(
         @Nullable T data,
         @Nullable ExceptionDTO error
 ) {
-    public static <T> ApiResponse<T> success(@Nullable final T data){
+    public static <T> ApiResponse<T> ok(@Nullable final T data){
         return new ApiResponse<>(HttpStatus.OK, true, data, null);
     }
 }

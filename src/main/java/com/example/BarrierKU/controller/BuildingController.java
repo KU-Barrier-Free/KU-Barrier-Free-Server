@@ -1,6 +1,7 @@
 package com.example.BarrierKU.controller;
 
 import com.example.BarrierKU.domain.Indoor.Building;
+import com.example.BarrierKU.dto.response.ApiResponse;
 import com.example.BarrierKU.dto.response.BuildingResponse;
 import com.example.BarrierKU.service.BuildingService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class BuildingController {
     @GetMapping("/{buildingId}")
     public ApiResponse<BuildingResponse> getBuilding(@PathVariable Long buildingId){
         Building building = buildingService.findBuildingById(buildingId);
-        return ApiResponse.success(BuildingResponse.from(building));
+        return ApiResponse.ok(BuildingResponse.from(building));
     }
 
 
