@@ -15,7 +15,7 @@ public class BuildingController {
     @GetMapping("/{buildingId}")
     public BaseResponse<BuildingResponse> getBuilding(@PathVariable Long buildingId){
         BuildingResponse response = buildingService.findBuildingById(buildingId);
-        return new BaseResponse(response);
+        return BaseResponse.ok(response);
     }
 
 
