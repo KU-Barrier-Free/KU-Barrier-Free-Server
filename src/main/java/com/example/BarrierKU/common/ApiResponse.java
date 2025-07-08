@@ -9,7 +9,7 @@ public record ApiResponse<T>(
         HttpStatus httpStatus,
         boolean success,
         @Nullable T data,
-        @Nullable ExceptionDTO error
+        @Nullable ExceptionDto error
 ) {
     public static <T> ApiResponse<T> ok(@Nullable final T data){
         return new ApiResponse<>(HttpStatus.OK, true, data, null);
