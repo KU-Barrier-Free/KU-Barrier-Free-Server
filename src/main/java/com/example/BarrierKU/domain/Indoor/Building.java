@@ -5,7 +5,6 @@ import com.example.BarrierKU.domain.Type.Purpose;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.Setter;
 import org.locationtech.jts.geom.Point;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Getter
-@Setter
+
 public class Building {
     @Id
     @GeneratedValue

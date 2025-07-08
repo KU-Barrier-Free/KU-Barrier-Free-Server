@@ -4,13 +4,12 @@ import com.example.BarrierKU.domain.Image.Image;
 import com.example.BarrierKU.domain.Type.RoomType;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
 public class Room {
 
     @Id @GeneratedValue
