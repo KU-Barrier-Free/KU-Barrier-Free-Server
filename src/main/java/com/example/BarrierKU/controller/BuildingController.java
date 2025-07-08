@@ -1,7 +1,7 @@
 package com.example.BarrierKU.controller;
 
 import com.example.BarrierKU.domain.Indoor.Building;
-import com.example.BarrierKU.dto.response.ApiResponse;
+import com.example.BarrierKU.common.ApiResponse;
 import com.example.BarrierKU.dto.response.BuildingResponse;
 import com.example.BarrierKU.service.BuildingService;
 import lombok.RequiredArgsConstructor;

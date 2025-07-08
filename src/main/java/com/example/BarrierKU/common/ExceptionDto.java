@@ -1,4 +1,4 @@
-package com.example.BarrierKU.dto;
+package com.example.BarrierKU.common;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

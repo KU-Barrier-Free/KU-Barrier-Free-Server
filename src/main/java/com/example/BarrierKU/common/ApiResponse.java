@@ -1,4 +1,4 @@
-package com.example.BarrierKU.dto.response;
+package com.example.BarrierKU.common;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.http.HttpStatus;
