@@ -4,7 +4,6 @@ import com.example.BarrierKU.domain.Image.OutsideSignificantImage;
 import jakarta.persistence.*;
 import lombok.Generated;
 import lombok.Getter;
-import lombok.Setter;
 import org.locationtech.jts.geom.Point;
 
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 public class OutsideSignificant {
 
     @Id @Generated
