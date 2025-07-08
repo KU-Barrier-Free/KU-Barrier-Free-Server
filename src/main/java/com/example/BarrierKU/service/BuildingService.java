@@ -1,6 +1,7 @@
 package com.example.BarrierKU.service;
 
 import com.example.BarrierKU.domain.Indoor.Building;
+import com.example.BarrierKU.dto.response.BuildingResponse;
 import com.example.BarrierKU.repository.BuildingRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,8 @@ import org.springframework.stereotype.Service;
 public class BuildingService {
     private final BuildingRepository buildingRepository;
 
-    public Building findBuildingById(Long id) {
-        return buildingRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
+    public BuildingResponse findBuildingById(Long id) {
+        Building building = buildingRepository.findById(id).orElseThrow(() -> new EntityNotFoundException());
+        return BuildingResponse.from(building);
     }
 }

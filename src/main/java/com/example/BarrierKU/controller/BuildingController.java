@@ -20,8 +20,8 @@ public class BuildingController {
 
     @GetMapping("/{buildingId}")
     public ApiResponse<BuildingResponse> getBuilding(@PathVariable Long buildingId){
-        Building building = buildingService.findBuildingById(buildingId);
-        return ApiResponse.ok(BuildingResponse.from(building));
+        BuildingResponse response = buildingService.findBuildingById(buildingId);
+        return ApiResponse.ok(response);
     }
 
 
