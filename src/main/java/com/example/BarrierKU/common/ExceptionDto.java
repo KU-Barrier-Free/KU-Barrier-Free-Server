@@ -2,7 +2,6 @@ package com.example.BarrierKU.common;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import org.h2.api.ErrorCode;
 
 @Getter
 public class ExceptionDto {
