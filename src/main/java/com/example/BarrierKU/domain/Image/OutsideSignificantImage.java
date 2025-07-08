@@ -4,10 +4,10 @@ import com.example.BarrierKU.domain.Outdoor.OutsideSignificant;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.Setter;
+
 
 @Entity
-@Getter @Setter
+@Getter
 public class OutsideSignificantImage {
 
     @Id @GeneratedValue

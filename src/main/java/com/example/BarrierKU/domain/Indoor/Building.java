@@ -1,10 +1,10 @@
 package com.example.BarrierKU.domain.Indoor;
 
+import com.example.BarrierKU.domain.Image.FloorPlan;
 import com.example.BarrierKU.domain.Type.Purpose;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.Setter;
 import org.locationtech.jts.geom.Point;
 
 import java.util.ArrayList;
@@ -14,9 +14,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Getter @Setter
+@Getter
+
 public class Building {
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "building_id")
     private Long id;
 
@@ -46,6 +48,9 @@ public class Building {
 
     @OneToMany(mappedBy = "building")
     private List<Facilities> facilities = new ArrayList<>();
+
+    @OneToMany(mappedBy = "building")
+    private List<FloorPlan> floorPlans = new ArrayList<>();
 
     @Transient
     public Set<Purpose> getFacilityPurposes() {
