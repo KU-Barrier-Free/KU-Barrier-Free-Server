@@ -27,9 +27,14 @@ public class FacilitiesRepository {
                 .getResultList();
     }
 
-    public List<Facilities> findByName(String name) {
-        return em.createQuery("select f from Facilities f where f.name = :name", Facilities.class)
-                .setParameter("name", name) // 쿼리 name 설정
-                .getResultList();
+    public Facilities findByName(String name, int buildingNumber, String floor) {
+        return em.createQuery("select f from Facilities f " +
+                        "where f.name = :name " +
+                        "and f.building.number = :buildingNumber " +
+                        "and f.floor = :floor", Facilities.class)
+                .setParameter("name", name)
+                .setParameter("buildingNumber", buildingNumber)
+                .setParameter("floor", floor)
+                .getSingleResult();
     }
 }
