@@ -26,11 +26,7 @@ public class BaseResponse<T> {
         this.result = null;
     }
 
-    public BaseResponse(T result) {
-        ResponseCode responseCode = ResponseCode.SUCCESS;
-        this.isSuccess = responseCode.isSuccess();
-        this.code = responseCode.getCode();
-        this.message = responseCode.getMessage();
-        this.result = result;
+    public static <T> BaseResponse<T> ok(T result) {
+        return new BaseResponse<>(ResponseCode.SUCCESS, result);
     }
 }

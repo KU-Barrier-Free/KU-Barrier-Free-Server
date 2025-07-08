@@ -21,6 +21,6 @@ public class FacilityController {
     public BaseResponse<FacilitiesResponse> getFacility(@PathVariable Long facilityId) {
         log.debug("[getFacility] 편의시설 조회, id = {}", facilityId);
         FacilitiesResponse response = facilityService.getFacility(facilityId);
-        return new BaseResponse<>(response);
+        return BaseResponse.ok(response);
     }
 }
