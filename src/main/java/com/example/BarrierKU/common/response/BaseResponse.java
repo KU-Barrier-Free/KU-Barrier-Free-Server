@@ -1,10 +1,12 @@
 package com.example.BarrierKU.common.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 
 @Getter
 public class BaseResponse<T> {
+    @JsonProperty("isSuccess")
     private final boolean isSuccess;
     private final int code;
     private final String message;
