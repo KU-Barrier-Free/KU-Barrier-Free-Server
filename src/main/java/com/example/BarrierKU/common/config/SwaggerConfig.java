@@ -25,13 +25,7 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI customOpenAPI() {
-        return new OpenAPI().components(new Components().addSecuritySchemes("JWT", new SecurityScheme()
-                .type(SecurityScheme.Type.HTTP)
-                .description("jwt토큰")
-                .in(SecurityScheme.In.HEADER)
-                .scheme("bearer")
-                .bearerFormat("JWT")
-                .name(HttpHeaders.AUTHORIZATION)));
+        return new OpenAPI();
     }
 
 }
