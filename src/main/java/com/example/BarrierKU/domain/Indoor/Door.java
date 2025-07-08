@@ -21,7 +21,7 @@ public class Door {
     private Point spot;
 
     @Column(nullable = false)
-    private int wheelchair;
+    private boolean wheelchair;
 
     private String significant;
 
