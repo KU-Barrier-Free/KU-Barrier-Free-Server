@@ -1,11 +1,9 @@
 package com.example.BarrierKU.controller;
 
 import com.example.BarrierKU.common.response.BaseResponse;
-import com.example.BarrierKU.dto.ApiResponse;
 import com.example.BarrierKU.dto.SpaceResponse;
 import com.example.BarrierKU.service.SpaceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
