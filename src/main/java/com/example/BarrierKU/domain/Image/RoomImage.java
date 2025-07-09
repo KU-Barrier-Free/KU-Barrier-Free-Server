@@ -6,13 +6,12 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
-
 @Entity
 @Getter
-public class Image {
+public class RoomImage {
 
     @Id @GeneratedValue
-    @Column(name = "image_id")
+    @Column(name = "room_image_id")
     private Long id;
 
     @Column(nullable = false)

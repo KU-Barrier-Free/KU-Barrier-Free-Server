@@ -24,10 +24,10 @@ public enum ResponseCode {
     BUILDING_NOT_FOUND(false, 404, "해당 건물을 찾을 수 없습니다."),
 
     // 4000 번대 : facility
-    FACILITY_NOT_FOUND(false, 404, "해당 편의시설을 찾을 수 없습니다.");
+    FACILITY_NOT_FOUND(false, 404, "해당 편의시설을 찾을 수 없습니다."),
 
     // 5000 번대 : place
-
+    SPACE_NOT_FOUND(false, 404, "해당 공간을 찾을 수 없습니다.");
 
     // 6000 번대 : path
 
