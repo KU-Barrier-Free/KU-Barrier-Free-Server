@@ -1,4 +1,4 @@
-package com.example.BarrierKU.controller;
+package com.example.BarrierKU.domain.test.controller;
 
 import com.example.BarrierKU.common.annotation.CustomExceptionDescription;
 import com.example.BarrierKU.common.response.BaseResponse;
