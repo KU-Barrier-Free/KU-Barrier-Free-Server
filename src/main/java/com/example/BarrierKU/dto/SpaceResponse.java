@@ -21,9 +21,8 @@ public class SpaceResponse {
     private String departmentNumber;
     private RoomInfoResponse roomInfo;
     private List<RoomImageResponse> images;
-    private String purpose;
 
-    public static SpaceResponse of(Room room, String purpose, int type) {
+    public static SpaceResponse of(Room room, int type) {
         RoomInfoResponse info = (type == 1 && room.getRoomInfo() != null)
                 ? RoomInfoResponse.from(room.getRoomInfo()) : null;
 
@@ -43,7 +42,6 @@ public class SpaceResponse {
                 .departmentNumber(room.getDepartmentNumber())
                 .roomInfo(info)
                 .images(images)
-                .purpose(purpose)
                 .build();
     }
 }
