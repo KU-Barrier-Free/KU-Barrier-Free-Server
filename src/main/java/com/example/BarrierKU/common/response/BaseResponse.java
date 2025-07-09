@@ -7,7 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 @Getter
-@JsonPropertyOrder({"success", "code", "message", "data"})
+@JsonPropertyOrder({"success", "code", "message", "result"})
 public class BaseResponse<T> {
 
     @Schema(description = "성공 여부", example = "true")
