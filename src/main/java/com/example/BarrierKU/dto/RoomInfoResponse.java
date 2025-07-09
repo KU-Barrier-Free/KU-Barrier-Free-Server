@@ -7,18 +7,18 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class RoomInfoResponse {
-    private Boolean allInOne;
-    private Boolean cinemaSeat;
-    private Boolean oneSeat;
-    private Boolean twoSeat;
-    private Boolean multiSeat;
-    private Boolean panel;
-    private Boolean backOfChair;
-    private Boolean wheelchairTable;
-    private Boolean wheelChair;
-    private Boolean computerTable;
-    private Boolean frontDoor;
-    private Boolean backDoor;
+    private boolean allInOne;
+    private boolean cinemaSeat;
+    private boolean oneSeat;
+    private boolean twoSeat;
+    private boolean multiSeat;
+    private boolean panel;
+    private boolean backOfChair;
+    private boolean wheelchairTable;
+    private boolean wheelChair;
+    private boolean computerTable;
+    private boolean frontDoor;
+    private boolean backDoor;
 
     public static RoomInfoResponse from(RoomInfo info) {
         return new RoomInfoResponse(

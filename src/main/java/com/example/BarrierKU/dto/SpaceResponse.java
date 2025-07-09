@@ -11,11 +11,11 @@ import java.util.List;
 public class SpaceResponse {
     private String roomNumber;
     private String roomName;
-    private Boolean lecture;
-    private Long capacity;
-    private Float area;
+    private boolean lecture;
+    private long capacity;
+    private float area;
     private String roomComment;
-    private Float floorSpace;
+    private float floorSpace;
     private String roomType;
     private String department;
     private String departmentNumber;
