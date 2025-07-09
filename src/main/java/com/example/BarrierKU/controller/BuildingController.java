@@ -27,7 +27,7 @@ public class BuildingController {
             @PathVariable Long spaceId,
             @RequestParam int type
     ) {
-        SpaceResponse response = spaceService.getSpaceInfo(spaceId, type);
+        SpaceResponse response = spaceService.getSpaceInfo(buildingId, spaceId, type);
         return BaseResponse.ok(response);
     }
 

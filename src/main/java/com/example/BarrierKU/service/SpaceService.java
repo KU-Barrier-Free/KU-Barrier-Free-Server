@@ -17,8 +17,8 @@ public class SpaceService {
 
     private final RoomRepository roomRepository;
 
-    public SpaceResponse getSpaceInfo(Long spaceId, int type) {
-        Room room = roomRepository.findById(spaceId)
+    public SpaceResponse getSpaceInfo(Long buildingId, Long spaceId, int type) {
+        Room room = roomRepository.findByIdAndBuildingId(buildingId, spaceId)
                 .orElseThrow(() -> new BarrierKuException(SPACE_NOT_FOUND));
         return SpaceResponse.of(room, type);
     }
