@@ -27,7 +27,6 @@ public enum SwaggerResponseDescription {
 
     SwaggerResponseDescription(Set<ResponseCode> responseCodeSet) {
         responseCodeSet.addAll(new LinkedHashSet<>(Set.of(
-                SUCCESS,
                 INVALID_PATH_VARIABLE_TYPE,
                 BAD_REQUEST,
                 API_NOT_FOUND,

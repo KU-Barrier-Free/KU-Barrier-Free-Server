@@ -87,7 +87,7 @@ public class SwaggerConfig {
 
     private Example getSwaggerExample(ResponseCode responseCode) {
         Map<String, Object> responseMap = new LinkedHashMap<>();
-        responseMap.put("isSuccess", responseCode.isSuccess());
+        responseMap.put("success", responseCode.isSuccess());
         responseMap.put("code", responseCode.getCode());
         responseMap.put("message", responseCode.getMessage());
         responseMap.put("result", null); // null 안전하게 허용됨

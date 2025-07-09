@@ -2,6 +2,7 @@ package com.example.BarrierKU.domain.test.controller;
 
 import com.example.BarrierKU.common.annotation.CustomExceptionDescription;
 import com.example.BarrierKU.common.response.BaseResponse;
+import com.example.BarrierKU.domain.test.dto.response.TestResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,7 @@ public class TestController {
     )
     @GetMapping
     @CustomExceptionDescription(TEST)
-    public BaseResponse<String> testApi() {
-        return new BaseResponse<>(TEST_EXCEPTION);
+    public BaseResponse<TestResponseDTO> testApi() {
+        return BaseResponse.ok(new TestResponseDTO("테스트 예시 응답"));
     }
 }
