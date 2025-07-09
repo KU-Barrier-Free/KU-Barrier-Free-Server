@@ -1,9 +1,7 @@
 package com.example.BarrierKU.service;
 
-import com.example.BarrierKU.domain.Indoor.Facilities;
 import com.example.BarrierKU.domain.Indoor.Room;
 import com.example.BarrierKU.dto.SpaceResponse;
-import com.example.BarrierKU.repository.FacilitiesRepository;
 import com.example.BarrierKU.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
