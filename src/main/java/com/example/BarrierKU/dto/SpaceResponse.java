@@ -1,13 +1,13 @@
 package com.example.BarrierKU.dto;
 
 import com.example.BarrierKU.domain.Indoor.Room;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
-@Builder
+@AllArgsConstructor
 public class SpaceResponse {
     private String roomNumber;
     private String roomName;
@@ -29,20 +29,21 @@ public class SpaceResponse {
         List<RoomImageResponse> images = (type == 1)
                 ? room.getRoomImages().stream().map(RoomImageResponse::from).toList() : List.of();
 
-        return SpaceResponse.builder()
-                .roomNumber(room.getRoomNumber())
-                .roomName(room.getRoomName())
-                .lecture(room.isLecture())
-                .capacity(room.getCapacity())
-                .area(room.getArea())
-                .roomComment(room.getRoomComment())
-                .floorSpace(room.getFloorSpace())
-                .roomType(room.getRoomType().name())
-                .department(room.getDepartment())
-                .departmentNumber(room.getDepartmentNumber())
-                .roomInfo(info)
-                .images(images)
-                .build();
+        return new SpaceResponse (
+                room.getRoomNumber(),
+                room.getRoomName(),
+                room.isLecture(),
+                room.getCapacity(),
+                room.getArea(),
+                room.getRoomComment(),
+                room.getFloorSpace(),
+                room.getRoomType().name(),
+                room.getDepartment(),
+                room.getDepartmentNumber(),
+                info,
+                images
+        );
+
     }
 }
 

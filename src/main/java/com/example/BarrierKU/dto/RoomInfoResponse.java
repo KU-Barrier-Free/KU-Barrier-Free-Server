@@ -1,11 +1,11 @@
 package com.example.BarrierKU.dto;
 
 import com.example.BarrierKU.domain.Indoor.RoomInfo;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
-@Builder
+@AllArgsConstructor
 public class RoomInfoResponse {
     private Boolean allInOne;
     private Boolean cinemaSeat;
@@ -21,19 +21,18 @@ public class RoomInfoResponse {
     private Boolean backDoor;
 
     public static RoomInfoResponse from(RoomInfo info) {
-        return RoomInfoResponse.builder()
-                .allInOne(info.isAllInOne())
-                .cinemaSeat(info.isCinemaSeat())
-                .oneSeat(info.isOneSeat())
-                .twoSeat(info.isTwoSeat())
-                .multiSeat(info.isMultiSeat())
-                .panel(info.isPanel())
-                .backOfChair(info.isBackOfChair())
-                .wheelchairTable(info.isWheelchairTable())
-                .wheelChair(info.isWheelChair())
-                .computerTable(info.isComputerTable())
-                .frontDoor(info.isFrontDoor())
-                .backDoor(info.isBackDoor())
-                .build();
+        return new RoomInfoResponse(
+                info.isAllInOne(),
+                info.isCinemaSeat(),
+                info.isOneSeat(),
+                info.isTwoSeat(),
+                info.isMultiSeat(),
+                info.isPanel(),
+                info.isBackOfChair(),
+                info.isWheelchairTable(),
+                info.isWheelChair(),
+                info.isComputerTable(),
+                info.isFrontDoor(),
+                info.isBackDoor());
     }
 }
