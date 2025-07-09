@@ -21,7 +21,7 @@ public class SpaceController {
             @RequestParam int type
     ) {
         try {
-            SpaceResponse response = spaceService.getResponse(spaceId, type);
+            SpaceResponse response = spaceService.getSpaceInfo(spaceId, type);
             return ResponseEntity.ok(ApiResponse.success(response));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(ApiResponse.fail(50000, "서버 내부 오류가 발생했습니다"));
