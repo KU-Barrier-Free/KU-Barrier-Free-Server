@@ -3,14 +3,13 @@ package com.example.BarrierKU.domain.Indoor;
 import com.example.BarrierKU.domain.Image.DoorImage;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.locationtech.jts.geom.Point;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Getter @Setter
+@Getter
 public class Door {
 
     @Id @GeneratedValue
@@ -21,7 +20,7 @@ public class Door {
     private Point spot;
 
     @Column(nullable = false)
-    private int wheelchair;
+    private boolean wheelchair;
 
     private String significant;
 

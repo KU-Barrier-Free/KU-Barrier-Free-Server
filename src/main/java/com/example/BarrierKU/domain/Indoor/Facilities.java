@@ -3,11 +3,14 @@ package com.example.BarrierKU.domain.Indoor;
 import com.example.BarrierKU.domain.Type.Purpose;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+
 
 @Entity
-@Getter @Setter
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Facilities {
 
     @Id @GeneratedValue

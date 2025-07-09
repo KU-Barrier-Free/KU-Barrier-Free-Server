@@ -3,11 +3,10 @@ package com.example.BarrierKU.domain.Outdoor;
 import com.example.BarrierKU.domain.Type.ObstacleType;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.Setter;
 import org.locationtech.jts.geom.Point;
 
 @Entity
-@Getter @Setter
+@Getter
 public class Obstacle {
 
     @Id @GeneratedValue
