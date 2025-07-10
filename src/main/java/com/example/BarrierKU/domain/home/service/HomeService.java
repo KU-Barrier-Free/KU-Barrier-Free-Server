@@ -1,7 +1,7 @@
 package com.example.BarrierKU.domain.home.service;
 
 import com.example.BarrierKU.domain.Type.ObstacleType;
-import com.example.BarrierKU.domain.home.dto.HomeLocationResponse;
+import com.example.BarrierKU.domain.home.dto.HomeItem;
 import com.example.BarrierKU.domain.home.dto.HomeResponse;
 import com.example.BarrierKU.domain.home.repository.ObstacleRepository;
 import com.example.BarrierKU.domain.home.repository.OutsideSignificantRepository;
@@ -22,39 +22,34 @@ public class HomeService {
     private final OutsideSignificantRepository outsideSignificantRepository;
 
     public HomeResponse getHomeInfo() {
-        List<HomeLocationResponse> buildings = buildingRepository.findAll().stream()
-                .map(building -> HomeLocationResponse.of(building.getId(),
+        List<HomeItem> buildings = buildingRepository.findAll().stream()
+                .map(building -> HomeItem.of(building.getId(),
                             building.getSpot().getY(),
                             building.getSpot().getX()))
                 .toList();
 
-        List<HomeLocationResponse> significants = outsideSignificantRepository.findAll().stream()
-                .map(significant -> HomeLocationResponse.of(significant.getId(),
+        List<HomeItem> significants = outsideSignificantRepository.findAll().stream()
+                .map(significant -> HomeItem.of(significant.getId(),
                         significant.getSpot().getY(),
                         significant.getSpot().getX()))
                 .toList();
 
-        List<HomeLocationResponse> curbs = obstacleRepository.findAll().stream()
-                .filter(obstacle -> obstacle.getObstacleType().equals(CURB))
-                .map(obstacle -> HomeLocationResponse.of(obstacle.getId(),
-                        obstacle.getSpot().getY(),
-                        obstacle.getSpot().getX()))
-                .toList();
+        List<HomeItem> curbs = getHomeItemWithObstacleType(CURB);
 
-        List<HomeLocationResponse> ramps = obstacleRepository.findAll().stream()
-                .filter(obstacle -> obstacle.getObstacleType().equals(RAMP))
-                .map(obstacle -> HomeLocationResponse.of(obstacle.getId(),
-                        obstacle.getSpot().getY(),
-                        obstacle.getSpot().getX()))
-                .toList();
+        List<HomeItem> ramps = getHomeItemWithObstacleType(RAMP);
 
-        List<HomeLocationResponse> stairs = obstacleRepository.findAll().stream()
-                .filter(obstacle -> obstacle.getObstacleType().equals(STAIR))
-                .map(obstacle -> HomeLocationResponse.of(obstacle.getId(),
-                        obstacle.getSpot().getY(),
-                        obstacle.getSpot().getX()))
-                .toList();
+        List<HomeItem> stairs = getHomeItemWithObstacleType(STAIR);
 
         return HomeResponse.of(buildings, significants, curbs, ramps, stairs);
+    }
+
+
+    private List<HomeItem> getHomeItemWithObstacleType(ObstacleType type) {
+        return obstacleRepository.findAll().stream()
+                .filter(obstacle -> obstacle.getObstacleType().equals(type))
+                .map(obstacle -> HomeItem.of(obstacle.getId(),
+                        obstacle.getSpot().getY(),
+                        obstacle.getSpot().getX()))
+                .toList();
     }
 }
