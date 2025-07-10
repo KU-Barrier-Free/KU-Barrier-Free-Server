@@ -1,4 +1,4 @@
-package com.example.BarrierKU.domain.Type;
+package com.example.BarrierKU.domain.type;
 
 public enum ObstacleType {
     CURB,

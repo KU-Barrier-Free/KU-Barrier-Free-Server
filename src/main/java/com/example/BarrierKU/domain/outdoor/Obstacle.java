@@ -1,6 +1,6 @@
-package com.example.BarrierKU.domain.Outdoor;
+package com.example.BarrierKU.domain.outdoor;
 
-import com.example.BarrierKU.domain.Type.ObstacleType;
+import com.example.BarrierKU.domain.type.ObstacleType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.locationtech.jts.geom.Point;

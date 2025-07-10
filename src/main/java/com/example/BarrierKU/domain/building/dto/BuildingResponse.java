@@ -1,8 +1,8 @@
 package com.example.BarrierKU.domain.building.dto;
 
-import com.example.BarrierKU.domain.Indoor.Building;
-import com.example.BarrierKU.domain.Indoor.Significant;
-import com.example.BarrierKU.domain.Type.Purpose;
+import com.example.BarrierKU.domain.indoor.Building;
+import com.example.BarrierKU.domain.indoor.Significant;
+import com.example.BarrierKU.domain.type.Purpose;
 import com.example.BarrierKU.domain.door.dto.DoorResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

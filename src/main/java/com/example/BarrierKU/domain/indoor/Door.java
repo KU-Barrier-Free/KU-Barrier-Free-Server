@@ -1,6 +1,6 @@
-package com.example.BarrierKU.domain.Indoor;
+package com.example.BarrierKU.domain.indoor;
 
-import com.example.BarrierKU.domain.Image.DoorImage;
+import com.example.BarrierKU.domain.image.DoorImage;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.locationtech.jts.geom.Point;

@@ -1,7 +1,7 @@
 package com.example.BarrierKU.domain.door.dto;
 
-import com.example.BarrierKU.domain.Image.DoorImage;
-import com.example.BarrierKU.domain.Indoor.Door;
+import com.example.BarrierKU.domain.image.DoorImage;
+import com.example.BarrierKU.domain.indoor.Door;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

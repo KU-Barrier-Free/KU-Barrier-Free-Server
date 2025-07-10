@@ -1,4 +1,4 @@
-package com.example.BarrierKU.domain.Indoor;
+package com.example.BarrierKU.domain.indoor;
 
 import jakarta.persistence.*;
 import lombok.Getter;

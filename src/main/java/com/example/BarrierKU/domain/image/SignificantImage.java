@@ -1,17 +1,17 @@
-package com.example.BarrierKU.domain.Image;
+package com.example.BarrierKU.domain.image;
 
-import com.example.BarrierKU.domain.Indoor.Door;
+import com.example.BarrierKU.domain.indoor.Significant;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
-import lombok.Setter;
+
 
 @Entity
 @Getter
-public class DoorImage {
+public class SignificantImage {
 
     @Id @GeneratedValue
-    @Column(name = "door_image_id")
+    @Column(name = "significant_image_id")
     private Long id;
 
     @Column(nullable = false)
@@ -19,6 +19,6 @@ public class DoorImage {
     private String url;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "door_id", nullable = false)
-    private Door door;
+    @JoinColumn(name = "significant_id")
+    private Significant significant;
 }

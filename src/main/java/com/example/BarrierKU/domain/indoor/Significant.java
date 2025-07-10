@@ -1,6 +1,6 @@
-package com.example.BarrierKU.domain.Indoor;
+package com.example.BarrierKU.domain.indoor;
 
-import com.example.BarrierKU.domain.Image.SignificantImage;
+import com.example.BarrierKU.domain.image.SignificantImage;
 import jakarta.persistence.*;
 import lombok.Getter;
 

@@ -1,7 +1,7 @@
-package com.example.BarrierKU.domain.Image;
+package com.example.BarrierKU.domain.image;
 
-import com.example.BarrierKU.domain.Indoor.Room;
-import com.example.BarrierKU.domain.Type.ImageType;
+import com.example.BarrierKU.domain.indoor.Room;
+import com.example.BarrierKU.domain.type.ImageType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

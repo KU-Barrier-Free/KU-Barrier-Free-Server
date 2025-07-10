@@ -1,6 +1,6 @@
-package com.example.BarrierKU.domain.Indoor;
+package com.example.BarrierKU.domain.indoor;
 
-import com.example.BarrierKU.domain.Type.Purpose;
+import com.example.BarrierKU.domain.type.Purpose;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;

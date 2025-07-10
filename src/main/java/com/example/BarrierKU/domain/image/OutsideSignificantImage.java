@@ -1,6 +1,6 @@
-package com.example.BarrierKU.domain.Image;
+package com.example.BarrierKU.domain.image;
 
-import com.example.BarrierKU.domain.Outdoor.OutsideSignificant;
+import com.example.BarrierKU.domain.outdoor.OutsideSignificant;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
