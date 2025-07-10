@@ -1,10 +1,9 @@
-package com.example.BarrierKU.service;
+package com.example.BarrierKU.domain.building.service;
 
 import com.example.BarrierKU.common.exception.BarrierKuException;
 import com.example.BarrierKU.domain.Indoor.Building;
-import com.example.BarrierKU.dto.response.BuildingResponse;
-import com.example.BarrierKU.repository.BuildingRepository;
-import jakarta.persistence.EntityNotFoundException;
+import com.example.BarrierKU.domain.building.dto.BuildingResponse;
+import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.example.BarrierKU.repository;
+package com.example.BarrierKU.domain.building.repository;
 
 import com.example.BarrierKU.domain.Indoor.Building;
 import org.springframework.data.jpa.repository.JpaRepository;

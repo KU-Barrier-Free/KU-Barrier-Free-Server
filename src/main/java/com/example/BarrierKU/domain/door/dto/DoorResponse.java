@@ -1,4 +1,4 @@
-package com.example.BarrierKU.dto.response;
+package com.example.BarrierKU.domain.door.dto;
 
 import com.example.BarrierKU.domain.Image.DoorImage;
 import com.example.BarrierKU.domain.Indoor.Door;

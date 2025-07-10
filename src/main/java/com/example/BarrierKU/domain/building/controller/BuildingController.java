@@ -1,9 +1,9 @@
-package com.example.BarrierKU.controller;
+package com.example.BarrierKU.domain.building.controller;
 
 import com.example.BarrierKU.common.annotation.CustomExceptionDescription;
 import com.example.BarrierKU.common.response.BaseResponse;
-import com.example.BarrierKU.dto.response.BuildingResponse;
-import com.example.BarrierKU.service.BuildingService;
+import com.example.BarrierKU.domain.building.dto.BuildingResponse;
+import com.example.BarrierKU.domain.building.service.BuildingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
