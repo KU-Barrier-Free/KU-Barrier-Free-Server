@@ -1,7 +1,11 @@
 package com.example.BarrierKU.domain.Indoor;
 
+import com.example.BarrierKU.domain.Image.SignificantImage;
 import jakarta.persistence.*;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,4 +20,7 @@ public class Significant {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id", nullable = false)
     private Building building;
+
+    @OneToMany(mappedBy = "significant")
+    private List<SignificantImage> images = new ArrayList<>();
 }
