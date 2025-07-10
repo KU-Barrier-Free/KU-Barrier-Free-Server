@@ -1,10 +1,16 @@
 package com.example.BarrierKU.domain.home.dto;
 
-import java.math.BigDecimal;
-
 public record HomeLocationResponse(
         Long id,
-        BigDecimal latitude,
-        BigDecimal longitude
+        double latitude,
+        double longitude
 ) {
+    public static HomeLocationResponse of(Long id, double latitude, double longitude) {
+        return new HomeLocationResponse(
+                id,
+                latitude,
+                longitude
+        );
+    }
+
 }
