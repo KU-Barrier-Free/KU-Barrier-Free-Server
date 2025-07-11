@@ -31,8 +31,6 @@ public class BuildingResponse {
     public static class DoorInfo {
         private Long id;
         private boolean wheelchair;
-        private double latitude;
-        private double longitude;
         private List<String> imageUrl;
     }
 
@@ -52,7 +50,7 @@ public class BuildingResponse {
         this.image = building.getImage();
         this.facilityPurposes = building.getFacilityPurposes();
         this.doorInfos = doors.stream().map(door -> new DoorInfo(door.getId(), door.isWheelchair()
-                        , door.getSpot().getY(), door.getSpot().getX(),
+                        ,
                         door.getImages().stream().map(DoorImage::getUrl).collect(Collectors.toList())))
                 .collect(Collectors.toList());
         this.significantInfos = (significants != null ? significants : Collections.<Significant>emptyList())
