@@ -49,10 +49,9 @@ public class BuildingResponse {
         this.department = building.getDepartment();
         this.image = building.getImage();
         this.facilityPurposes = building.getFacilityPurposes();
-        this.doorInfos = doors.stream().map(door -> new DoorInfo(door.getId(), door.isWheelchair()
-                        ,
-                        door.getImages().stream().map(DoorImage::getUrl).collect(Collectors.toList())))
-                .collect(Collectors.toList());
+        this.doorInfos = doors.stream().map(door -> new DoorInfo(door.getId(), door.isWheelchair(),
+                door.getImages().stream().map(DoorImage::getUrl)
+                        .collect(Collectors.toList()))).collect(Collectors.toList());
         this.significantInfos = (significants != null ? significants : Collections.<Significant>emptyList())
                 .stream()
                 .map(significant -> new SignificantInfo(
