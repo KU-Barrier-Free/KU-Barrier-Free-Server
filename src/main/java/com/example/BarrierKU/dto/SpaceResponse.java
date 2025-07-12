@@ -26,8 +26,7 @@ public class SpaceResponse {
         RoomInfoResponse info = (type == 1 && room.getRoomInfo() != null)
                 ? RoomInfoResponse.from(room.getRoomInfo()) : null;
 
-        List<RoomImageResponse> images = (type == 1)
-                ? room.getRoomImages().stream().map(RoomImageResponse::from).toList() : List.of();
+        List<RoomImageResponse> images = room.getRoomImages().stream().map(RoomImageResponse::from).toList();
 
         return new SpaceResponse (
                 room.getRoomNumber(),
