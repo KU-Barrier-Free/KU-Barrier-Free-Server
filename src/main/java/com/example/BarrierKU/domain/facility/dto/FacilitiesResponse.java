@@ -1,6 +1,6 @@
 package com.example.BarrierKU.domain.facility.dto;
 
-import com.example.BarrierKU.domain.Type.Purpose;
+import com.example.BarrierKU.domain.type.Purpose;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
