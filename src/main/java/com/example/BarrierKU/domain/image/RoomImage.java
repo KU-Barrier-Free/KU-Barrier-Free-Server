@@ -18,6 +18,7 @@ public class RoomImage {
     @NotNull
     private String url;
 
+    @Enumerated(EnumType.STRING)
     private ImageType imageType;
 
     @ManyToOne(fetch = FetchType.LAZY)
