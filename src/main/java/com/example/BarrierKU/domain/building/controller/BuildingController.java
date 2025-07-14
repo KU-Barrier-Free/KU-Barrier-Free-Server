@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.GET_BUILDING;
+import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.GET_SPACE_INFO;
 
 @RestController
 @RequestMapping("/buildings")
@@ -26,6 +27,7 @@ public class BuildingController {
     }
 
     @GetMapping("{buildingId}/spaces/{spaceId}")
+    @CustomExceptionDescription(GET_SPACE_INFO)
     public BaseResponse<SpaceResponse> getSpaceInfo (
             @PathVariable Long buildingId,
             @PathVariable Long spaceId,
