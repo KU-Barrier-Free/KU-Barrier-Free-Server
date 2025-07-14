@@ -4,7 +4,6 @@ import com.example.BarrierKU.common.exception.BarrierKuException;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.floor.dto.FloorResponse;
 import com.example.BarrierKU.domain.floor.dto.SpaceSummary;
-import com.example.BarrierKU.domain.image.FloorPlan;
 import com.example.BarrierKU.domain.image.Image;
 import com.example.BarrierKU.domain.indoor.Building;
 import com.example.BarrierKU.domain.type.Purpose;
