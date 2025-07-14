@@ -1,16 +1,98 @@
 spring:
+  application:
+    name: ku-barrier-free
+  profiles:
+    group:
+      local : local-db, dev-port, common
+      dev: dev-db, dev-port, common
+      prod: prod-db, prod-port, common
+    active: local
+  web:
+    resources:
+      add-mappings: false
+---
+# 로컬에서 사용하는 DB
+spring:
+  config:
+    activate:
+      on-profile: local-db
   datasource:
-    driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb
     username: sa
     password:
+    driver-class-name: org.h2.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
-        show_sql: true
         format_sql: true
-      logging.level:
-        org.hibernate.SQL: debug
-        
+        show_sql: true
+        highlight_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+---
+# 개발용 DB
+spring:
+  config:
+    activate:
+      on-profile: dev-db
+  datasource:
+    url: ${DEV_DATASOURCE_URL}
+    username: ${DEV_DATASOURCE_USERNAME}
+    password: ${DEV_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        highlight_sql: true
+    database-platform: org.hibernate.spatial.dialect.postgis.PostgisPG95Dialect
+---
+# 배포용 DB
+spring:
+  config:
+    activate:
+      on-profile: prod-db
+  datasource:
+    url: ${PROD_DATASOURCE_URL}
+    username: ${PROD_DATASOURCE_USERNAME}
+    password: ${PROD_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        highlight_sql: true
+    database-platform: org.hibernate.spatial.dialect.postgis.PostgisPG95Dialect
+---
+# 개발용 포트
+spring:
+  config:
+    activate:
+      on-profile: dev-port
+server:
+  port: 9001
+---
+# 배포용 포트
+spring:
+  config:
+    activate:
+      on-profile: prod-port
+server:
+  port: 9002
+---
+# 공통 속성
+spring:
+  config:
+    activate:
+      on-profile: common
+logging:
+  level:
+    root: info
+

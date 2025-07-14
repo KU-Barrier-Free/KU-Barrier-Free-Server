@@ -24,23 +24,40 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
-	implementation 'org.hibernate:hibernate-spatial:6.4.4.Final'
-	implementation 'org.locationtech.jts:jts-core:1.19.0'
-	implementation 'org.orbisgis:h2gis:1.5.0'
-	implementation 'org.hibernate:hibernate-spatial:6.2.6.Final'
-	implementation 'org.locationtech.jts:jts-core:1.18.2'
+
+	// Web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	// Spring Data JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Devtools
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// Spatial
+	implementation 'org.hibernate:hibernate-spatial:6.6.15.Final'
+	implementation 'org.locationtech.jts:jts-core:1.20.0'
+
+	// h2
 	runtimeOnly 'com.h2database:h2'
+	implementation 'org.orbisgis:h2gis:1.5.0'
+
+	// PostgreSQL
+	runtimeOnly 'org.postgresql:postgresql'
+
+	// Lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'		// swagger
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
 }
 
 tasks.named('test') {
