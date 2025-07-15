@@ -1,5 +1,6 @@
 package com.example.BarrierKU.domain.home.service;
 
+import com.example.BarrierKU.domain.Outdoor.Obstacle;
 import com.example.BarrierKU.domain.Type.ObstacleType;
 import com.example.BarrierKU.domain.home.dto.HomeItem;
 import com.example.BarrierKU.domain.home.dto.HomeResponse;
@@ -34,18 +35,20 @@ public class HomeService {
                         significant.getSpot().getX()))
                 .toList();
 
-        List<HomeItem> curbs = getHomeItemWithObstacleType(CURB);
+        List<Obstacle> obstaclesList = obstacleRepository.findAll();
 
-        List<HomeItem> ramps = getHomeItemWithObstacleType(RAMP);
+        List<HomeItem> curbs = getHomeItemWithObstacleType(obstaclesList, CURB);
 
-        List<HomeItem> stairs = getHomeItemWithObstacleType(STAIR);
+        List<HomeItem> ramps = getHomeItemWithObstacleType(obstaclesList, RAMP);
+
+        List<HomeItem> stairs = getHomeItemWithObstacleType(obstaclesList, STAIR);
 
         return HomeResponse.of(buildings, significants, curbs, ramps, stairs);
     }
 
 
-    private List<HomeItem> getHomeItemWithObstacleType(ObstacleType type) {
-        return obstacleRepository.findAll().stream()
+    private List<HomeItem> getHomeItemWithObstacleType(List<Obstacle> obstacleList, ObstacleType type) {
+        return obstacleList.stream()
                 .filter(obstacle -> obstacle.getObstacleType().equals(type))
                 .map(obstacle -> HomeItem.of(obstacle.getId(),
                         obstacle.getSpot().getY(),
