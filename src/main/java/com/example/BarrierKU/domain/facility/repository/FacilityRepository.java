@@ -1,6 +1,6 @@
 package com.example.BarrierKU.domain.facility.repository;
 
-import com.example.BarrierKU.domain.Indoor.Facilities;
+import com.example.BarrierKU.domain.indoor.Facilities;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

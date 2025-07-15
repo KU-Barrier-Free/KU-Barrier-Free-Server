@@ -1,8 +1,8 @@
 package com.example.BarrierKU.domain.facility.service;
 
 import com.example.BarrierKU.common.exception.BarrierKuException;
-import com.example.BarrierKU.domain.Indoor.Building;
-import com.example.BarrierKU.domain.Indoor.Facilities;
+import com.example.BarrierKU.domain.indoor.Building;
+import com.example.BarrierKU.domain.indoor.Facilities;
 import com.example.BarrierKU.domain.facility.dto.FacilitiesResponse;
 import com.example.BarrierKU.domain.facility.repository.FacilityRepository;
 import lombok.RequiredArgsConstructor;
