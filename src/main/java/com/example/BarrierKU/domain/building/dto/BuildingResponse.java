@@ -9,6 +9,7 @@ import com.example.BarrierKU.domain.type.Purpose;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.locationtech.jts.geom.Point;
 
 import java.util.Collections;
 import java.util.List;
@@ -38,6 +39,7 @@ public class BuildingResponse {
                     "\"id\": 2," +
                     "\"wheelchair\": false," +
                     "\"imageUrl\": [\"https://example.com/door3.jpg\"]" +
+                    "\"spot\": [\"https://example.com/door3.jpg\"]" +
                     "}]"
     )
     private List<DoorInfo> doorInfos;
@@ -63,6 +65,8 @@ public class BuildingResponse {
         private Long id;
         private boolean wheelchair;
         private List<String> imageUrl;
+        private double latitude;
+        private double longitude;
     }
 
     @Getter
@@ -83,7 +87,7 @@ public class BuildingResponse {
                 .map(Purpose::getValue).collect(Collectors.toSet());
         this.doorInfos = doors.stream().map(door -> new DoorInfo(door.getId(), door.isWheelchair(),
                 door.getImages().stream().map(DoorImage::getUrl)
-                        .collect(Collectors.toList()))).collect(Collectors.toList());
+                        .toList(), door.getSpot().getY(), door.getSpot().getX())).toList();
         this.significantInfos = (significants != null ? significants : Collections.<Significant>emptyList())
                 .stream()
                 .map(significant -> new SignificantInfo(
@@ -93,8 +97,8 @@ public class BuildingResponse {
                                 .<SignificantImage>emptyList())
                                 .stream()
                                 .map(SignificantImage::getUrl)
-                                .collect(Collectors.toList())
+                                .toList()
                 ))
-                .collect(Collectors.toList());
+                .toList();
     }
 }
