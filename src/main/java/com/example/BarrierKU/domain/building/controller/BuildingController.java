@@ -22,7 +22,6 @@ import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.GE
 @RequiredArgsConstructor
 public class BuildingController {
     private final BuildingService buildingService;
-    private final SpaceService spaceService;
 
     @GetMapping("/{buildingId}")
     @CustomExceptionDescription(GET_BUILDING)
@@ -45,7 +44,7 @@ public class BuildingController {
             @Parameter(description = "수업 여부", example = "1")
             @RequestParam int type
     ) {
-        SpaceResponse response = spaceService.getSpaceInfo(buildingId, spaceId, type);
+        SpaceResponse response = buildingService.getSpaceInfo(buildingId, spaceId, type);
         return BaseResponse.ok(response);
     }
 
