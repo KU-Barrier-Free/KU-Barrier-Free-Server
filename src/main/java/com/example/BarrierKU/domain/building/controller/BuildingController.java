@@ -26,6 +26,7 @@ public class BuildingController {
     }
 
     @GetMapping("/{buildingId}/spaces")
+    @CustomExceptionDescription(GET_BUILDING)
     public BaseResponse<FloorResponse> getFloorSpaces(
             @PathVariable Long buildingId,
             @RequestParam String floor
