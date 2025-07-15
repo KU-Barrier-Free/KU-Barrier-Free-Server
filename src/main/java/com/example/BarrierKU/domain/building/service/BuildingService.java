@@ -33,11 +33,10 @@ public class BuildingService {
     public FloorResponse getFloorInfo(Long id, String targetFloor) {
         Building building = buildingRepository.findById(id)
                 .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
-        String floorPlan = building.getFloorPlans().stream()
-                .filter(plan -> plan.getFloor().equals(targetFloor))
-                .findFirst()
-                .map(plan -> plan.getImage())
-                .orElse(null);
+        List<String> drawings = building.getDrawings().stream()
+                .filter(drawing -> drawing.getFloor().equals(targetFloor))
+                .map(drawing -> drawing.getImage())
+                .toList();
         Set<String> purposes = building.getFacilities().stream()
                 .filter(facility -> facility.getFloor().equals(targetFloor))
                 .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
@@ -46,6 +45,6 @@ public class BuildingService {
                         , room.getRoomComment(), room.getImages().stream().map(Image::getUrl).collect(Collectors.toList())
                         , room.isLecture())).collect(Collectors.toList());
 
-        return new FloorResponse(floorPlan, purposes, spaceSummaries);
+        return new FloorResponse(drawings, purposes, spaceSummaries);
     }
 }
