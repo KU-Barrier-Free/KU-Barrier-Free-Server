@@ -23,7 +23,7 @@ public class BuildingResponse {
     private String department;
     private String image;
     private List<DoorInfo> doorInfos;
-    private Set<Purpose> facilityPurposes;
+    private Set<String> facilityPurposes;
     private List<SignificantInfo> significantInfos;
 
     @Getter
@@ -48,7 +48,8 @@ public class BuildingResponse {
         this.name = building.getName();
         this.department = building.getDepartment();
         this.image = building.getImage();
-        this.facilityPurposes = building.getFacilityPurposes();
+        this.facilityPurposes = building.getFacilityPurposes().stream()
+                .map(Purpose::getValue).collect(Collectors.toSet());
         this.doorInfos = doors.stream().map(door -> new DoorInfo(door.getId(), door.isWheelchair(),
                 door.getImages().stream().map(DoorImage::getUrl)
                         .collect(Collectors.toList()))).collect(Collectors.toList());

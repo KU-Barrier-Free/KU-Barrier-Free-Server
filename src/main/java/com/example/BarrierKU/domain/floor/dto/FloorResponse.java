@@ -10,7 +10,7 @@ public record FloorResponse(
         @Schema(description = "도면 이미지")
         String floorPlan,
         @Schema(description = "해당 층에 존재하는 편의시설 종류")
-        Set<Purpose> purposes,
+        Set<String> purposes,
         @Schema(description = "공간의 요약된 정보")
         List<SpaceSummary> spaceSummaries
 ) {

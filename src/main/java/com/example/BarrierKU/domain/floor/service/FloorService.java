@@ -29,9 +29,9 @@ public class FloorService {
                 .findFirst()
                 .map(plan -> plan.getImage())
                 .orElse(null);
-        Set<Purpose> purposes = building.getFacilities().stream()
+        Set<String> purposes = building.getFacilities().stream()
                 .filter(facility -> facility.getFloor().equals(targetFloor))
-                .map(facility -> facility.getPurpose()).collect(Collectors.toSet());
+                .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
         List<SpaceSummary> spaceSummaries = building.getRooms().stream().filter(room -> room.getFloor().equals(targetFloor))
                 .map(room -> new SpaceSummary(room.getId(), room.getRoomNumber(), room.getRoomName()
                         , room.getRoomComment(), room.getImages().stream().map(Image::getUrl).collect(Collectors.toList())
