@@ -8,6 +8,5 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    @Query("SELECT r FROM Room r WHERE r.id = :id AND r.building.id = :buildingId")
-    Optional<Room> findByIdAndBuildingId(@Param("id") Long id, @Param("buildingId") Long buildingId);
+    Optional<Room> findByIdAndBuildingId(Long id, Long buildingId);
 }
