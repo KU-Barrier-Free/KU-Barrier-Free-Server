@@ -5,7 +5,6 @@ import com.example.BarrierKU.common.response.BaseResponse;
 import com.example.BarrierKU.domain.building.dto.SpaceResponse;
 import com.example.BarrierKU.domain.building.dto.BuildingResponse;
 import com.example.BarrierKU.domain.building.service.BuildingService;
-import com.example.BarrierKU.domain.building.service.SpaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Schema;
