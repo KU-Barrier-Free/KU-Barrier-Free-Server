@@ -1,6 +1,5 @@
-package com.example.BarrierKU.domain.floor.dto;
+package com.example.BarrierKU.domain.building.dto;
 
-import com.example.BarrierKU.domain.type.Purpose;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;

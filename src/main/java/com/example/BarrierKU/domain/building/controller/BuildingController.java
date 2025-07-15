@@ -4,8 +4,7 @@ import com.example.BarrierKU.common.annotation.CustomExceptionDescription;
 import com.example.BarrierKU.common.response.BaseResponse;
 import com.example.BarrierKU.domain.building.dto.BuildingResponse;
 import com.example.BarrierKU.domain.building.service.BuildingService;
-import com.example.BarrierKU.domain.floor.dto.FloorResponse;
-import com.example.BarrierKU.domain.floor.service.FloorService;
+import com.example.BarrierKU.domain.building.dto.FloorResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,7 +15,6 @@ import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.GE
 @RequiredArgsConstructor
 public class BuildingController {
     private final BuildingService buildingService;
-    private final FloorService floorService;
 
     @GetMapping("/{buildingId}")
     @CustomExceptionDescription(GET_BUILDING)
@@ -31,7 +29,7 @@ public class BuildingController {
             @PathVariable Long buildingId,
             @RequestParam String floor
     ) {
-        FloorResponse response = floorService.getFloorInfo(buildingId, floor);
+        FloorResponse response = buildingService.getFloorInfo(buildingId, floor);
         return BaseResponse.ok(response);
     }
 
