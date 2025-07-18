@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class SpaceSearchResponse {
-    @Schema(description = "검색 결과 수", example = "2")
+    @Schema(description = "검색 결과 수", example = "1")
     private int count;
     private List<SpaceSummary> spaces;
 }
