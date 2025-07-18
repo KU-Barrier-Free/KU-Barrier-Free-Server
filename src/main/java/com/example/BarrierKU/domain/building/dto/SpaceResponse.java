@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class SpaceResponse {
-    @Schema(description = "호수", example = "201")
+    @Schema(description = "호수", example = "201호")
     private String roomNumber;
     @Schema(description = "호실명", example = "대강의실")
     private String roomName;

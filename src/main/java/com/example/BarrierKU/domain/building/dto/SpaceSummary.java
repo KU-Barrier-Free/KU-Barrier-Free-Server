@@ -8,7 +8,7 @@ import java.util.List;
 public record SpaceSummary (
         @Schema(description = "공간 ID", example = "1")
         Long id,
-        @Schema(description = "호수", example = "201")
+        @Schema(description = "호수", example = "201호")
         String roomNumber,
         @Schema(description = "호실명", example = "대강의실")
         String roomName,
