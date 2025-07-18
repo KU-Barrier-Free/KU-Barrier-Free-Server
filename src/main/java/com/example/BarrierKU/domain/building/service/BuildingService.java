@@ -1,15 +1,17 @@
 package com.example.BarrierKU.domain.building.service;
 
 import com.example.BarrierKU.common.exception.BarrierKuException;
-import com.example.BarrierKU.domain.building.dto.SpaceResponse;
+import com.example.BarrierKU.domain.building.dto.*;
 import com.example.BarrierKU.domain.building.repository.RoomRepository;
 import com.example.BarrierKU.domain.indoor.Building;
-import com.example.BarrierKU.domain.building.dto.BuildingResponse;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.indoor.Room;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.BarrierKU.common.response.ResponseCode.BUILDING_NOT_FOUND;
 import static com.example.BarrierKU.common.response.ResponseCode.SPACE_NOT_FOUND;
@@ -31,5 +33,19 @@ public class BuildingService {
         Room room = roomRepository.findByIdAndBuildingId(spaceId, buildingId)
                 .orElseThrow(() -> new BarrierKuException(SPACE_NOT_FOUND));
         return SpaceResponse.of(room, type);
+    }
+
+    public SpaceSearchResponse searchSpace(Long buildingId, String keyword) {
+        Building building = buildingRepository.findById(buildingId)
+                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
+
+        List<SpaceSummary> spaces = building.getRooms().stream()
+                .filter(room ->
+                        room.getRoomName().contains(keyword) || room.getRoomNumber().contains(keyword)
+                )
+                .map(SpaceSummary::from)
+                .toList();
+
+        return new SpaceSearchResponse(spaces.size(), spaces);
     }
 }
