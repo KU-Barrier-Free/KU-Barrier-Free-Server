@@ -4,6 +4,7 @@ import com.example.BarrierKU.common.annotation.CustomExceptionDescription;
 import com.example.BarrierKU.common.response.BaseResponse;
 import com.example.BarrierKU.domain.building.dto.SpaceResponse;
 import com.example.BarrierKU.domain.building.dto.BuildingResponse;
+import com.example.BarrierKU.domain.building.dto.SpaceSearchResponse;
 import com.example.BarrierKU.domain.building.service.BuildingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -12,8 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.GET_BUILDING;
-import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.GET_SPACE_INFO;
+import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.*;
 
 @Tag(name = "Building", description = "Building API")
 @RestController
@@ -44,6 +44,22 @@ public class BuildingController {
             @RequestParam int type
     ) {
         SpaceResponse response = buildingService.getSpaceInfo(buildingId, spaceId, type);
+        return BaseResponse.ok(response);
+    }
+
+    @Operation(
+            summary = "건물 내 공간 검색 API",
+            description = "강의실 검색을 위한 API 입니다."
+    )
+    @GetMapping("{buildingId}/spaces/search")
+    @CustomExceptionDescription(DEFAULT)
+    public BaseResponse<SpaceSearchResponse> searchSpace (
+            @Schema(description = "건물 ID", example = "1")
+            @PathVariable Long buildingId,
+            @Parameter(description = "검색어", example = "전산실습실")
+            @RequestParam String keyword
+    ) {
+        SpaceSearchResponse response = buildingService.searchSpace(buildingId, keyword);
         return BaseResponse.ok(response);
     }
 
