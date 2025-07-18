@@ -1,5 +1,6 @@
 package com.example.BarrierKU.domain.building.dto;
 
+import com.example.BarrierKU.domain.indoor.Room;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
@@ -17,4 +18,16 @@ public record SpaceSummary (
         boolean isLecture,
         List<RoomImageResponse> roomImages
 ) {
+        public static SpaceSummary from(Room room) {
+                return new SpaceSummary (
+                        room.getId(),
+                        room.getRoomNumber(),
+                        room.getRoomName(),
+                        room.getRoomComment(),
+                        room.isLecture(),
+                        room.getRoomImages().stream()
+                                .map(RoomImageResponse::from)
+                                .toList()
+                );
+        }
 }
