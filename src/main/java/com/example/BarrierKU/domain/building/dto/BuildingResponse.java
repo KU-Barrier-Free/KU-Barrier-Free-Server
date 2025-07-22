@@ -4,17 +4,12 @@ package com.example.BarrierKU.domain.building.dto;
 import com.example.BarrierKU.domain.image.DoorImage;
 import com.example.BarrierKU.domain.image.SignificantImage;
 import com.example.BarrierKU.domain.indoor.Door;
-import io.swagger.v3.oas.annotations.media.Schema;
-import org.locationtech.jts.geom.Point;
-
-import java.util.Collections;
-import java.util.stream.Collectors;
-import com.example.BarrierKU.domain.indoor.Building;
 import com.example.BarrierKU.domain.indoor.Significant;
-import com.example.BarrierKU.domain.type.Purpose;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -72,10 +67,10 @@ public class BuildingResponse {
         private double latitude;
         private double longitude;
 
-        private DoorInfo(Door door){
+        private DoorInfo(Door door) {
             id = door.getId();
             wheelchair = door.isWheelchair();
-            imageUrl =  door.getImages().stream().map(DoorImage::getUrl).toList();
+            imageUrl = door.getImages().stream().map(DoorImage::getUrl).toList();
             latitude = door.getSpot().getY();
             longitude = door.getSpot().getX();
         }
@@ -88,7 +83,7 @@ public class BuildingResponse {
         private String description;
         private List<String> imageUrl;
 
-        private SignificantInfo(Significant significant){
+        private SignificantInfo(Significant significant) {
             id = significant.getId();
             description = significant.getDescription();
             imageUrl = (significant.getImages() != null ? significant.getImages() : Collections
@@ -104,6 +99,6 @@ public class BuildingResponse {
         this.image = image;
         this.facilityPurposes = purposes;
         this.doorInfos = doors.stream().map(door -> new DoorInfo(door)).toList();
-        this.significantInfos =significants.stream().map(significant-> new SignificantInfo(significant)).toList();
+        this.significantInfos = significants.stream().map(significant -> new SignificantInfo(significant)).toList();
     }
 }

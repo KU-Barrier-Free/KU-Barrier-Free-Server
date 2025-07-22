@@ -4,7 +4,6 @@ package com.example.BarrierKU.domain.indoor;
 import com.example.BarrierKU.domain.image.Drawing;
 
 
-
 import com.example.BarrierKU.domain.type.Purpose;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

@@ -1,7 +1,5 @@
 package com.example.BarrierKU.domain.indoor;
 
-
-
 import com.example.BarrierKU.domain.image.RoomImage;
 import com.example.BarrierKU.domain.type.RoomType;
 import jakarta.persistence.*;
@@ -14,7 +12,8 @@ import java.util.List;
 @Getter
 public class Room {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "room_id")
     private Long id;
 

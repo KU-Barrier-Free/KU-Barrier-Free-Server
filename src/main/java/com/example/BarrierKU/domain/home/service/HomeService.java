@@ -1,13 +1,12 @@
 package com.example.BarrierKU.domain.home.service;
 
-import com.example.BarrierKU.domain.outdoor.Obstacle;
-import com.example.BarrierKU.domain.type.ObstacleType;
+import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.home.dto.HomeItem;
 import com.example.BarrierKU.domain.home.dto.HomeResponse;
 import com.example.BarrierKU.domain.home.repository.ObstacleRepository;
 import com.example.BarrierKU.domain.home.repository.OutsideSignificantRepository;
-import com.example.BarrierKU.domain.building.repository.BuildingRepository;
-import com.example.BarrierKU.domain.outdoor.OutsideSignificant;
+import com.example.BarrierKU.domain.outdoor.Obstacle;
+import com.example.BarrierKU.domain.type.ObstacleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
