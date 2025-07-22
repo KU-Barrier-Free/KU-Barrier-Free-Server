@@ -76,8 +76,7 @@ public class BuildingService {
     }
 
     public SpaceSearchResponse searchSpace(Long buildingId, String keyword) {
-        Building building = buildingRepository.findById(buildingId)
-                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
+        Building building = getBuilding(buildingId);
 
         List<SpaceSummary> spaces = building.getRooms().stream()
                 .filter(room ->
