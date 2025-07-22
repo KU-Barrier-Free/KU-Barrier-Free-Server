@@ -36,19 +36,31 @@ public class BuildingService {
     }
     public FloorResponse getFloorInfo(Long id, String targetFloor) {
         Building building = getBuilding(id);
-        List<String> drawings = building.getDrawings().stream()
-                .filter(drawing -> drawing.getFloor().equals(targetFloor))
-                .map(drawing -> drawing.getImage())
-                .toList();
-        Set<String> purposes = building.getFacilities().stream()
-                .filter(facility -> facility.getFloor().equals(targetFloor))
-                .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
-        List<SpaceSummary> spaceSummaries = building.getRooms().stream().filter(room -> room.getFloor().equals(targetFloor))
+        List<String> drawings = getDrawings(targetFloor, building);
+        Set<String> purposes = getPurposes(targetFloor, building);
+        List<SpaceSummary> spaceSummaries = getSpaceSummaries(targetFloor, building);
+
+        return new FloorResponse(drawings, purposes, spaceSummaries);
+    }
+
+    private List<SpaceSummary> getSpaceSummaries(String targetFloor, Building building) {
+        return building.getRooms().stream().filter(room -> room.getFloor().equals(targetFloor))
                 .map(room -> new SpaceSummary(room.getId(), room.getRoomNumber(), room.getRoomName()
                         , room.getRoomComment(), room.getRoomImages().stream().map(RoomImage::getUrl).collect(Collectors.toList())
                         , room.isLecture())).collect(Collectors.toList());
+    }
 
-        return new FloorResponse(drawings, purposes, spaceSummaries);
+    private Set<String> getPurposes(String targetFloor, Building building) {
+        return building.getFacilities().stream()
+                .filter(facility -> facility.getFloor().equals(targetFloor))
+                .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
+    }
+
+    private List<String> getDrawings(String targetFloor, Building building) {
+        return building.getDrawings().stream()
+                .filter(drawing -> drawing.getFloor().equals(targetFloor))
+                .map(drawing -> drawing.getImage())
+                .toList();
     }
 
     public Building getBuilding(Long id) {
