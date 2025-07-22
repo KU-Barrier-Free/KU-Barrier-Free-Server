@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
-public record SpaceSummary (
+public record SpaceSummary(
         @Schema(description = "공간 ID", example = "1")
         Long id,
         @Schema(description = "호수", example = "201호")
@@ -18,30 +18,30 @@ public record SpaceSummary (
         boolean isLecture,
         @Schema(description = "강의실 사진 정보",
                 example = """
-                [
-                  {
-                    "imageUrl": "https://example.com/room1.png",
-                    "imageType": "ROOM"
-                  },
-                  {
-                    "imageUrl": "https://example.com/room2.png",
-                    "imageType": "DOOR"
-                  }
-                ]
-                """
+                        [
+                          {
+                            "imageUrl": "https://example.com/room1.png",
+                            "imageType": "ROOM"
+                          },
+                          {
+                            "imageUrl": "https://example.com/room2.png",
+                            "imageType": "DOOR"
+                          }
+                        ]
+                        """
         )
         List<RoomImageResponse> roomImages
 ) {
-        public static SpaceSummary from(Room room) {
-                return new SpaceSummary (
-                        room.getId(),
-                        room.getRoomNumber() + "호",
-                        room.getRoomName(),
-                        room.getRoomComment(),
-                        room.isLecture(),
-                        room.getRoomImages().stream()
-                                .map(RoomImageResponse::from)
-                                .toList()
-                );
-        }
+    public static SpaceSummary from(Room room) {
+        return new SpaceSummary(
+                room.getId(),
+                room.getRoomNumber() + "호",
+                room.getRoomName(),
+                room.getRoomComment(),
+                room.isLecture(),
+                room.getRoomImages().stream()
+                        .map(RoomImageResponse::from)
+                        .toList()
+        );
+    }
 }

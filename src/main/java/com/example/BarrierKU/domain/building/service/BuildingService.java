@@ -32,7 +32,7 @@ public class BuildingService {
                 .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
         List<Door> doors = building.getDoors();
         List<Significant> significants = building.getSignificants();
-        return new BuildingResponse(id,building.getNumber(),building.getName(), building.getDepartment(),building.getImage(),
+        return new BuildingResponse(id, building.getNumber(), building.getName(), building.getDepartment(), building.getImage(),
                 purposes, doors, significants);
     }
 
@@ -43,30 +43,6 @@ public class BuildingService {
         List<SpaceSummary> spaceSummaries = getSpaceSummaries(targetFloor, building);
 
         return new FloorResponse(drawings, purposes, spaceSummaries);
-    }
-
-    private List<SpaceSummary> getSpaceSummaries(String targetFloor, Building building) {
-        return building.getRooms().stream().filter(room -> room.getFloor().equals(targetFloor))
-                .map(SpaceSummary::from)
-                .toList();
-    }
-
-    private Set<String> getPurposes(String targetFloor, Building building) {
-        return building.getFacilities().stream()
-                .filter(facility -> facility.getFloor().equals(targetFloor))
-                .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
-    }
-
-    private List<String> getDrawings(String targetFloor, Building building) {
-        return building.getDrawings().stream()
-                .filter(drawing -> drawing.getFloor().equals(targetFloor))
-                .map(drawing -> drawing.getImage())
-                .toList();
-    }
-
-    private Building getBuilding(Long id) {
-        return buildingRepository.findById(id)
-                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
     }
 
     public SpaceResponse getSpaceInfo(Long buildingId, Long spaceId, int type) {
@@ -86,5 +62,29 @@ public class BuildingService {
                 .toList();
 
         return new SpaceSearchResponse(spaces.size(), spaces);
+    }
+
+    private Building getBuilding(Long id) {
+        return buildingRepository.findById(id)
+                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
+    }
+
+    private List<SpaceSummary> getSpaceSummaries(String targetFloor, Building building) {
+        return building.getRooms().stream().filter(room -> room.getFloor().equals(targetFloor))
+                .map(SpaceSummary::from)
+                .toList();
+    }
+
+    private Set<String> getPurposes(String targetFloor, Building building) {
+        return building.getFacilities().stream()
+                .filter(facility -> facility.getFloor().equals(targetFloor))
+                .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
+    }
+
+    private List<String> getDrawings(String targetFloor, Building building) {
+        return building.getDrawings().stream()
+                .filter(drawing -> drawing.getFloor().equals(targetFloor))
+                .map(drawing -> drawing.getImage())
+                .toList();
     }
 }

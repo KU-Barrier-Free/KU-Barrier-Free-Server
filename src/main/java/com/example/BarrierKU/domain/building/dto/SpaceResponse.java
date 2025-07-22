@@ -34,17 +34,17 @@ public class SpaceResponse {
     private RoomInfoResponse roomInfo;
     @Schema(description = "강의실 사진 정보",
             example = """
-                [
-                  {
-                    "imageUrl": "https://example.com/room1.png",
-                    "imageType": "ROOM"
-                  },
-                  {
-                    "imageUrl": "https://example.com/room2.png",
-                    "imageType": "DOOR"
-                  }
-                ]
-                """
+                    [
+                      {
+                        "imageUrl": "https://example.com/room1.png",
+                        "imageType": "ROOM"
+                      },
+                      {
+                        "imageUrl": "https://example.com/room2.png",
+                        "imageType": "DOOR"
+                      }
+                    ]
+                    """
     )
     private List<RoomImageResponse> images;
 
@@ -54,7 +54,7 @@ public class SpaceResponse {
 
         List<RoomImageResponse> images = room.getRoomImages().stream().map(RoomImageResponse::from).toList();
 
-        return new SpaceResponse (
+        return new SpaceResponse(
                 room.getRoomNumber() + "호",
                 room.getRoomName(),
                 room.isLecture(),

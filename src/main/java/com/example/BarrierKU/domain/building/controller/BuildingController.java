@@ -24,7 +24,7 @@ public class BuildingController {
 
     @GetMapping("/{buildingId}")
     @CustomExceptionDescription(GET_BUILDING)
-    public BaseResponse<BuildingResponse> getBuilding(@PathVariable Long buildingId){
+    public BaseResponse<BuildingResponse> getBuilding(@PathVariable Long buildingId) {
         BuildingResponse response = buildingService.findBuildingById(buildingId);
         return BaseResponse.ok(response);
     }
@@ -45,7 +45,7 @@ public class BuildingController {
     )
     @GetMapping("{buildingId}/spaces/{spaceId}")
     @CustomExceptionDescription(GET_SPACE_INFO)
-    public BaseResponse<SpaceResponse> getSpaceInfo (
+    public BaseResponse<SpaceResponse> getSpaceInfo(
             @Parameter(description = "건물 ID", example = "1")
             @PathVariable Long buildingId,
             @Parameter(description = "공간 ID", example = "1")
@@ -63,7 +63,7 @@ public class BuildingController {
     )
     @GetMapping("{buildingId}/spaces/search")
     @CustomExceptionDescription(DEFAULT)
-    public BaseResponse<SpaceSearchResponse> searchSpace (
+    public BaseResponse<SpaceSearchResponse> searchSpace(
             @Parameter(description = "건물 ID", example = "1")
             @PathVariable Long buildingId,
             @Parameter(description = "검색어", example = "전산실습실")
