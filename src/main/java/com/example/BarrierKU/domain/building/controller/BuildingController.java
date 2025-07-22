@@ -36,9 +36,9 @@ public class BuildingController {
     @GetMapping("{buildingId}/spaces/{spaceId}")
     @CustomExceptionDescription(GET_SPACE_INFO)
     public BaseResponse<SpaceResponse> getSpaceInfo (
-            @Schema(description = "건물 ID", example = "1")
+            @Parameter(description = "건물 ID", example = "1")
             @PathVariable Long buildingId,
-            @Schema(description = "공간 ID", example = "1")
+            @Parameter(description = "공간 ID", example = "1")
             @PathVariable Long spaceId,
             @Parameter(description = "수업 여부", example = "1")
             @RequestParam int type
@@ -54,7 +54,7 @@ public class BuildingController {
     @GetMapping("{buildingId}/spaces/search")
     @CustomExceptionDescription(DEFAULT)
     public BaseResponse<SpaceSearchResponse> searchSpace (
-            @Schema(description = "건물 ID", example = "1")
+            @Parameter(description = "건물 ID", example = "1")
             @PathVariable Long buildingId,
             @Parameter(description = "검색어", example = "전산실습실")
             @RequestParam String keyword
