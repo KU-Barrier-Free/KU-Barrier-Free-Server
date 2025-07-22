@@ -25,7 +25,9 @@ public enum SwaggerResponseDescription {
 
     GET_SPACE_INFO(new LinkedHashSet<>(Set.of(
             SPACE_NOT_FOUND
-    )));
+    ))),
+
+    DEFAULT(new LinkedHashSet<>());
 
     private final Set<ResponseCode> responseCodeSet;
 
