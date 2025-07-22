@@ -30,7 +30,22 @@ public class SpaceResponse {
     private String department;
     @Schema(description = "관리부서 전화번호", example = "02-450-3628")
     private String departmentNumber;
+    @Schema(description = "강의실 조사 정보")
     private RoomInfoResponse roomInfo;
+    @Schema(description = "강의실 사진 정보",
+            example = """
+                [
+                  {
+                    "imageUrl": "https://example.com/room1.png",
+                    "imageType": "ROOM"
+                  },
+                  {
+                    "imageUrl": "https://example.com/room2.png",
+                    "imageType": "DOOR"
+                  }
+                ]
+                """
+    )
     private List<RoomImageResponse> images;
 
     public static SpaceResponse of(Room room, int type) {

@@ -16,6 +16,20 @@ public record SpaceSummary (
         String comment,
         @Schema(description = "수업 여부", example = "true")
         boolean isLecture,
+        @Schema(description = "강의실 사진 정보",
+                example = """
+                [
+                  {
+                    "imageUrl": "https://example.com/room1.png",
+                    "imageType": "ROOM"
+                  },
+                  {
+                    "imageUrl": "https://example.com/room2.png",
+                    "imageType": "DOOR"
+                  }
+                ]
+                """
+        )
         List<RoomImageResponse> roomImages
 ) {
         public static SpaceSummary from(Room room) {
