@@ -104,31 +104,5 @@ public class BuildingResponse {
                                 .toList()
                 ))
                 .toList();
-
-    private Long id;
-
-    private int number;
-
-    private String name;
-
-    private String department;
-
-    private String image;
-
-    private List<DoorResponse> doors;
-
-    private Set<Purpose> FacilityPurposes;
-
-    private List<Significant> significants;
-
-    public static BuildingResponse from(Building building){
-        return new BuildingResponse(building.getId(), building.getNumber(),
-                building.getName(), building.getDepartment(),
-                building.getImage(),
-                building.getDoors().stream()
-                .map(DoorResponse::from)
-                .toList(),
-                building.getFacilityPurposes(), building.getSignificants());
-
     }
 }

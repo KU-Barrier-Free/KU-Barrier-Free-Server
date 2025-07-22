@@ -2,6 +2,7 @@ package com.example.BarrierKU.domain.building.controller;
 
 import com.example.BarrierKU.common.annotation.CustomExceptionDescription;
 import com.example.BarrierKU.common.response.BaseResponse;
+import com.example.BarrierKU.domain.building.dto.FloorResponse;
 import com.example.BarrierKU.domain.building.dto.SpaceResponse;
 import com.example.BarrierKU.domain.building.dto.BuildingResponse;
 import com.example.BarrierKU.domain.building.service.BuildingService;
@@ -37,7 +38,8 @@ public class BuildingController {
             @RequestParam String floor
     ) {
         FloorResponse response = buildingService.getFloorInfo(buildingId, floor);
-
+        return BaseResponse.ok(response);
+    }
     @Operation(
             summary = "공간 정보 조회 API",
             description = "강의실의 책상 및 의자 형태, 사진 등의 정보를 보여주기 위한 API 입니다."
