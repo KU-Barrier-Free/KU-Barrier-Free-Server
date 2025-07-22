@@ -2,8 +2,7 @@ package com.example.BarrierKU.domain.outdoor;
 
 import com.example.BarrierKU.domain.image.OutsideSignificantImage;
 import jakarta.persistence.*;
-import lombok.Generated;
-import lombok.Getter;
+import lombok.*;
 import org.locationtech.jts.geom.Point;
 
 import java.util.ArrayList;
@@ -13,7 +12,7 @@ import java.util.List;
 @Getter
 public class OutsideSignificant {
 
-    @Id @Generated
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "outside_significant_id")
     private Long id;
 
