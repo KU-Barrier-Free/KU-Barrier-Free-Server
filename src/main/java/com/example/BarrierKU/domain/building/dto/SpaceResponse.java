@@ -55,7 +55,7 @@ public class SpaceResponse {
         List<RoomImageResponse> images = room.getRoomImages().stream().map(RoomImageResponse::from).toList();
 
         return new SpaceResponse (
-                room.getRoomNumber(),
+                room.getRoomNumber() + "호",
                 room.getRoomName(),
                 room.isLecture(),
                 room.getCapacity(),

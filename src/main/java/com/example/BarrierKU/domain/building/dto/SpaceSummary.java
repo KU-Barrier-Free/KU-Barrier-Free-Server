@@ -35,7 +35,7 @@ public record SpaceSummary (
         public static SpaceSummary from(Room room) {
                 return new SpaceSummary (
                         room.getId(),
-                        room.getRoomNumber(),
+                        room.getRoomNumber() + "호",
                         room.getRoomName(),
                         room.getRoomComment(),
                         room.isLecture(),
