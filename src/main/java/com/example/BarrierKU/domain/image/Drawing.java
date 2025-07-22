@@ -8,11 +8,11 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class FloorPlan {
+public class Drawing {
 
     @Id
     @GeneratedValue
-    @Column(name = "floor_plan_id")
+    @Column(name = "floor_drawing_id")
     private long id;
 
     @NotNull

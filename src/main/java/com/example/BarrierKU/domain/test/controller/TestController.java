@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.example.BarrierKU.common.response.ResponseCode.*;
-import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.*;
+import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.TEST;
 
 @Tag(name = "Test", description = "테스트 API")
 @RestController

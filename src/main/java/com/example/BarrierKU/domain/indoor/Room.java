@@ -12,7 +12,8 @@ import java.util.List;
 @Getter
 public class Room {
 
-    @Id @GeneratedValue
+    @Id
+    @GeneratedValue
     @Column(name = "room_id")
     private Long id;
 
@@ -39,7 +40,9 @@ public class Room {
     @Column(nullable = false)
     private float floorSpace; // 평수
 
+
     @Enumerated(EnumType.STRING)
+
     @Column(nullable = false)
     private RoomType roomType; // 평탄식, 계단식
 

@@ -2,7 +2,6 @@ package com.example.BarrierKU.domain.home.controller;
 
 import com.example.BarrierKU.common.annotation.CustomExceptionDescription;
 import com.example.BarrierKU.common.response.BaseResponse;
-import com.example.BarrierKU.common.swagger.SwaggerResponseDescription;
 import com.example.BarrierKU.domain.home.dto.HomeResponse;
 import com.example.BarrierKU.domain.home.service.HomeService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.*;
+import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.DEFAULT;
 
 @Tag(name = "Home", description = "Home API")
 @RequiredArgsConstructor
