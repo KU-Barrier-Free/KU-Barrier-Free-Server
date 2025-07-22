@@ -30,10 +30,14 @@ public class BuildingService {
 
     public BuildingResponse findBuildingById(Long id) {
         Building building = getBuilding(id);
+        Set<String> purposes = building.getFacilities().stream()
+                .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
         List<Door> doors = building.getDoors();
         List<Significant> significants = building.getSignificants();
-        return new BuildingResponse(building, doors, significants);
+        return new BuildingResponse(id,building.getNumber(),building.getName(), building.getDepartment(),building.getImage(),
+                purposes, doors, significants);
     }
+
     public FloorResponse getFloorInfo(Long id, String targetFloor) {
         Building building = getBuilding(id);
         List<String> drawings = getDrawings(targetFloor, building);

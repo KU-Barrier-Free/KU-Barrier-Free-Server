@@ -71,6 +71,14 @@ public class BuildingResponse {
         private List<String> imageUrl;
         private double latitude;
         private double longitude;
+
+        private DoorInfo(Door door){
+            id = door.getId();
+            wheelchair = door.isWheelchair();
+            imageUrl =  door.getImages().stream().map(DoorImage::getUrl).toList();
+            latitude = door.getSpot().getY();
+            longitude = door.getSpot().getX();
+        }
     }
 
     @Getter
@@ -79,30 +87,23 @@ public class BuildingResponse {
         private Long id;
         private String description;
         private List<String> imageUrl;
+
+        private SignificantInfo(Significant significant){
+            id = significant.getId();
+            description = significant.getDescription();
+            imageUrl = (significant.getImages() != null ? significant.getImages() : Collections
+                    .<SignificantImage>emptyList()).stream().map(SignificantImage::getUrl).toList();
+        }
     }
 
-    public BuildingResponse(Building building, List<Door> doors, List<Significant> significants) {
-        this.id = building.getId();
-        this.number = building.getNumber();
-        this.name = building.getName();
-        this.department = building.getDepartment();
-        this.image = building.getImage();
-        this.facilityPurposes = building.getFacilityPurposes().stream()
-                .map(Purpose::getValue).collect(Collectors.toSet());
-        this.doorInfos = doors.stream().map(door -> new DoorInfo(door.getId(), door.isWheelchair(),
-                door.getImages().stream().map(DoorImage::getUrl)
-                        .toList(), door.getSpot().getY(), door.getSpot().getX())).toList();
-        this.significantInfos = (significants != null ? significants : Collections.<Significant>emptyList())
-                .stream()
-                .map(significant -> new SignificantInfo(
-                        significant.getId(),
-                        significant.getDescription(),
-                        (significant.getImages() != null ? significant.getImages() : Collections
-                                .<SignificantImage>emptyList())
-                                .stream()
-                                .map(SignificantImage::getUrl)
-                                .toList()
-                ))
-                .toList();
+    public BuildingResponse(Long buildingId, int number, String name, String department, String image, Set<String> purposes, List<Door> doors, List<Significant> significants) {
+        this.id = buildingId;
+        this.number = number;
+        this.name = name;
+        this.department = department;
+        this.image = image;
+        this.facilityPurposes = purposes;
+        this.doorInfos = doors.stream().map(door -> new DoorInfo(door)).toList();
+        this.significantInfos =significants.stream().map(significant-> new SignificantInfo(significant)).toList();
     }
 }
