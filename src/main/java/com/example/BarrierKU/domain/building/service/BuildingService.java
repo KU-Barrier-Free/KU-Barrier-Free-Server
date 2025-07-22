@@ -24,15 +24,13 @@ public class BuildingService {
     private final BuildingRepository buildingRepository;
 
     public BuildingResponse findBuildingById(Long id) {
-        Building building = buildingRepository.findById(id)
-                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
+        Building building = getBuilding(id);
         List<Door> doors = building.getDoors();
         List<Significant> significants = building.getSignificants();
         return new BuildingResponse(building, doors, significants);
     }
     public FloorResponse getFloorInfo(Long id, String targetFloor) {
-        Building building = buildingRepository.findById(id)
-                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
+        Building building = getBuilding(id);
         List<String> drawings = building.getDrawings().stream()
                 .filter(drawing -> drawing.getFloor().equals(targetFloor))
                 .map(drawing -> drawing.getImage())
@@ -46,5 +44,10 @@ public class BuildingService {
                         , room.isLecture())).collect(Collectors.toList());
 
         return new FloorResponse(drawings, purposes, spaceSummaries);
+    }
+
+    public Building getBuilding(Long id){
+        return buildingRepository.findById(id)
+                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
     }
 }
