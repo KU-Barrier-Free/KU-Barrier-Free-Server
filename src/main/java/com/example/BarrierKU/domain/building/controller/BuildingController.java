@@ -2,13 +2,13 @@ package com.example.BarrierKU.domain.building.controller;
 
 import com.example.BarrierKU.common.annotation.CustomExceptionDescription;
 import com.example.BarrierKU.common.response.BaseResponse;
+import com.example.BarrierKU.domain.building.dto.FloorResponse;
 import com.example.BarrierKU.domain.building.dto.SpaceResponse;
 import com.example.BarrierKU.domain.building.dto.BuildingResponse;
 import com.example.BarrierKU.domain.building.dto.SpaceSearchResponse;
 import com.example.BarrierKU.domain.building.service.BuildingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +26,16 @@ public class BuildingController {
     @CustomExceptionDescription(GET_BUILDING)
     public BaseResponse<BuildingResponse> getBuilding(@PathVariable Long buildingId){
         BuildingResponse response = buildingService.findBuildingById(buildingId);
+        return BaseResponse.ok(response);
+    }
+
+    @GetMapping("/{buildingId}/spaces")
+    @CustomExceptionDescription(GET_BUILDING)
+    public BaseResponse<FloorResponse> getFloorSpaces(
+            @PathVariable Long buildingId,
+            @RequestParam String floor
+    ) {
+        FloorResponse response = buildingService.getFloorInfo(buildingId, floor);
         return BaseResponse.ok(response);
     }
 

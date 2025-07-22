@@ -5,12 +5,16 @@ import com.example.BarrierKU.domain.building.dto.*;
 import com.example.BarrierKU.domain.building.repository.RoomRepository;
 import com.example.BarrierKU.domain.indoor.Building;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
+import com.example.BarrierKU.domain.indoor.Door;
 import com.example.BarrierKU.domain.indoor.Room;
+import com.example.BarrierKU.domain.indoor.Significant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static com.example.BarrierKU.common.response.ResponseCode.BUILDING_NOT_FOUND;
 import static com.example.BarrierKU.common.response.ResponseCode.SPACE_NOT_FOUND;
@@ -23,9 +27,46 @@ public class BuildingService {
     private final RoomRepository roomRepository;
 
     public BuildingResponse findBuildingById(Long id) {
-        Building building = buildingRepository.findById(id)
+        Building building = getBuilding(id);
+        Set<String> purposes = building.getFacilities().stream()
+                .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
+        List<Door> doors = building.getDoors();
+        List<Significant> significants = building.getSignificants();
+        return new BuildingResponse(id,building.getNumber(),building.getName(), building.getDepartment(),building.getImage(),
+                purposes, doors, significants);
+    }
+
+    public FloorResponse getFloorInfo(Long id, String targetFloor) {
+        Building building = getBuilding(id);
+        List<String> drawings = getDrawings(targetFloor, building);
+        Set<String> purposes = getPurposes(targetFloor, building);
+        List<SpaceSummary> spaceSummaries = getSpaceSummaries(targetFloor, building);
+
+        return new FloorResponse(drawings, purposes, spaceSummaries);
+    }
+
+    private List<SpaceSummary> getSpaceSummaries(String targetFloor, Building building) {
+        return building.getRooms().stream().filter(room -> room.getFloor().equals(targetFloor))
+                .map(SpaceSummary::from)
+                .toList();
+    }
+
+    private Set<String> getPurposes(String targetFloor, Building building) {
+        return building.getFacilities().stream()
+                .filter(facility -> facility.getFloor().equals(targetFloor))
+                .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
+    }
+
+    private List<String> getDrawings(String targetFloor, Building building) {
+        return building.getDrawings().stream()
+                .filter(drawing -> drawing.getFloor().equals(targetFloor))
+                .map(drawing -> drawing.getImage())
+                .toList();
+    }
+
+    public Building getBuilding(Long id) {
+        return buildingRepository.findById(id)
                 .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
-        return BuildingResponse.from(building);
     }
 
     public SpaceResponse getSpaceInfo(Long buildingId, Long spaceId, int type) {
