@@ -40,7 +40,7 @@ public class BuildingService {
 
         List<SpaceSummary> spaces = building.getRooms().stream()
                 .filter(room ->
-                        room.getRoomName().contains(keyword) || room.getRoomNumber().contains(keyword)
+                        room.getRoomName().toLowerCase().contains(keyword.toLowerCase()) || room.getRoomNumber().contains(keyword)
                 )
                 .map(SpaceSummary::from)
                 .toList();
