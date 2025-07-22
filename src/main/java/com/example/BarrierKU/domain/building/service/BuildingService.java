@@ -64,7 +64,7 @@ public class BuildingService {
                 .toList();
     }
 
-    public Building getBuilding(Long id) {
+    private Building getBuilding(Long id) {
         return buildingRepository.findById(id)
                 .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
     }
