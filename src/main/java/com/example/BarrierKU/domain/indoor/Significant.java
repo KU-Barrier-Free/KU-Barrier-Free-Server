@@ -1,11 +1,13 @@
 package com.example.BarrierKU.domain.indoor;
 
+
 import com.example.BarrierKU.domain.image.SignificantImage;
-import jakarta.persistence.*;
-import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
 @Getter

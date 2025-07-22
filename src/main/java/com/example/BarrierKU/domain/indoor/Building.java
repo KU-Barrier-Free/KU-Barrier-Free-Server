@@ -1,6 +1,10 @@
 package com.example.BarrierKU.domain.indoor;
 
+
 import com.example.BarrierKU.domain.image.Drawing;
+
+
+
 import com.example.BarrierKU.domain.type.Purpose;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -50,7 +54,9 @@ public class Building {
     private List<Facilities> facilities = new ArrayList<>();
 
     @OneToMany(mappedBy = "building")
+
     private List<Drawing> drawings = new ArrayList<>();
+
 
     @Transient
     public Set<Purpose> getFacilityPurposes() {

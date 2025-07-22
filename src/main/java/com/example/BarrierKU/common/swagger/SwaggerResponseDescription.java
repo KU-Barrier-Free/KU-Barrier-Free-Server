@@ -21,7 +21,13 @@ public enum SwaggerResponseDescription {
 
     GET_FACILITY(new LinkedHashSet<>(Set.of(
             FACILITY_NOT_FOUND
-    )));
+    ))),
+
+    GET_SPACE_INFO(new LinkedHashSet<>(Set.of(
+            SPACE_NOT_FOUND
+    ))),
+
+    DEFAULT(new LinkedHashSet<>());
 
     private final Set<ResponseCode> responseCodeSet;
 

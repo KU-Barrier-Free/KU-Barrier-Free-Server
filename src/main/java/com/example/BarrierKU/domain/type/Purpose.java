@@ -1,5 +1,6 @@
 package com.example.BarrierKU.domain.type;
 
+
 import lombok.Getter;
 
 @Getter

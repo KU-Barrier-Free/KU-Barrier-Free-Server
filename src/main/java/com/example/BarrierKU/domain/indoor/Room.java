@@ -1,6 +1,8 @@
 package com.example.BarrierKU.domain.indoor;
 
-import com.example.BarrierKU.domain.image.Image;
+
+
+import com.example.BarrierKU.domain.image.RoomImage;
 import com.example.BarrierKU.domain.type.RoomType;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -39,6 +41,9 @@ public class Room {
     @Column(nullable = false)
     private float floorSpace; // 평수
 
+
+    @Enumerated(EnumType.STRING)
+
     @Column(nullable = false)
     private RoomType roomType; // 평탄식, 계단식
 
@@ -57,6 +62,6 @@ public class Room {
     private RoomInfo roomInfo;
 
     @OneToMany(mappedBy = "room")
-    private List<Image> images = new ArrayList<>();
+    private List<RoomImage> roomImages = new ArrayList<>();
 
 }

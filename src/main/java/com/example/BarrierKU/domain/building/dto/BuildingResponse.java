@@ -1,24 +1,28 @@
 package com.example.BarrierKU.domain.building.dto;
 
+
 import com.example.BarrierKU.domain.image.DoorImage;
 import com.example.BarrierKU.domain.image.SignificantImage;
-import com.example.BarrierKU.domain.indoor.Building;
 import com.example.BarrierKU.domain.indoor.Door;
-import com.example.BarrierKU.domain.indoor.Significant;
-import com.example.BarrierKU.domain.type.Purpose;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.locationtech.jts.geom.Point;
 
 import java.util.Collections;
+import java.util.stream.Collectors;
+import com.example.BarrierKU.domain.indoor.Building;
+import com.example.BarrierKU.domain.indoor.Significant;
+import com.example.BarrierKU.domain.type.Purpose;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @Getter
 @AllArgsConstructor
 public class BuildingResponse {
+
     @Schema(description = "건물 아이디", example = "1")
     private Long id;
     @Schema(description = "건물 번호", example = "2")
@@ -100,5 +104,31 @@ public class BuildingResponse {
                                 .toList()
                 ))
                 .toList();
+
+    private Long id;
+
+    private int number;
+
+    private String name;
+
+    private String department;
+
+    private String image;
+
+    private List<DoorResponse> doors;
+
+    private Set<Purpose> FacilityPurposes;
+
+    private List<Significant> significants;
+
+    public static BuildingResponse from(Building building){
+        return new BuildingResponse(building.getId(), building.getNumber(),
+                building.getName(), building.getDepartment(),
+                building.getImage(),
+                building.getDoors().stream()
+                .map(DoorResponse::from)
+                .toList(),
+                building.getFacilityPurposes(), building.getSignificants());
+
     }
 }
