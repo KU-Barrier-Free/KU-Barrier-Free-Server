@@ -27,7 +27,7 @@ public class BuildingResponse {
     private String name;
     @Schema(description = "건물 담당 부서", example = "경영(전문)대학원, 경영대학")
     private String department;
-    @Schema(description = "도면 이미지", example = "image.png")
+    @Schema(description = "건물 이미지", example = "image.png")
     private String image;
     @Schema(
             description = "문 정보 리스트",
