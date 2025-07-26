@@ -31,16 +31,22 @@ public class BuildingResponse {
     private String image;
     @Schema(
             description = "문 정보 리스트",
-            example = "[{" +
+            example = "[" +
+                    "{" +
                     "\"id\": 1," +
                     "\"wheelchair\": true," +
-                    "\"imageUrl\": [\"https://example.com/door1.jpg\", \"https://example.com/door2.jpg\"]" +
-                    "}, {" +
+                    "\"imageUrl\": [\"https://example.com/door1.jpg\", \"https://example.com/door2.jpg\"]," +
+                    "\"latitude\": 37.12345," +
+                    "\"longitude\": 127.98765" +
+                    "}," +
+                    "{" +
                     "\"id\": 2," +
                     "\"wheelchair\": false," +
-                    "\"imageUrl\": [\"https://example.com/door3.jpg\"]" +
-                    "\"spot\": [\"https://example.com/door3.jpg\"]" +
-                    "}]"
+                    "\"imageUrl\": [\"https://example.com/door3.jpg\"]," +
+                    "\"latitude\": 37.54321," +
+                    "\"longitude\": 127.11111" +
+                    "}" +
+                    "]"
     )
     private List<DoorInfo> doorInfos;
     @Schema(description = "해당 건물에 존재하는 편의시설 종류", example = "[\"은행\", \"휴게실\", \"카페\"]")
@@ -58,6 +64,25 @@ public class BuildingResponse {
                     "}]"
     )
     private List<SignificantInfo> significantInfos;
+    @Schema(
+            description = "층별 공간 정보 (key: 층 이름 예: 1, B1)",
+            example = "{" +
+                    "\"B1\": {" +
+                    "\"drawings\": [\"image.png\"]," +
+                    "\"purposes\": [\"은행\", \"휴게실\", \"카페\"]," +
+                    "\"spaceSummaries\": [" +
+                    "{" +
+                    "\"id\": 1," +
+                    "\"roomNumber\": \"104-1호\"," +
+                    "\"roomName\": \"강의실\"," +
+                    "\"comment\": \"원형책상\"," +
+                    "\"roomImages\": [\"https://example.com/image1.jpg\"]," +
+                    "\"isLecture\": true" +
+                    "}" +
+                    "]" +
+                    "}" +
+                    "}"
+    )
     private Map<String, FloorResponse> floorMap;
 
     @Getter
