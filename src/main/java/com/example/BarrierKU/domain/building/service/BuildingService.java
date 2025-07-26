@@ -32,8 +32,7 @@ public class BuildingService {
 
     public BuildingResponse findBuildingById(Long id) {
         Building building = getBuilding(id);
-        Set<String> purposes = building.getFacilities().stream()
-                .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
+        Set<String> purposes = building.getFacilityPurposes().stream().map(Purpose::getValue).collect(Collectors.toSet());
         List<Door> doors = building.getDoors();
         List<Significant> significants = building.getSignificants();
         Map<String, List<Room>> roomsByFloor = groupedByFloor(building);
@@ -70,8 +69,8 @@ public class BuildingService {
     private List<SpaceSummary> getSpaceSummaries(String targetFloor, Building building) {
         return building.getRooms().stream().filter(room -> room.getFloor().equals(targetFloor))
                 .map(room -> new SpaceSummary(room.getId(), room.getRoomNumber(), room.getRoomName()
-                        , room.getRoomComment(), room.getRoomImages().stream().map(RoomImage::getUrl).collect(Collectors.toList())
-                        , room.isLecture())).collect(Collectors.toList());
+                        , room.getRoomComment(), room.getRoomImages().stream().map(RoomImage::getUrl).toList()
+                        , room.isLecture())).toList();
     }
 
     private Set<String> getPurposes(String targetFloor, Building building) {
