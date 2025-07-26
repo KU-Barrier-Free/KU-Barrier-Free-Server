@@ -9,9 +9,13 @@ public record SpaceSummary(
         Long id,
         @Schema(description = "호수")
         String roomNumber,
+        @Schema(description = "호실명")
         String roomName,
+        @Schema(description = "특이사항")
         String comment,
+        @Schema(description = "방 이미지 url")
         List<String> roomImages,
+        @Schema(description = "강의여부")
         boolean isLecture
 ) {
 }
