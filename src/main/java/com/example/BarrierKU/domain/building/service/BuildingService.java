@@ -56,7 +56,7 @@ public class BuildingService {
         return SpaceResponse.of(room, type);
     }
 
-    public Building getBuilding(Long id) {
+    private Building getBuilding(Long id) {
         return buildingRepository.findById(id)
                 .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
     }
