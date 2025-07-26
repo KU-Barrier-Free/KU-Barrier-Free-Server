@@ -61,10 +61,6 @@ public class BuildingService {
                 .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
     }
 
-    private Set<String> getPurposes(Building building) {
-        return building.getFacilityPurposes().stream().map(Purpose::getValue).collect(Collectors.toSet());
-    }
-
     private Map<String, FloorResponse> getFloorResponseMap(Map<String, List<Room>> roomsByFloor, Building building) {
         return roomsByFloor.entrySet().stream().collect(Collectors.toMap(
                 Map.Entry::getKey,
@@ -88,17 +84,21 @@ public class BuildingService {
                         , room.isLecture())).toList();
     }
 
+    private List<String> getDrawings(String targetFloor, Building building) {
+        return building.getDrawings().stream()
+                .filter(drawing -> drawing.getFloor().equals(targetFloor))
+                .map(drawing -> drawing.getImage())
+                .toList();
+    }
+
     private Set<String> getPurposes(String targetFloor, Building building) {
         return building.getFacilities().stream()
                 .filter(facility -> facility.getFloor().equals(targetFloor))
                 .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
     }
 
-    private List<String> getDrawings(String targetFloor, Building building) {
-        return building.getDrawings().stream()
-                .filter(drawing -> drawing.getFloor().equals(targetFloor))
-                .map(drawing -> drawing.getImage())
-                .toList();
+    private Set<String> getPurposes(Building building) {
+        return building.getFacilityPurposes().stream().map(Purpose::getValue).collect(Collectors.toSet());
     }
 
     private Map<String, List<Room>> groupedByFloor(Building building) {
