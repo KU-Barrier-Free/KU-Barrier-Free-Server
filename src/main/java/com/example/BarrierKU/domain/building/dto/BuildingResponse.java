@@ -11,6 +11,7 @@ import lombok.Getter;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -57,6 +58,7 @@ public class BuildingResponse {
                     "}]"
     )
     private List<SignificantInfo> significantInfos;
+    private Map<String, FloorResponse> floorMap;
 
     @Getter
     @AllArgsConstructor
@@ -91,7 +93,7 @@ public class BuildingResponse {
         }
     }
 
-    public BuildingResponse(Long buildingId, int number, String name, String department, String image, Set<String> purposes, List<Door> doors, List<Significant> significants) {
+    public BuildingResponse(Long buildingId, int number, String name, String department, String image, Set<String> purposes, List<Door> doors, List<Significant> significants, Map<String, FloorResponse> floorMap) {
         this.id = buildingId;
         this.number = number;
         this.name = name;
@@ -100,5 +102,6 @@ public class BuildingResponse {
         this.facilityPurposes = purposes;
         this.doorInfos = doors.stream().map(door -> new DoorInfo(door)).toList();
         this.significantInfos = significants.stream().map(significant -> new SignificantInfo(significant)).toList();
+        this.floorMap = floorMap;
     }
 }

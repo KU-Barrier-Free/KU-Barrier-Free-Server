@@ -12,10 +12,12 @@ import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.indoor.Door;
 import com.example.BarrierKU.domain.indoor.Room;
 import com.example.BarrierKU.domain.indoor.Significant;
+import com.example.BarrierKU.domain.type.Purpose;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,8 +36,26 @@ public class BuildingService {
                 .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
         List<Door> doors = building.getDoors();
         List<Significant> significants = building.getSignificants();
+        Map<String, List<Room>> roomsByFloor = groupedByFloor(building);
+        Map<String, FloorResponse> floorMap = getFloorResponseMap(roomsByFloor, building);
         return new BuildingResponse(id,building.getNumber(),building.getName(), building.getDepartment(),building.getImage(),
-                purposes, doors, significants);
+                purposes, doors, significants, floorMap);
+    }
+
+    private Map<String, FloorResponse> getFloorResponseMap(Map<String, List<Room>> roomsByFloor, Building building) {
+        return roomsByFloor.entrySet().stream().collect(Collectors.toMap(
+                Map.Entry::getKey,
+                entry -> {
+                    String floor = entry.getKey();
+                    List<Room> rooms = entry.getValue();
+
+                    List<String> drawings = getDrawings(floor, building);
+                    Set<String> purposesFloor = getPurposes(floor, building);
+                    List<SpaceSummary> summaries = getSpaceSummaries(floor, building);
+
+                    return new FloorResponse(drawings, purposesFloor, summaries);
+                }
+        ));
     }
 
     public FloorResponse getFloorInfo(Long id, String targetFloor) {
@@ -76,5 +96,9 @@ public class BuildingService {
         Room room = roomRepository.findByIdAndBuildingId(spaceId, buildingId)
                 .orElseThrow(() -> new BarrierKuException(SPACE_NOT_FOUND));
         return SpaceResponse.of(room, type);
+    }
+
+    private Map<String, List<Room>> groupedByFloor(Building building){
+        return building.getRooms().stream().collect(Collectors.groupingBy(Room::getFloor));
     }
 }
