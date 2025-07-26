@@ -32,13 +32,37 @@ public class BuildingService {
 
     public BuildingResponse findBuildingById(Long id) {
         Building building = getBuilding(id);
-        Set<String> purposes = building.getFacilityPurposes().stream().map(Purpose::getValue).collect(Collectors.toSet());
+        Set<String> purposes = getPurposes(building);
         List<Door> doors = building.getDoors();
         List<Significant> significants = building.getSignificants();
         Map<String, List<Room>> roomsByFloor = groupedByFloor(building);
         Map<String, FloorResponse> floorMap = getFloorResponseMap(roomsByFloor, building);
-        return new BuildingResponse(id,building.getNumber(),building.getName(), building.getDepartment(),building.getImage(),
-                purposes, doors, significants, floorMap);
+        return new BuildingResponse(id, building.getNumber(), building.getName(),
+                building.getDepartment(), building.getImage(), purposes, doors, significants, floorMap);
+    }
+
+    public FloorResponse getFloorInfo(Long id, String targetFloor) {
+        Building building = getBuilding(id);
+        List<String> drawings = getDrawings(targetFloor, building);
+        Set<String> purposes = getPurposes(targetFloor, building);
+        List<SpaceSummary> spaceSummaries = getSpaceSummaries(targetFloor, building);
+
+        return new FloorResponse(drawings, purposes, spaceSummaries);
+    }
+
+    public SpaceResponse getSpaceInfo(Long buildingId, Long spaceId, int type) {
+        Room room = roomRepository.findByIdAndBuildingId(spaceId, buildingId)
+                .orElseThrow(() -> new BarrierKuException(SPACE_NOT_FOUND));
+        return SpaceResponse.of(room, type);
+    }
+
+    public Building getBuilding(Long id) {
+        return buildingRepository.findById(id)
+                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
+    }
+
+    private Set<String> getPurposes(Building building) {
+        return building.getFacilityPurposes().stream().map(Purpose::getValue).collect(Collectors.toSet());
     }
 
     private Map<String, FloorResponse> getFloorResponseMap(Map<String, List<Room>> roomsByFloor, Building building) {
@@ -55,15 +79,6 @@ public class BuildingService {
                     return new FloorResponse(drawings, purposesFloor, summaries);
                 }
         ));
-    }
-
-    public FloorResponse getFloorInfo(Long id, String targetFloor) {
-        Building building = getBuilding(id);
-        List<String> drawings = getDrawings(targetFloor, building);
-        Set<String> purposes = getPurposes(targetFloor, building);
-        List<SpaceSummary> spaceSummaries = getSpaceSummaries(targetFloor, building);
-
-        return new FloorResponse(drawings, purposes, spaceSummaries);
     }
 
     private List<SpaceSummary> getSpaceSummaries(String targetFloor, Building building) {
@@ -86,18 +101,7 @@ public class BuildingService {
                 .toList();
     }
 
-    public Building getBuilding(Long id) {
-        return buildingRepository.findById(id)
-                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
-    }
-
-    public SpaceResponse getSpaceInfo(Long buildingId, Long spaceId, int type) {
-        Room room = roomRepository.findByIdAndBuildingId(spaceId, buildingId)
-                .orElseThrow(() -> new BarrierKuException(SPACE_NOT_FOUND));
-        return SpaceResponse.of(room, type);
-    }
-
-    private Map<String, List<Room>> groupedByFloor(Building building){
+    private Map<String, List<Room>> groupedByFloor(Building building) {
         return building.getRooms().stream().collect(Collectors.groupingBy(Room::getFloor));
     }
 }
