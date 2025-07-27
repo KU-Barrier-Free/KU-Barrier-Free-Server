@@ -5,6 +5,7 @@ import com.example.BarrierKU.domain.building.dto.FloorResponse;
 import com.example.BarrierKU.domain.building.dto.SpaceResponse;
 import com.example.BarrierKU.domain.building.dto.SpaceSummary;
 import com.example.BarrierKU.domain.building.repository.RoomRepository;
+import com.example.BarrierKU.domain.image.Drawing;
 import com.example.BarrierKU.domain.image.RoomImage;
 import com.example.BarrierKU.domain.indoor.Building;
 import com.example.BarrierKU.domain.building.dto.BuildingResponse;
@@ -12,6 +13,7 @@ import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.indoor.Door;
 import com.example.BarrierKU.domain.indoor.Room;
 import com.example.BarrierKU.domain.indoor.Significant;
+import com.example.BarrierKU.domain.place.dto.SearchBuildingResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -63,7 +65,7 @@ public class BuildingService {
     private List<String> getDrawings(String targetFloor, Building building) {
         return building.getDrawings().stream()
                 .filter(drawing -> drawing.getFloor().equals(targetFloor))
-                .map(drawing -> drawing.getImage())
+                .map(Drawing::getImage)
                 .toList();
     }
 
@@ -76,5 +78,12 @@ public class BuildingService {
         Room room = roomRepository.findByIdAndBuildingId(spaceId, buildingId)
                 .orElseThrow(() -> new BarrierKuException(SPACE_NOT_FOUND));
         return SpaceResponse.of(room, type);
+    }
+
+    public List<SearchBuildingResponse> getBuildings(String searchWord) {
+        List<Building> buildings = buildingRepository.findByNameContainingIgnoreCase(searchWord);
+        return buildings.stream()
+                .map(SearchBuildingResponse::new)
+                .toList();
     }
 }

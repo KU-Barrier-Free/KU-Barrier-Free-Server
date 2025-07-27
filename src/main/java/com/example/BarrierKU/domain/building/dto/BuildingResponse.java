@@ -98,7 +98,7 @@ public class BuildingResponse {
         this.department = department;
         this.image = image;
         this.facilityPurposes = purposes;
-        this.doorInfos = doors.stream().map(door -> new DoorInfo(door)).toList();
-        this.significantInfos = significants.stream().map(significant -> new SignificantInfo(significant)).toList();
+        this.doorInfos = doors.stream().map(DoorInfo::new).toList();
+        this.significantInfos = significants.stream().map(SignificantInfo::new).toList();
     }
 }
