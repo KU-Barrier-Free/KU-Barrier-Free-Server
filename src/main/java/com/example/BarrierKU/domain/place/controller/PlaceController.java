@@ -30,22 +30,18 @@ public class PlaceController {
             summary = "장소 검색 API",
             description = "건물명 또는 편의시설명을 기반으로 장소를 검색하는 API입니다.",
             parameters = {
-                    @Parameter(name = "keyword", description = "검색할 키워드 (건물명 또는 편의시설명)", required = true),
-                    @Parameter(name = "latitude", description = "검색 기준 위도", required = false),
-                    @Parameter(name = "longitude", description = "검색 기준 경도", required = false)
+                    @Parameter(name = "keyword", description = "검색할 키워드 (건물명 또는 편의시설명)", required = true)
             }
     )
     @CustomExceptionDescription(GET_SPACE_INFO)
     @GetMapping("/places/search")
-    public BaseResponse<PlaceSearchResponse<?>> searchPlaces(@RequestParam("keyword") String keyword,
-                                                          @RequestParam(required = false) double latitude,
-                                                          @RequestParam(required = false) double longitude
+    public BaseResponse<PlaceSearchResponse<?>> searchPlaces(@RequestParam("keyword") String keyword
                                                            ) {
         if (keyword == null || keyword.isEmpty()) {
             return BaseResponse.ok(PlaceSearchResponse.ofFacility(new ArrayList<>()));
         }
 
-        PlaceSearchResponse<?> response = placeService.getPlaces(keyword, latitude, longitude);
+        PlaceSearchResponse<?> response = placeService.getPlaces(keyword);
         return BaseResponse.ok(response);
     }
 }

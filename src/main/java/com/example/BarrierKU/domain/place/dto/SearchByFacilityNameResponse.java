@@ -8,4 +8,7 @@ public record SearchByFacilityNameResponse(
     @Schema(description = "편의시설 정보 리스트")
     List<? extends SearchFacilityResponse> facilities
 ) {
+    public SearchByFacilityNameResponse(List<? extends SearchFacilityResponse> facilities) {
+        this.facilities = facilities;
+    }
 }

@@ -3,6 +3,7 @@ package com.example.BarrierKU.domain.place.dto;
 import com.example.BarrierKU.domain.indoor.Building;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+
 public record SearchBuildingResponse(
         @Schema(description = "건물 ID", example = "3")
         long id,
