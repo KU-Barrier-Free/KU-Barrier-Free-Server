@@ -29,6 +29,7 @@ public enum ResponseCode {
 
 
     // home
+    OUTSIDE_SIGNIFICANT_NOT_FOUND(false, 404, "해당 교외 특이사항을 찾을 수 없습니다."),
 
     // building
     BUILDING_NOT_FOUND(false, 404, "해당 건물을 찾을 수 없습니다."),

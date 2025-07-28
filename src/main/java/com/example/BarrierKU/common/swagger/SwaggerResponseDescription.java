@@ -27,6 +27,10 @@ public enum SwaggerResponseDescription {
             SPACE_NOT_FOUND
     ))),
 
+    GET_OUTSIDE_SIGNIFICANT_INFO(new LinkedHashSet<>(Set.of(
+            OUTSIDE_SIGNIFICANT_NOT_FOUND
+    ))),
+
     DEFAULT(new LinkedHashSet<>());
 
     private final Set<ResponseCode> responseCodeSet;
