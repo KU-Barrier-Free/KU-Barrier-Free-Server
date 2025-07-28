@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public class OutsideSignificantImage {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "outside_siginificant_image_id")
     private Long id;
 
