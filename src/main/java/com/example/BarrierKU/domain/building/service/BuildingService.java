@@ -15,6 +15,7 @@ import com.example.BarrierKU.domain.indoor.Significant;
 import com.example.BarrierKU.domain.type.Purpose;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ import static com.example.BarrierKU.common.response.ResponseCode.SPACE_NOT_FOUND
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class BuildingService {
     private final BuildingRepository buildingRepository;
     private final RoomRepository roomRepository;
