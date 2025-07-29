@@ -40,7 +40,8 @@ public class BuildingService {
         Map<String, List<Room>> roomsByFloor = groupedByFloor(building);
         Map<String, FloorResponse> floorMap = getFloorResponseMap(roomsByFloor, building);
         return new BuildingResponse(id, building.getNumber(), building.getName(),
-                building.getDepartment(), building.getImage(), purposes, doors, significants, floorMap);
+                building.getDepartment(), building.getImage(), building.getSpot().getY(), building.getSpot().getX(),
+                purposes, doors, significants, floorMap);
     }
 
     public FloorResponse getFloorInfo(Long id, String targetFloor) {

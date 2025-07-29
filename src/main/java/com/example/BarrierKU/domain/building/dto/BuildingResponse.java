@@ -84,6 +84,10 @@ public class BuildingResponse {
                     "}"
     )
     private Map<String, FloorResponse> floorMap;
+    @Schema(description = "위도", example = "37.54321")
+    private double latitude;
+    @Schema(description = "경도", example = "127.11111")
+    private double longitude;
 
     @Getter
     @AllArgsConstructor
@@ -118,12 +122,14 @@ public class BuildingResponse {
         }
     }
 
-    public BuildingResponse(Long buildingId, int number, String name, String department, String image, Set<String> purposes, List<Door> doors, List<Significant> significants, Map<String, FloorResponse> floorMap) {
+    public BuildingResponse(Long buildingId, int number, String name, String department, String image, double latitude, double longitude, Set<String> purposes, List<Door> doors, List<Significant> significants, Map<String, FloorResponse> floorMap) {
         this.id = buildingId;
         this.number = number;
         this.name = name;
         this.department = department;
         this.image = image;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.facilityPurposes = purposes;
         this.doorInfos = doors.stream().map(door -> new DoorInfo(door)).toList();
         this.significantInfos = significants.stream().map(significant -> new SignificantInfo(significant)).toList();
