@@ -13,7 +13,7 @@ import lombok.Getter;
 @Getter
 public class Significant {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "significant_id")
     private Long id;
 

@@ -9,7 +9,7 @@ import org.locationtech.jts.geom.Point;
 @Getter
 public class Obstacle {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "obstacle_id")
     private Long id;
 

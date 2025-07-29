@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 public class Door {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "door_id")
     private Long id;
 

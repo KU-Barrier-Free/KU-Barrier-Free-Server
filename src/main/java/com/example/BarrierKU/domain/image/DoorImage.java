@@ -9,7 +9,7 @@ import lombok.Getter;
 @Getter
 public class DoorImage {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "door_image_id")
     private Long id;
 

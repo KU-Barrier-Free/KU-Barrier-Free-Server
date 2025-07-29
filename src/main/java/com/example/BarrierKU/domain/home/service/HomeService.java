@@ -1,21 +1,29 @@
 package com.example.BarrierKU.domain.home.service;
 
+import com.example.BarrierKU.common.exception.BarrierKuException;
+import com.example.BarrierKU.common.response.ResponseCode;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.home.dto.HomeItem;
 import com.example.BarrierKU.domain.home.dto.HomeResponse;
+import com.example.BarrierKU.domain.home.dto.OutsideSignificantResponse;
 import com.example.BarrierKU.domain.home.repository.ObstacleRepository;
 import com.example.BarrierKU.domain.home.repository.OutsideSignificantRepository;
+import com.example.BarrierKU.domain.image.OutsideSignificantImage;
 import com.example.BarrierKU.domain.outdoor.Obstacle;
+import com.example.BarrierKU.domain.outdoor.OutsideSignificant;
 import com.example.BarrierKU.domain.type.ObstacleType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.example.BarrierKU.common.response.ResponseCode.*;
 import static com.example.BarrierKU.domain.type.ObstacleType.*;
 
 @RequiredArgsConstructor
 @Service
+@Transactional(readOnly = true)
 public class HomeService {
 
     private final BuildingRepository buildingRepository;
@@ -46,6 +54,16 @@ public class HomeService {
         return HomeResponse.of(buildings, significants, curbs, ramps, stairs);
     }
 
+    public OutsideSignificantResponse getOutsideSignificantInfo(Long outsideSignificantId) {
+        OutsideSignificant outsideSignificant = outsideSignificantRepository.findOutsideSignificantWithImages(outsideSignificantId)
+                .orElseThrow(() -> new BarrierKuException(OUTSIDE_SIGNIFICANT_NOT_FOUND));
+
+        return OutsideSignificantResponse.of(
+                outsideSignificant.getOutsideSignificantImages().stream().map(OutsideSignificantImage::getUrl).toList(),
+                outsideSignificant.getDescription(),
+                outsideSignificant.getSpot().getY(),
+                outsideSignificant.getSpot().getX());
+    }
 
     private List<HomeItem> getHomeItemWithObstacleType(List<Obstacle> obstacleList, ObstacleType type) {
         return obstacleList.stream()

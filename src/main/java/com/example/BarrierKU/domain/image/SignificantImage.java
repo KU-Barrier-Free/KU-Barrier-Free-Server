@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public class SignificantImage {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "significant_image_id")
     private Long id;
 

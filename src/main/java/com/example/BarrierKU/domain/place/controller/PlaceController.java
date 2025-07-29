@@ -37,6 +37,7 @@ public class PlaceController {
     @GetMapping("/places/search")
     public BaseResponse<PlaceSearchResponse<?>> searchPlaces(@RequestParam("keyword") String keyword
                                                            ) {
+        log.debug("[searchPlaces] keyword = {}", keyword);
         if (keyword == null || keyword.isEmpty()) {
             return BaseResponse.ok(PlaceSearchResponse.ofFacility(new ArrayList<>()));
         }
