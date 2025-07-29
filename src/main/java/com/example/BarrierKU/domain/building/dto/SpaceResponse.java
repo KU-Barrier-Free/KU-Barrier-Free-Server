@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class SpaceResponse {
-    @Schema(description = "호수", example = "201")
+    @Schema(description = "호수", example = "201호")
     private String roomNumber;
     @Schema(description = "호실명", example = "대강의실")
     private String roomName;
@@ -30,7 +30,22 @@ public class SpaceResponse {
     private String department;
     @Schema(description = "관리부서 전화번호", example = "02-450-3628")
     private String departmentNumber;
+    @Schema(description = "강의실 조사 정보")
     private RoomInfoResponse roomInfo;
+    @Schema(description = "강의실 사진 정보",
+            example = """
+                    [
+                      {
+                        "imageUrl": "https://example.com/room1.png",
+                        "imageType": "ROOM"
+                      },
+                      {
+                        "imageUrl": "https://example.com/room2.png",
+                        "imageType": "DOOR"
+                      }
+                    ]
+                    """
+    )
     private List<RoomImageResponse> images;
 
     public static SpaceResponse of(Room room, int type) {
@@ -39,8 +54,8 @@ public class SpaceResponse {
 
         List<RoomImageResponse> images = room.getRoomImages().stream().map(RoomImageResponse::from).toList();
 
-        return new SpaceResponse (
-                room.getRoomNumber(),
+        return new SpaceResponse(
+                room.getRoomNumber() + "호",
                 room.getRoomName(),
                 room.isLecture(),
                 room.getCapacity(),

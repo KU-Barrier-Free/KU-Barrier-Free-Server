@@ -1,19 +1,16 @@
 package com.example.BarrierKU.domain.building.service;
 
 import com.example.BarrierKU.common.exception.BarrierKuException;
-import com.example.BarrierKU.domain.building.dto.FloorResponse;
-import com.example.BarrierKU.domain.building.dto.SpaceResponse;
-import com.example.BarrierKU.domain.building.dto.SpaceSummary;
+import com.example.BarrierKU.domain.building.dto.*;
 import com.example.BarrierKU.domain.building.repository.RoomRepository;
-import com.example.BarrierKU.domain.image.RoomImage;
 import com.example.BarrierKU.domain.indoor.Building;
-import com.example.BarrierKU.domain.building.dto.BuildingResponse;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.indoor.Door;
 import com.example.BarrierKU.domain.indoor.Room;
 import com.example.BarrierKU.domain.indoor.Significant;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -23,6 +20,7 @@ import static com.example.BarrierKU.common.response.ResponseCode.BUILDING_NOT_FO
 import static com.example.BarrierKU.common.response.ResponseCode.SPACE_NOT_FOUND;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class BuildingService {
     private final BuildingRepository buildingRepository;
@@ -34,7 +32,7 @@ public class BuildingService {
                 .map(facility -> facility.getPurpose().getValue()).collect(Collectors.toSet());
         List<Door> doors = building.getDoors();
         List<Significant> significants = building.getSignificants();
-        return new BuildingResponse(id,building.getNumber(),building.getName(), building.getDepartment(),building.getImage(),
+        return new BuildingResponse(id, building.getNumber(), building.getName(), building.getDepartment(), building.getImage(),
                 purposes, doors, significants);
     }
 
@@ -47,11 +45,34 @@ public class BuildingService {
         return new FloorResponse(drawings, purposes, spaceSummaries);
     }
 
+    public SpaceResponse getSpaceInfo(Long buildingId, Long spaceId, int type) {
+        Room room = roomRepository.findByIdAndBuildingId(spaceId, buildingId)
+                .orElseThrow(() -> new BarrierKuException(SPACE_NOT_FOUND));
+        return SpaceResponse.of(room, type);
+    }
+
+    public SpaceSearchResponse searchSpace(Long buildingId, String keyword) {
+        Building building = getBuilding(buildingId);
+
+        List<SpaceSummary> spaces = building.getRooms().stream()
+                .filter(room ->
+                        room.getRoomName().toLowerCase().contains(keyword.toLowerCase()) || room.getRoomNumber().toLowerCase().contains(keyword.toLowerCase())
+                )
+                .map(SpaceSummary::from)
+                .toList();
+
+        return new SpaceSearchResponse(spaces.size(), spaces);
+    }
+
+    private Building getBuilding(Long id) {
+        return buildingRepository.findById(id)
+                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
+    }
+
     private List<SpaceSummary> getSpaceSummaries(String targetFloor, Building building) {
         return building.getRooms().stream().filter(room -> room.getFloor().equals(targetFloor))
-                .map(room -> new SpaceSummary(room.getId(), room.getRoomNumber(), room.getRoomName()
-                        , room.getRoomComment(), room.getRoomImages().stream().map(RoomImage::getUrl).collect(Collectors.toList())
-                        , room.isLecture())).collect(Collectors.toList());
+                .map(SpaceSummary::from)
+                .toList();
     }
 
     private Set<String> getPurposes(String targetFloor, Building building) {
@@ -65,16 +86,5 @@ public class BuildingService {
                 .filter(drawing -> drawing.getFloor().equals(targetFloor))
                 .map(drawing -> drawing.getImage())
                 .toList();
-    }
-
-    public Building getBuilding(Long id) {
-        return buildingRepository.findById(id)
-                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
-    }
-
-    public SpaceResponse getSpaceInfo(Long buildingId, Long spaceId, int type) {
-        Room room = roomRepository.findByIdAndBuildingId(spaceId, buildingId)
-                .orElseThrow(() -> new BarrierKuException(SPACE_NOT_FOUND));
-        return SpaceResponse.of(room, type);
     }
 }
