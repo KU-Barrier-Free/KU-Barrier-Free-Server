@@ -2,8 +2,7 @@ package com.example.BarrierKU.domain.outdoor;
 
 import com.example.BarrierKU.domain.image.OutsideSignificantImage;
 import jakarta.persistence.*;
-import lombok.Generated;
-import lombok.Getter;
+import lombok.*;
 import org.locationtech.jts.geom.Point;
 
 import java.util.ArrayList;

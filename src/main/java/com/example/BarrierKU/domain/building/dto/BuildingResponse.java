@@ -29,10 +29,8 @@ public class BuildingResponse {
     private String department;
     @Schema(description = "건물 이미지", example = "image.png")
     private String image;
-    @Schema(
-            description = "문 정보 리스트",
-            example = "[" +
-                    "{" +
+    @Schema(description = "문 정보 리스트",
+            example = "[{" +
                     "\"id\": 1," +
                     "\"wheelchair\": true," +
                     "\"imageUrl\": [\"https://example.com/door1.jpg\", \"https://example.com/door2.jpg\"]," +

@@ -1,13 +1,9 @@
 package com.example.BarrierKU.domain.building.service;
 
 import com.example.BarrierKU.common.exception.BarrierKuException;
-import com.example.BarrierKU.domain.building.dto.FloorResponse;
-import com.example.BarrierKU.domain.building.dto.SpaceResponse;
-import com.example.BarrierKU.domain.building.dto.SpaceSummary;
+import com.example.BarrierKU.domain.building.dto.*;
 import com.example.BarrierKU.domain.building.repository.RoomRepository;
-import com.example.BarrierKU.domain.image.RoomImage;
 import com.example.BarrierKU.domain.indoor.Building;
-import com.example.BarrierKU.domain.building.dto.BuildingResponse;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.indoor.Door;
 import com.example.BarrierKU.domain.indoor.Room;
@@ -59,11 +55,6 @@ public class BuildingService {
         return SpaceResponse.of(room, type);
     }
 
-    private Building getBuilding(Long id) {
-        return buildingRepository.findById(id)
-                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
-    }
-
     private Map<String, FloorResponse> getFloorResponseMap(Map<String, List<Room>> roomsByFloor, Building building) {
         return roomsByFloor.entrySet().stream().collect(Collectors.toMap(
                 Map.Entry::getKey,
@@ -80,11 +71,27 @@ public class BuildingService {
         ));
     }
 
+    public SpaceSearchResponse searchSpace(Long buildingId, String keyword) {
+        Building building = getBuilding(buildingId);
+
+        List<SpaceSummary> spaces = building.getRooms().stream()
+                .filter(room ->
+                        room.getRoomName().toLowerCase().contains(keyword.toLowerCase()) || room.getRoomNumber().toLowerCase().contains(keyword.toLowerCase())
+                )
+                .map(SpaceSummary::from)
+                .toList();
+
+        return new SpaceSearchResponse(spaces.size(), spaces);
+    }
+
+    private Building getBuilding(Long id) {
+        return buildingRepository.findById(id)
+                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
+    }
+
     private List<SpaceSummary> getSpaceSummaries(String targetFloor, Building building) {
         return building.getRooms().stream().filter(room -> room.getFloor().equals(targetFloor))
-                .map(room -> new SpaceSummary(room.getId(), room.getRoomNumber(), room.getRoomName()
-                        , room.getRoomComment(), room.getRoomImages().stream().map(RoomImage::getUrl).toList()
-                        , room.isLecture())).toList();
+                .map(SpaceSummary::from).toList();
     }
 
     private List<String> getDrawings(String targetFloor, Building building) {
