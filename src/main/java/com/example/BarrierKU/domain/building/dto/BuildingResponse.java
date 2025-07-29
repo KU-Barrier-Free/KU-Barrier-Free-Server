@@ -11,6 +11,7 @@ import lombok.Getter;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -26,19 +27,24 @@ public class BuildingResponse {
     private String name;
     @Schema(description = "건물 담당 부서", example = "경영(전문)대학원, 경영대학")
     private String department;
-    @Schema(description = "도면 이미지", example = "image.png")
+    @Schema(description = "건물 이미지", example = "image.png")
     private String image;
     @Schema(description = "문 정보 리스트",
             example = "[{" +
                     "\"id\": 1," +
                     "\"wheelchair\": true," +
-                    "\"imageUrl\": [\"https://example.com/door1.jpg\", \"https://example.com/door2.jpg\"]" +
-                    "}, {" +
+                    "\"imageUrl\": [\"https://example.com/door1.jpg\", \"https://example.com/door2.jpg\"]," +
+                    "\"latitude\": 37.12345," +
+                    "\"longitude\": 127.98765" +
+                    "}," +
+                    "{" +
                     "\"id\": 2," +
                     "\"wheelchair\": false," +
-                    "\"imageUrl\": [\"https://example.com/door3.jpg\"]" +
-                    "\"spot\": [\"https://example.com/door3.jpg\"]" +
-                    "}]"
+                    "\"imageUrl\": [\"https://example.com/door3.jpg\"]," +
+                    "\"latitude\": 37.54321," +
+                    "\"longitude\": 127.11111" +
+                    "}" +
+                    "]"
     )
     private List<DoorInfo> doorInfos;
     @Schema(description = "해당 건물에 존재하는 편의시설 종류", example = "[\"은행\", \"휴게실\", \"카페\"]")
@@ -56,6 +62,30 @@ public class BuildingResponse {
                     "}]"
     )
     private List<SignificantInfo> significantInfos;
+    @Schema(
+            description = "층별 공간 정보 (key: 층 이름 예: 1, B1)",
+            example = "{" +
+                    "\"B1\": {" +
+                    "\"drawings\": [\"image.png\"]," +
+                    "\"purposes\": [\"은행\", \"휴게실\", \"카페\"]," +
+                    "\"spaceSummaries\": [" +
+                    "{" +
+                    "\"id\": 1," +
+                    "\"roomNumber\": \"104-1호\"," +
+                    "\"roomName\": \"강의실\"," +
+                    "\"comment\": \"원형책상\"," +
+                    "\"roomImages\": [\"https://example.com/image1.jpg\"]," +
+                    "\"isLecture\": true" +
+                    "}" +
+                    "]" +
+                    "}" +
+                    "}"
+    )
+    private Map<String, FloorResponse> floorMap;
+    @Schema(description = "위도", example = "37.54321")
+    private double latitude;
+    @Schema(description = "경도", example = "127.11111")
+    private double longitude;
 
     @Getter
     @AllArgsConstructor
@@ -90,14 +120,17 @@ public class BuildingResponse {
         }
     }
 
-    public BuildingResponse(Long buildingId, int number, String name, String department, String image, Set<String> purposes, List<Door> doors, List<Significant> significants) {
+    public BuildingResponse(Long buildingId, int number, String name, String department, String image, double latitude, double longitude, Set<String> purposes, List<Door> doors, List<Significant> significants, Map<String, FloorResponse> floorMap) {
         this.id = buildingId;
         this.number = number;
         this.name = name;
         this.department = department;
         this.image = image;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.facilityPurposes = purposes;
         this.doorInfos = doors.stream().map(door -> new DoorInfo(door)).toList();
         this.significantInfos = significants.stream().map(significant -> new SignificantInfo(significant)).toList();
+        this.floorMap = floorMap;
     }
 }

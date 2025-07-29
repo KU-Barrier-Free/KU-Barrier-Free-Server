@@ -14,8 +14,6 @@ public record SpaceSummary(
         String roomName,
         @Schema(description = "특이사항", example = "턱 있음")
         String comment,
-        @Schema(description = "수업 여부", example = "true")
-        boolean isLecture,
         @Schema(description = "강의실 사진 정보",
                 example = """
                         [
@@ -30,7 +28,9 @@ public record SpaceSummary(
                         ]
                         """
         )
-        List<RoomImageResponse> roomImages
+        List<RoomImageResponse> roomImages,
+        @Schema(description = "강의여부")
+        boolean isLecture
 ) {
     public static SpaceSummary from(Room room) {
         return new SpaceSummary(
@@ -38,10 +38,10 @@ public record SpaceSummary(
                 room.getRoomNumber() + "호",
                 room.getRoomName(),
                 room.getRoomComment(),
-                room.isLecture(),
                 room.getRoomImages().stream()
                         .map(RoomImageResponse::from)
-                        .toList()
+                        .toList(),
+                room.isLecture()
         );
     }
 }

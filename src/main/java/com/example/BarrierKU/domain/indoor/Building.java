@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class Building {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "building_id")
     private Long id;
 
