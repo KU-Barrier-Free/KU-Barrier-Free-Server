@@ -1,9 +1,11 @@
 package com.example.BarrierKU.domain.place.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 @Schema(description = "건물명으로 검색된 편의시설 리스트 응답",
         example = """
         {
@@ -56,6 +58,7 @@ public class SearchByBuildingNameResponse {
         this.buildingFacilityGroups.add(buildingFacilityGroup);
     }
 
+    @Getter
     @Schema(description = "건물-편의시설 그룹")
     static class BuildingFacilityGroup{
         @Schema(description = "건물 정보")

@@ -2,50 +2,13 @@ package com.example.BarrierKU.domain.place.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+@Schema(description = "장소 검색 결과 응답")
 public record PlaceSearchResponse<T>(
         @Schema(description = "응답 타입", example = "BUILDING") String type,
-        @Schema(description = "응답 데이터", example = """
-        {
-          "buildingFacilityGroups": [
-            {
-              "building": {
-                "id": 3,
-                "name": "공학관",
-                "latitude": 37.5821,
-                "longitude": 127.0095
-              },
-              "facilities": [
-                {
-                  "id": 12,
-                  "name": "레스티오",
-                  "purpose": "CAFE"
-                },
-                {
-                  "id": 13,
-                  "name": "편의점",
-                  "purpose": "STORE"
-                }
-              ]
-            },
-            {
-              "building": {
-                "id": 4,
-                "name": "신공학관",
-                "latitude": 37.5829,
-                "longitude": 127.0101
-              },
-              "facilities": [
-                {
-                  "id": 15,
-                  "name": "학생휴게실",
-                  "purpose": "LOUNGE"
-                }
-              ]
-            }
-          ]
-        }
-        """) T data) {
-    // data : 실제 응답은 SearchByBuildingNameResponse or SearchByFacilityNameResponse
+        @Schema(
+                description = "응답 데이터. type이 'BUILDING'이면 SearchByBuildingNameResponse, 'FACILITY'이면 SearchByFacilityNameResponse 를 반환하는 형식입니다.",
+                oneOf = {SearchByBuildingNameResponse.class, SearchByFacilityNameResponse.class}
+        ) T data) {
     public static <T> PlaceSearchResponse<T> ofBuilding(T data) {
         return new PlaceSearchResponse<>("BUILDING", data);
     }
