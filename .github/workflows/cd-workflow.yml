@@ -59,9 +59,18 @@ jobs:
             
             echo "🥳Pulling new image"
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
-            
+
+            echo "🌱Setting environment variables"
+            export PROD_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }}
+            export PROD_DATASOURCE_USERNAME=${{ secrets.PROD_DATASOURCE_USERNAME }}
+            export PROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }}
+
             echo "🌱Running new container"
-            sudo docker run -d -p 9002:9002 --name kubf ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }} \
+            sudo docker run -d -p 9002:9002 --name kubf \
+              -e PROD_DATASOURCE_URL=$PROD_DATASOURCE_URL \
+              -e PROD_DATASOURCE_USERNAME=$PROD_DATASOURCE_USERNAME \
+              -e PROD_DATASOURCE_PASSWORD=$PROD_DATASOURCE_PASSWORD \
+              ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }} \
               java -jar -Dspring.profiles.active=prod app.jar
 
             echo "🚮Cleaning up old images"
