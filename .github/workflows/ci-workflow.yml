@@ -1,0 +1,48 @@
+name: KUchat CI with Gradle
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'develop'
+      - 'deploy/#29-ci-cd'
+  pull_request:
+    branches:
+      - 'main'
+      - 'develop'
+      - 'deploy/#29-ci-cd'
+
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: ☕️ set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          server-id: github
+          setting-path: ${{ github.workspace }}
+
+      - name: ♻️ cache Gradle dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: 👏🏻 grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: 🐘 build with Gradle
+        run: ./gradlew clean build
