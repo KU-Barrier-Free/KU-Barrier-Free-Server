@@ -1,4 +1,4 @@
-name: KUchat CD with Gradle and Docker
+name: KU-Barrier-Free CD with Gradle and Docker
 
 on:
   push:
@@ -52,8 +52,8 @@ jobs:
           envs: GITHUB_SHA
           script: |
             echo "✋🏻Stopping existing container"
-            sudo docker stop kuchat
-            sudo docker rm kuchat
+            sudo docker stop kubf
+            sudo docker rm kubf
         
             sudo docker ps -a
             
@@ -61,7 +61,7 @@ jobs:
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
             
             echo "🌱Running new container"
-            sudo docker run -d -p 9002:9002 --name kuchat ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }} \
+            sudo docker run -d -p 9002:9002 --name kubf ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }} \
               java -jar -Dspring.profiles.active=prod app.jar
 
             echo "🚮Cleaning up old images"

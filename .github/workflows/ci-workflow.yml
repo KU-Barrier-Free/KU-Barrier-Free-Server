@@ -1,4 +1,4 @@
-name: KUchat CI with Gradle
+name: KU-Barrier-Free CI with Gradle
 
 on:
   push:
