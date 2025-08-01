@@ -1,7 +1,6 @@
 package com.example.BarrierKU.domain.supportcenter.service;
 
 import com.example.BarrierKU.common.exception.BarrierKuException;
-import com.example.BarrierKU.common.response.ResponseCode;
 import com.example.BarrierKU.domain.supportcenter.dto.NoticeResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,6 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.BarrierKU.common.response.ResponseCode.NOTICE_CRAWL_FAILED;
 
 @Service
 @Transactional(readOnly = true)
@@ -37,7 +38,7 @@ public class NoticeService {
             }
 
         } catch(IOException e) {
-            throw new BarrierKuException(ResponseCode.NOTICE_CRAWL_FAILED);
+            throw new BarrierKuException(NOTICE_CRAWL_FAILED);
         }
 
         return notices;
