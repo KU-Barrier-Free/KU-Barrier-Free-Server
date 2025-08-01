@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.DEFAULT;
 import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.GET_NOTICE;
 
 @Tag(name = "Support Center", description = "Support Center API")
