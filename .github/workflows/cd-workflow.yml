@@ -51,27 +51,62 @@ jobs:
           port: ${{ secrets.EC2_PORT }}
           envs: GITHUB_SHA
           script: |
-            echo "✋🏻Stopping existing container"
-            sudo docker stop kubf
-            sudo docker rm kubf
-        
-            sudo docker ps -a
-            
-            echo "🥳Pulling new image"
+            echo "📦 Checking current container"
+            CURRENT_CONTAINER=$(sudo docker ps -q -f name=kubf-green)
+
+            if [ -z "$CURRENT_CONTAINER" ]; then
+              NEW_CONTAINER="kubf-green"
+              OLD_CONTAINER="kubf-blue"
+              NEW_PORT=9003
+              NEW_TG_ARN="${{ secrets.GREEN_TG_ARN }}"
+            else
+              NEW_CONTAINER="kubf-blue"
+              OLD_CONTAINER="kubf-green"
+              NEW_PORT=9002
+              NEW_TG_ARN="${{ secrets.BLUE_TG_ARN }}"
+            fi
+
+            echo "🛑 Stopping and removing new container: $NEW_CONTAINER (if exists)"
+            sudo docker rm -f $NEW_CONTAINER || true
+
+            echo "🥳 Pulling latest Docker image"
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
 
-            echo "🌱Setting environment variables"
-            export PROD_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }}
-            export PROD_DATASOURCE_USERNAME=${{ secrets.PROD_DATASOURCE_USERNAME }}
-            export PROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }}
-
-            echo "🌱Running new container"
-            sudo docker run -d -p 9002:9002 --name kubf \
-              -e PROD_DATASOURCE_URL=$PROD_DATASOURCE_URL \
-              -e PROD_DATASOURCE_USERNAME=$PROD_DATASOURCE_USERNAME \
-              -e PROD_DATASOURCE_PASSWORD=$PROD_DATASOURCE_PASSWORD \
+            echo "🚀 Starting new container: $NEW_CONTAINER"
+            sudo docker run -d --name $NEW_CONTAINER \
+              -e PROD_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }} \
+              -e PROD_DATASOURCE_USERNAME=${{ secrets.PROD_DATASOURCE_USERNAME }} \
+              -e PROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }} \
+              -p $NEW_PORT:$NEW_PORT \
               ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }} \
               java -jar -Dspring.profiles.active=prod app.jar
 
-            echo "🚮Cleaning up old images"
+            echo "🧪 Waiting for new container to become healthy"
+            for i in {1..10}; do
+              sleep 5
+              STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:$NEW_PORT/health || true)
+              echo "Health check status: $STATUS"
+              if [ "$STATUS" = "200" ]; then
+                echo "✅ Health check passed!"
+                break
+              fi
+              if [ "$i" = "10" ]; then
+                echo "❌ Health check failed after multiple attempts"
+                exit 1
+              fi
+            done
+
+            echo "🔁 Register new container with ALB target group"
+            INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+            aws elbv2 register-targets --target-group-arn "$NEW_TG_ARN" --targets Id=$INSTANCE_ID,Port=$NEW_PORT --region ap-northeast-2
+
+            echo "🧹 Deregister old container from ALB target group"
+            OLD_PORT=$([ "$NEW_PORT" = "9002" ] && echo "9003" || echo "9002")
+            OLD_TG_ARN=$([ "$NEW_TG_ARN" = "${{ secrets.BLUE_TG_ARN }}" ] && echo "${{ secrets.GREEN_TG_ARN }}" || echo "${{ secrets.BLUE_TG_ARN }}")
+            aws elbv2 deregister-targets --target-group-arn "$OLD_TG_ARN" --targets Id=$INSTANCE_ID,Port=$OLD_PORT --region ap-northeast-2
+
+            echo "🧹 Cleaning up old container: $OLD_CONTAINER"
+            sudo docker rm -f $OLD_CONTAINER || true
+
+            echo "🚮 Cleaning up old Docker images"
             sudo docker image prune -f
