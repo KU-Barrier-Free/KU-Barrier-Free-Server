@@ -84,7 +84,7 @@ jobs:
             echo "🧪 Waiting for new container to become healthy"
             for i in {1..10}; do
               sleep 5
-              STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:$NEW_PORT/health || true)
+              STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:$NEW_PORT/actuator/health || true)
               echo "Health check status: $STATUS"
               if [ "$STATUS" = "200" ]; then
                 echo "✅ Health check passed!"
