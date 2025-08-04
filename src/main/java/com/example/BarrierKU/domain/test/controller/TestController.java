@@ -33,10 +33,4 @@ public class TestController {
         log.info("[healthCheck] Load Balancer Health Check");
         return ResponseEntity.ok("OK");
     }
-
-    @GetMapping("/ping")
-    public String ping() {
-        log.info("[ping] 브라우저 접속 확인용 ping API 호출됨");
-        return "🐮KU Barrier Free 🐮";
-    }
 }
