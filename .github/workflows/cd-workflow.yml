@@ -107,8 +107,13 @@ jobs:
             OLD_TG_ARN=$([ "$NEW_TG_ARN" = "${{ secrets.BLUE_TG_ARN }}" ] && echo "${{ secrets.GREEN_TG_ARN }}" || echo "${{ secrets.BLUE_TG_ARN }}")
             aws elbv2 deregister-targets --target-group-arn "$OLD_TG_ARN" --targets Id=$INSTANCE_ID,Port=$OLD_PORT --region ap-northeast-2
 
-            echo "🛑 Stopping and removing old container: $OLD_CONTAINER"
-            sudo docker rm -f $OLD_CONTAINER || true
+            echo "🛑 Attempting to stop and remove old container: $OLD_CONTAINER"
+            if sudo docker ps -a --format '{{.Names}}' | grep -w "$OLD_CONTAINER" > /dev/null; then
+              sudo docker rm -f $OLD_CONTAINER || true
+              echo "✅ Old container $OLD_CONTAINER removed"
+            else
+              echo "ℹ️ No existing container named $OLD_CONTAINER found. Skipping removal."
+            fi
 
             echo "🚮 Cleaning up old Docker images"
             sudo docker image prune -f
