@@ -66,9 +66,6 @@ jobs:
               NEW_TG_ARN="${{ secrets.BLUE_TG_ARN }}"
             fi
 
-            echo "🛑 Stopping and removing new container: $NEW_CONTAINER (if exists)"
-            sudo docker rm -f $NEW_CONTAINER || true
-
             echo "🥳 Pulling latest Docker image"
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
 
@@ -107,7 +104,7 @@ jobs:
             OLD_TG_ARN=$([ "$NEW_TG_ARN" = "${{ secrets.BLUE_TG_ARN }}" ] && echo "${{ secrets.GREEN_TG_ARN }}" || echo "${{ secrets.BLUE_TG_ARN }}")
             aws elbv2 deregister-targets --target-group-arn "$OLD_TG_ARN" --targets Id=$INSTANCE_ID,Port=$OLD_PORT --region ap-northeast-2
 
-            echo "🧹 Cleaning up old container: $OLD_CONTAINER"
+            echo "🛑 Stopping and removing old container: $OLD_CONTAINER"
             sudo docker rm -f $OLD_CONTAINER || true
 
             echo "🚮 Cleaning up old Docker images"

@@ -34,7 +34,7 @@ public class TestController {
         return ResponseEntity.ok("OK");
     }
 
-    @GetMapping("/")
+    @GetMapping("/ping")
     public String ping() {
         log.info("[ping] 브라우저 접속 확인용 ping API 호출됨");
         return "🐮KU Barrier Free 🐮";
