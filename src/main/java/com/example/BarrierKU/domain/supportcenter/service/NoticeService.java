@@ -37,7 +37,7 @@ public class NoticeService {
                 notices.add(new NoticeResponse(title, date, url));
             }
 
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new BarrierKuException(NOTICE_CRAWL_FAILED);
         }
 
