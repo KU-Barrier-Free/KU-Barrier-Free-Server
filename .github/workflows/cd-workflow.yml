@@ -77,7 +77,7 @@ jobs:
               -p $NEW_PORT:9002 \
               ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }} \
               java -jar -Dspring.profiles.active=prod app.jar
-
+            echo "🌐 New container will run on port: $NEW_PORT"
             echo "🧪 Waiting for new container to become healthy"
             for i in {1..10}; do
               sleep 5
@@ -96,8 +96,11 @@ jobs:
             done
 
             echo "🔁 Register new container with ALB target group"
+            echo "📥 Fetching current EC2 instance ID..."
             INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+            echo "📦 Instance ID retrieved: $INSTANCE_ID"
             aws elbv2 register-targets --target-group-arn "$NEW_TG_ARN" --targets Id=$INSTANCE_ID,Port=$NEW_PORT --region ap-northeast-2
+            echo "✅ Successfully registered instance $INSTANCE_ID with port $NEW_PORT to target group $NEW_TG_ARN"
 
             echo "🧹 Deregister old container from ALB target group"
             OLD_PORT=$([ "$NEW_PORT" = "9002" ] && echo "9003" || echo "9002")
