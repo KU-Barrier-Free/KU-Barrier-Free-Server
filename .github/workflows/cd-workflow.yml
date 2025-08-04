@@ -77,9 +77,9 @@ jobs:
               -e PROD_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }} \
               -e PROD_DATASOURCE_USERNAME=${{ secrets.PROD_DATASOURCE_USERNAME }} \
               -e PROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }} \
-              -p $NEW_PORT:$NEW_PORT \
+              -p $NEW_PORT:9002 \
               ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }} \
-              java -jar -Dspring.profiles.active=prod -Dserver.port=$NEW_PORT app.jar
+              java -jar -Dspring.profiles.active=prod app.jar
 
             echo "🧪 Waiting for new container to become healthy"
             for i in {1..10}; do

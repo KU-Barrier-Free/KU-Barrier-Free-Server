@@ -1,5 +1,5 @@
 FROM amazoncorretto:21
 RUN yum update -y && yum install -y iproute
-EXPOSE 9002 9003
+EXPOSE 9002
 COPY ./build/libs/*.jar ./app.jar
 ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "app.jar"]
