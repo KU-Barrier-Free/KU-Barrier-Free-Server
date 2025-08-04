@@ -92,6 +92,8 @@ jobs:
               fi
               if [ "$i" = "10" ]; then
                 echo "❌ Health check failed after multiple attempts"
+                echo "🧹 Cleaning up partially deployed container: $NEW_CONTAINER"
+                sudo docker rm -f $NEW_CONTAINER || true
                 exit 1
               fi
             done
