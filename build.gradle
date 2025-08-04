@@ -19,8 +19,25 @@ configurations {
 	}
 }
 
+// 전역적으로 JAI 관련 종속성 제외
+configurations.all {
+	exclude group: 'javax.media', module: 'jai_core'
+	exclude group: 'javax.media', module: 'jai_codec'
+	exclude group: 'javax.media', module: 'jai_imageio'
+}
+
+ext {
+	geotoolsVersion = '33.1'
+}
+
 repositories {
 	mavenCentral()
+	maven {
+		url "https://repo.osgeo.org/repository/release/"
+	}
+	maven {
+		url "https://repo.osgeo.org/repository/snapshot/"
+	}
 }
 
 dependencies {
@@ -31,6 +48,9 @@ dependencies {
 	// Spring Data JPA
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
+	// JDBC
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
 	// Devtools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
@@ -40,6 +60,13 @@ dependencies {
 	// Spatial
 	implementation 'org.hibernate:hibernate-spatial:6.6.15.Final'
 	implementation 'org.locationtech.jts:jts-core:1.20.0'
+
+	// GeoTools
+	implementation "org.geotools:gt-shapefile:${geotoolsVersion}"
+	implementation "org.geotools:gt-epsg-hsql:${geotoolsVersion}"
+	implementation "org.geotools:gt-swing:${geotoolsVersion}"
+	implementation "org.geotools:gt-referencing:${geotoolsVersion}"
+	implementation "org.geotools:gt-epsg-extension:${geotoolsVersion}"
 
 	// h2
 	runtimeOnly 'com.h2database:h2'
