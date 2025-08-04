@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  kubf-blue:
+    build:
+      context: .
+    container_name: kubf-blue
+    ports:
+      - "9002:9002"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - PROD_DATASOURCE_URL=${PROD_DATASOURCE_URL}
+      - PROD_DATASOURCE_USERNAME=${PROD_DATASOURCE_USERNAME}
+      - PROD_DATASOURCE_PASSWORD=${PROD_DATASOURCE_PASSWORD}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9002/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  kubf-green:
+    build:
+      context: .
+    container_name: kubf-green
+    ports:
+      - "9003:9002"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - PROD_DATASOURCE_URL=${PROD_DATASOURCE_URL}
+      - PROD_DATASOURCE_USERNAME=${PROD_DATASOURCE_USERNAME}
+      - PROD_DATASOURCE_PASSWORD=${PROD_DATASOURCE_PASSWORD}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9002/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
