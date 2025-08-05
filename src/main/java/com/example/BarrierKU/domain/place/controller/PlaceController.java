@@ -1,6 +1,5 @@
 package com.example.BarrierKU.domain.place.controller;
 
-import com.example.BarrierKU.common.annotation.CustomExceptionDescription;
 import com.example.BarrierKU.common.response.BaseResponse;
 import com.example.BarrierKU.domain.place.dto.PlaceSearchResponse;
 import com.example.BarrierKU.domain.place.service.PlaceService;
@@ -13,10 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-
-import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.GET_SPACE_INFO;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,16 +28,14 @@ public class PlaceController {
                     @Parameter(name = "keyword", description = "검색할 키워드 (건물명 또는 편의시설명)", required = true)
             }
     )
-    @CustomExceptionDescription(GET_SPACE_INFO)
     @GetMapping("/places/search")
-    public BaseResponse<PlaceSearchResponse<?>> searchPlaces(@RequestParam("keyword") String keyword
-                                                           ) {
+    public BaseResponse<PlaceSearchResponse> searchPlaces(@RequestParam("keyword") String keyword) {
         log.debug("[searchPlaces] keyword = {}", keyword);
         if (keyword == null || keyword.isEmpty()) {
-            return BaseResponse.ok(PlaceSearchResponse.ofFacility(new ArrayList<>()));
+            return BaseResponse.ok(new PlaceSearchResponse());
         }
 
-        PlaceSearchResponse<?> response = placeService.getPlaces(keyword);
+        PlaceSearchResponse response = placeService.getPlaces(keyword);
         return BaseResponse.ok(response);
     }
 }

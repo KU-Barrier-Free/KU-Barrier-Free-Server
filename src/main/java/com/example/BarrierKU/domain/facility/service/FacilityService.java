@@ -5,7 +5,6 @@ import com.example.BarrierKU.domain.indoor.Building;
 import com.example.BarrierKU.domain.indoor.Facilities;
 import com.example.BarrierKU.domain.facility.dto.FacilitiesResponse;
 import com.example.BarrierKU.domain.facility.repository.FacilityRepository;
-import com.example.BarrierKU.domain.place.dto.SearchFacilityResponse;
 import com.example.BarrierKU.domain.place.dto.SearchFacilityWithBuildingResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,15 +33,12 @@ public class FacilityService {
         );
     }
 
-    public List<SearchFacilityResponse> getFacilitiesByBuildingId(Long buildingId) {
+    public List<Facilities> getFacilitiesByBuildingId(Long buildingId) {
         return facilityRepository.findAllByBuildingId(buildingId).stream()
-                .map(SearchFacilityResponse::new)
                 .toList();
     }
 
-    public List<SearchFacilityWithBuildingResponse> getFacilitiesByName(String searchWord) {
-        return facilityRepository.findByNameContainingIgnoreCase(searchWord).stream()
-                .map(SearchFacilityWithBuildingResponse::new)
-                .toList();
+    public List<Facilities> getFacilitiesByName(String searchWord) {
+        return facilityRepository.findByNameContainingIgnoreCase(searchWord);
     }
 }
