@@ -63,25 +63,49 @@ public class BuildingResponse {
     )
     private List<SignificantInfo> significantInfos;
     @Schema(
-            description = "층별 공간 정보 (key: 층 이름 예: 1, B1)",
-            example = "{" +
-                    "\"B1\": {" +
-                    "\"drawings\": [\"image.png\"]," +
-                    "\"purposes\": [\"은행\", \"휴게실\", \"카페\"]," +
-                    "\"spaceSummaries\": [" +
-                    "{" +
-                    "\"id\": 1," +
-                    "\"roomNumber\": \"104-1호\"," +
-                    "\"roomName\": \"강의실\"," +
-                    "\"comment\": \"원형책상\"," +
-                    "\"roomImages\": [\"https://example.com/image1.jpg\"]," +
-                    "\"isLecture\": true" +
-                    "}" +
-                    "]" +
-                    "}" +
-                    "}"
+            description = "층별 공간 정보",
+            example = "[\n" +
+                    "  {\n" +
+                    "    \"drawings\": [\"b1_floorplan.png\"],\n" +
+                    "    \"purposes\": [\"은행\", \"휴게실\", \"카페\"],\n" +
+                    "    \"spaceSummaries\": [\n" +
+                    "      {\n" +
+                    "        \"id\": 101,\n" +
+                    "        \"roomNumber\": \"B101\",\n" +
+                    "        \"roomName\": \"세미나실\",\n" +
+                    "        \"roomComment\": \"회의 및 세미나용 공간\",\n" +
+                    "        \"imageUrls\": [\"seminar_room1.png\", \"seminar_room2.png\"],\n" +
+                    "        \"lecture\": false\n" +
+                    "      },\n" +
+                    "      {\n" +
+                    "        \"id\": 102,\n" +
+                    "        \"roomNumber\": \"B102\",\n" +
+                    "        \"roomName\": \"컴퓨터실\",\n" +
+                    "        \"roomComment\": \"수업 및 실습용 컴퓨터실\",\n" +
+                    "        \"imageUrls\": [\"computer_room1.png\"],\n" +
+                    "        \"lecture\": true\n" +
+                    "      }\n" +
+                    "    ],\n" +
+                    "    \"floor\": \"B1\"\n" +
+                    "  },\n" +
+                    "  {\n" +
+                    "    \"drawings\": [\"1f_floorplan.png\"],\n" +
+                    "    \"purposes\": [\"카페\", \"은행\"],\n" +
+                    "    \"spaceSummaries\": [\n" +
+                    "      {\n" +
+                    "        \"id\": 201,\n" +
+                    "        \"roomNumber\": \"101\",\n" +
+                    "        \"roomName\": \"카페테리아\",\n" +
+                    "        \"roomComment\": \"학생용 식당\",\n" +
+                    "        \"imageUrls\": [\"cafeteria1.png\"],\n" +
+                    "        \"lecture\": false\n" +
+                    "      }\n" +
+                    "    ],\n" +
+                    "    \"floor\": \"1\"\n" +
+                    "  }\n" +
+                    "]"
     )
-    private Map<String, FloorResponse> floorMap;
+    private List<FloorResponse> floorList;
     @Schema(description = "위도", example = "37.54321")
     private double latitude;
     @Schema(description = "경도", example = "127.11111")
@@ -120,7 +144,7 @@ public class BuildingResponse {
         }
     }
 
-    public BuildingResponse(Long buildingId, int number, String name, String department, String image, double latitude, double longitude, Set<String> purposes, List<Door> doors, List<Significant> significants, Map<String, FloorResponse> floorMap) {
+    public BuildingResponse(Long buildingId, int number, String name, String department, String image, double latitude, double longitude, Set<String> purposes, List<Door> doors, List<Significant> significants, List<FloorResponse> floorList) {
         this.id = buildingId;
         this.number = number;
         this.name = name;
@@ -131,6 +155,6 @@ public class BuildingResponse {
         this.facilityPurposes = purposes;
         this.doorInfos = doors.stream().map(door -> new DoorInfo(door)).toList();
         this.significantInfos = significants.stream().map(significant -> new SignificantInfo(significant)).toList();
-        this.floorMap = floorMap;
+        this.floorList = floorList;
     }
 }

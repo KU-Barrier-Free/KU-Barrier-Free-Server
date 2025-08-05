@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,10 +35,17 @@ public class BuildingService {
         List<Door> doors = building.getDoors();
         List<Significant> significants = building.getSignificants();
         Map<String, List<Room>> roomsByFloor = groupedByFloor(building);
-        Map<String, FloorResponse> floorMap = getFloorResponseMap(roomsByFloor, building);
+        List<FloorResponse>floorList = getFloorResponseList(roomsByFloor, building);
+        List<FloorResponse> sortedFloorList = floorList.stream().sorted(Comparator.comparingInt(response -> {
+                    if (response.floor().startsWith("B")) {
+                        return -Integer.parseInt(response.floor().substring(1));
+                    } else {
+                        return Integer.parseInt(response.floor());
+                    }
+                })).toList();
         return new BuildingResponse(id, building.getNumber(), building.getName(),
                 building.getDepartment(), building.getImage(), building.getSpot().getY(), building.getSpot().getX(),
-                purposes, doors, significants, floorMap);
+                purposes, doors, significants, sortedFloorList);
     }
 
     public FloorResponse getFloorInfo(Long id, String targetFloor) {
@@ -46,7 +54,7 @@ public class BuildingService {
         Set<String> purposes = getPurposes(targetFloor, building);
         List<SpaceSummary> spaceSummaries = getSpaceSummaries(targetFloor, building);
 
-        return new FloorResponse(drawings, purposes, spaceSummaries);
+        return new FloorResponse(drawings, purposes, spaceSummaries, targetFloor);
     }
 
     public SpaceResponse getSpaceInfo(Long buildingId, Long spaceId, int type) {
@@ -55,9 +63,9 @@ public class BuildingService {
         return SpaceResponse.of(room, type);
     }
 
-    private Map<String, FloorResponse> getFloorResponseMap(Map<String, List<Room>> roomsByFloor, Building building) {
-        return roomsByFloor.entrySet().stream().collect(Collectors.toMap(
-                Map.Entry::getKey,
+    private List<FloorResponse> getFloorResponseList(Map<String, List<Room>> roomsByFloor, Building building) {
+        return roomsByFloor.entrySet().stream().map(
+
                 entry -> {
                     String floor = entry.getKey();
                     List<Room> rooms = entry.getValue();
@@ -66,9 +74,8 @@ public class BuildingService {
                     Set<String> purposesFloor = getPurposes(floor, building);
                     List<SpaceSummary> summaries = getSpaceSummaries(floor, building);
 
-                    return new FloorResponse(drawings, purposesFloor, summaries);
-                }
-        ));
+                     return new FloorResponse(drawings, purposesFloor, summaries, floor);
+                }).toList();
     }
 
     public SpaceSearchResponse searchSpace(Long buildingId, String keyword) {

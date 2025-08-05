@@ -11,6 +11,8 @@ public record FloorResponse(
         @Schema(description = "해당 층에 존재하는 편의시설 종류", example = "[\"은행\", \"휴게실\", \"카페\"]")
         Set<String> purposes,
         @Schema(description = "공간의 요약된 정보")
-        List<SpaceSummary> spaceSummaries
+        List<SpaceSummary> spaceSummaries,
+        @Schema(description = "층", example = "B1")
+        String floor
 ) {
 }
