@@ -68,10 +68,6 @@ dependencies {
 	implementation "org.geotools:gt-referencing:${geotoolsVersion}"
 	implementation "org.geotools:gt-epsg-extension:${geotoolsVersion}"
 
-	// h2
-	runtimeOnly 'com.h2database:h2'
-	implementation 'org.orbisgis:h2gis:1.5.0'
-
 	// PostgreSQL
 	runtimeOnly 'org.postgresql:postgresql'
 
