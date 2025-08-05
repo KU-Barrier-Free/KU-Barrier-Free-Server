@@ -5,7 +5,6 @@ import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.door.repository.DoorRepository;
 import com.example.BarrierKU.domain.facility.repository.FacilityRepository;
 import com.example.BarrierKU.domain.path.dto.GeoJsonFeatureCollection;
-import com.example.BarrierKU.domain.path.dto.GraphNode;
 import com.example.BarrierKU.domain.path.dto.GraphEdge;
 import com.example.BarrierKU.domain.path.dto.PathRecommendationsResponse;
 import com.example.BarrierKU.domain.path.factory.GeoJsonFactory;
@@ -42,7 +41,7 @@ public class PathService {
     private static final String FACILITY = "FACILITY";
 
     /**
-     * 하나의 메서드에서 세 가지 경로 (최단, 배리어프리, 계단 없음)를 계산하고 응답 DTO 로 감싸 반환
+     * 하나의 메서드에서 두 가지 경로 (최단, 배리어프리)를 계산하고 응답 DTO 로 감싸 반환
      */
     public PathRecommendationsResponse findAllPaths(Long srcId, String srcType, Long destId, String destType) {
         Long srcBuildingId = getBuildingId(srcId, srcType);
@@ -58,8 +57,7 @@ public class PathService {
 
         return new PathRecommendationsResponse(
                 findPath(startLat, startLon, destBuildingId, SHORTEST),
-                findPath(startLat, startLon, destBuildingId, BARRIER_FREE),
-                findPath(startLat, startLon, destBuildingId, NO_STAIRS)
+                findPath(startLat, startLon, destBuildingId, BARRIER_FREE)
         );
     }
 
@@ -79,55 +77,57 @@ public class PathService {
 
         String sql = PathSqlFactory.getSql(pathType);
 
-        List<GraphNode> nodes = new ArrayList<>();
         List<GraphEdge> edges = new ArrayList<>();
 
         final String[] previousNodeUid = {null};
+        final double[] previousLat = {0};
+        final double[] previousLng = {0};
 
         jdbcTemplate.query(sql, new Object[]{source, dest}, rs -> {
-            String currentNodeUid = rs.getString("uid");
-            nodes.add(new GraphNode(
-                    currentNodeUid,
-                    rs.getDouble("lat"),
-                    rs.getDouble("lng")
-            ));
+            String currentUid = rs.getString("uid");
+            double lat = rs.getDouble("lat");
+            double lng = rs.getDouble("lng");
 
-            // 이전 노드가 있고 edge 정보가 있는 경우 GraphEdge 생성
             if (previousNodeUid[0] != null) {
-                double distance = rs.getDouble("distance");
-                double cost = rs.getDouble("cost");  // SQL에서 cost 정보도 가져와야 함
-
                 edges.add(new GraphEdge(
-                        previousNodeUid[0],
-                        currentNodeUid,
-                        cost,
-                        distance
+                        previousNodeUid[0],  // from
+                        currentUid,          // to
+                        previousLat[0],
+                        previousLng[0],
+                        lat,
+                        lng,
+                        rs.getDouble("cost"),     // weight
+                        rs.getDouble("distance")  // distance
                 ));
             }
 
-            previousNodeUid[0] = currentNodeUid;
+            previousNodeUid[0] = currentUid;
+            previousLat[0] = lat;
+            previousLng[0] = lng;
         });
 
-        // 경로가 없는 경우 → 빈 경로 반환
-        if (nodes.size() <= 1) {
+        if (edges.isEmpty()) {
             return GeoJsonFactory.empty();
         }
 
         double startPointToStartNodeDistance = getDistanceFromPointToNode(startLon, startLat, startNode.getUid());
         double endNodeToEndPointDistance = getDistanceFromPointToNode(endLon, endLat, endNode.getUid());
 
-        return GeoJsonFactory.from(
-                nodes, edges,
-                startLat, startLon, endLat, endLon,
-                startPointToStartNodeDistance, endNodeToEndPointDistance
+        return GeoJsonFactory.fromEdges(
+                edges,
+                startLat, startLon,
+                endLat, endLon,
+                startPointToStartNodeDistance,
+                endNodeToEndPointDistance
         );
     }
+
 
     /**
      * 경로 유형(PathType)에 따라 휠체어 가능 문을 우선 고려하되, 없을 경우 일반 문 중에서 선택
      */
     private Point getBestDoorSpot(Long buildingId, double fromLat, double fromLon, PathType pathType) {
-        if (pathType == BARRIER_FREE || pathType == NO_STAIRS) {
+        if (pathType == BARRIER_FREE) {
             return doorRepository.findNearestWheelchairDoorSpot(buildingId, fromLat, fromLon)
                     .orElseGet(() -> doorRepository.findNearestDoorSpot(buildingId, fromLat, fromLon)
                             .orElseThrow(() -> new BarrierKuException(DOOR_NOT_FOUND)));
