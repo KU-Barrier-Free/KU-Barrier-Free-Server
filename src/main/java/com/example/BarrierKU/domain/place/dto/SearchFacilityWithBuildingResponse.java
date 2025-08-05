@@ -5,8 +5,6 @@ import com.example.BarrierKU.domain.type.Purpose;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
 public class SearchFacilityWithBuildingResponse {
     @Schema(description = "시설 ID", example = "12")
@@ -18,28 +16,16 @@ public class SearchFacilityWithBuildingResponse {
     @Schema(description = "시설 용도", example = "CAFE")
     private Purpose purpose;
 
-    @Schema(
-            description = "편의시설이 속한 건물의 id",
-            example = "3"
-    )
+    @Schema(description = "편의시설이 속한 건물의 id", example = "3")
     private final long buildingId;
 
-    @Schema(
-            description = "편의시설이 속한 건물의 이름",
-            example = "공학관"
-    )
+    @Schema(description = "편의시설이 속한 건물의 이름", example = "공학관")
     private final String buildingName;
 
-    @Schema(
-            description = "건물의 위도",
-            example = "37.5665"
-    )
+    @Schema(description = "건물의 위도", example = "37.5665")
     private final double latitude;
 
-    @Schema(
-            description = "건물의 경도",
-            example = "126.9780"
-    )
+    @Schema(description = "건물의 경도", example = "126.9780")
     private final double longitude;
 
     public SearchFacilityWithBuildingResponse(Facilities facilities) {
