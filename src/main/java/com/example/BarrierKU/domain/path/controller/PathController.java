@@ -3,6 +3,7 @@ package com.example.BarrierKU.domain.path.controller;
 import com.example.BarrierKU.common.annotation.CustomExceptionDescription;
 import com.example.BarrierKU.common.response.BaseResponse;
 import com.example.BarrierKU.domain.path.dto.GeoJsonFeatureCollection;
+import com.example.BarrierKU.domain.path.dto.PathRecommendationsResponse;
 import com.example.BarrierKU.domain.path.service.DataLoadingService;
 import com.example.BarrierKU.domain.path.service.PathService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,15 +35,15 @@ public class PathController {
         return BaseResponse.ok(null);
     }
 
-    // 최단 경로 - GeoJson
+    // 경로 추천 - GeoJson
     @GetMapping
-    public BaseResponse<GeoJsonFeatureCollection> findShortestPathGeoJson(
+    public BaseResponse<PathRecommendationsResponse> findShortestPathGeoJson(
             @RequestParam Long srcId,
             @RequestParam String srcType,
             @RequestParam Long destId,
             @RequestParam String destType
     ) {
-        GeoJsonFeatureCollection geoJson = pathService.findShortestPath(srcId, srcType, destId, destType);
-        return BaseResponse.ok(geoJson);
+        PathRecommendationsResponse response = pathService.findAllPaths(srcId, srcType, destId, destType);
+        return BaseResponse.ok(response);
     }
 }
