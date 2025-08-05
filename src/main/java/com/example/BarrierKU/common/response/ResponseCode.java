@@ -27,12 +27,14 @@ public enum ResponseCode {
     METHOD_NOT_ALLOWED(false, 405, "유효하지 않은 Http 메서드입니다."),
     INTERNAL_SERVER_ERROR(false, 500, "서버 내부 오류입니다."),
 
-
     // home
     OUTSIDE_SIGNIFICANT_NOT_FOUND(false, 404, "해당 교외 특이사항을 찾을 수 없습니다."),
 
     // building
     BUILDING_NOT_FOUND(false, 404, "해당 건물을 찾을 수 없습니다."),
+
+    // door
+    DOOR_NOT_FOUND(false, 404, "문을 찾을 수 없습니다."),
 
     // facility
     FACILITY_NOT_FOUND(false, 404, "해당 편의시설을 찾을 수 없습니다."),
@@ -41,6 +43,10 @@ public enum ResponseCode {
     SPACE_NOT_FOUND(false, 404, "해당 공간을 찾을 수 없습니다."),
 
     // path
+    ILLEGAL_POINT_TYPE(false, 400, "유효하지 않은 시작점/도착점 타입입니다."),
+    NODE_NOT_FOUND(false, 404, "노드를 찾을 수 없습니다."),
+    SAME_SOURCE_AND_DESTINATION(false, 400, "출발지와 도착지가 동일합니다.");
+
 
     // notice
     NOTICE_CRAWL_FAILED(false, 404, "공지사항을 찾을 수 없습니다.");
