@@ -1,9 +1,9 @@
 package com.example.BarrierKU.domain.home.service;
 
 import com.example.BarrierKU.common.exception.BarrierKuException;
-import com.example.BarrierKU.common.response.ResponseCode;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
-import com.example.BarrierKU.domain.home.dto.HomeItem;
+import com.example.BarrierKU.domain.home.dto.HomeBuildingItem;
+import com.example.BarrierKU.domain.home.dto.HomeEtcItem;
 import com.example.BarrierKU.domain.home.dto.HomeResponse;
 import com.example.BarrierKU.domain.home.dto.OutsideSignificantResponse;
 import com.example.BarrierKU.domain.home.repository.ObstacleRepository;
@@ -31,25 +31,26 @@ public class HomeService {
     private final OutsideSignificantRepository outsideSignificantRepository;
 
     public HomeResponse getHomeInfo() {
-        List<HomeItem> buildings = buildingRepository.findAll().stream()
-                .map(building -> HomeItem.of(building.getId(),
+        List<HomeBuildingItem> buildings = buildingRepository.findAll().stream()
+                .map(building -> HomeBuildingItem.of(building.getId(),
+                            building.getName(),
                             building.getSpot().getY(),
                             building.getSpot().getX()))
                 .toList();
 
-        List<HomeItem> significants = outsideSignificantRepository.findAll().stream()
-                .map(significant -> HomeItem.of(significant.getId(),
+        List<HomeEtcItem> significants = outsideSignificantRepository.findAll().stream()
+                .map(significant -> HomeEtcItem.of(significant.getId(),
                         significant.getSpot().getY(),
                         significant.getSpot().getX()))
                 .toList();
 
         List<Obstacle> obstaclesList = obstacleRepository.findAll();
 
-        List<HomeItem> curbs = getHomeItemWithObstacleType(obstaclesList, CURB);
+        List<HomeEtcItem> curbs = getHomeItemWithObstacleType(obstaclesList, CURB);
 
-        List<HomeItem> ramps = getHomeItemWithObstacleType(obstaclesList, RAMP);
+        List<HomeEtcItem> ramps = getHomeItemWithObstacleType(obstaclesList, RAMP);
 
-        List<HomeItem> stairs = getHomeItemWithObstacleType(obstaclesList, STAIR);
+        List<HomeEtcItem> stairs = getHomeItemWithObstacleType(obstaclesList, STAIR);
 
         return HomeResponse.of(buildings, significants, curbs, ramps, stairs);
     }
@@ -65,10 +66,10 @@ public class HomeService {
                 outsideSignificant.getSpot().getX());
     }
 
-    private List<HomeItem> getHomeItemWithObstacleType(List<Obstacle> obstacleList, ObstacleType type) {
+    private List<HomeEtcItem> getHomeItemWithObstacleType(List<Obstacle> obstacleList, ObstacleType type) {
         return obstacleList.stream()
                 .filter(obstacle -> obstacle.getObstacleType().equals(type))
-                .map(obstacle -> HomeItem.of(obstacle.getId(),
+                .map(obstacle -> HomeEtcItem.of(obstacle.getId(),
                         obstacle.getSpot().getY(),
                         obstacle.getSpot().getX()))
                 .toList();

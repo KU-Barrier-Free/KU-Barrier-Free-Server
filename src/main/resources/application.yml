@@ -17,10 +17,10 @@ spring:
     activate:
       on-profile: local-db
   datasource:
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: ${LOCAL_DATASOURCE_URL}
+    username: ${LOCAL_DATASOURCE_USERNAME}
+    password: ${LOCAL_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: create
@@ -29,7 +29,7 @@ spring:
         format_sql: true
         show_sql: true
         highlight_sql: true
-        dialect: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.spatial.dialect.postgis.PostgisPG95Dialect
 ---
 # 개발용 DB
 spring:
