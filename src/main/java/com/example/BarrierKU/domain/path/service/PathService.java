@@ -131,6 +131,10 @@ public class PathService {
         );
     }
 
+    /**
+     * 출발지/도착지가 BUILDING(건물) 인 경우 - 건물 ID
+     * 출발지/도착지가 FACILITY(편의시설) 인 경우 - 해당 편의시설이 속해있는 건물의 ID
+      */
     private Long getBuildingId(Long id, String type) {
         return switch (type) {
             case BUILDING -> buildingRepository.findById(id)
@@ -143,12 +147,18 @@ public class PathService {
         };
     }
 
+    /**
+     * 출발지 -> 출발 건물의 위도/경도를 그대로 활용
+     */
     private Point getSpotByBuildingId(Long buildingId) {
         return buildingRepository.findById(buildingId)
                 .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND))
                 .getSpot();
     }
 
+    /**
+     * 도착지 -> 도착 건물에 존재하는 문들 중 출발지와 가장 가까운 문을 도착지로 활용
+     */
     private Point getNearestDoorSpotByBuildingId(Long buildingId, double fromLat, double fromLon) {
         return doorRepository.findNearestDoorSpot(buildingId, fromLat, fromLon)
                 .orElseThrow(() -> new BarrierKuException(DOOR_NOT_FOUND));
@@ -159,6 +169,9 @@ public class PathService {
                 .orElseThrow(() -> new BarrierKuException(NODE_NOT_FOUND));
     }
 
+    /**
+     * 현재 좌표로부터 특정 노드까지의 거리 계산
+     */
     private double getDistanceFromPointToNode(double lon, double lat, String nodeUid) {
         return jdbcTemplate.queryForObject("""
             SELECT ST_DistanceSphere(
