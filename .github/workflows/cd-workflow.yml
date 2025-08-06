@@ -109,7 +109,11 @@ jobs:
                 exit 1
               fi
             done
-            echo "OLD_CONTAINER=$OLD_CONTAINER" | tee -a $GITHUB_ENV
+            
+            echo "🚮 Clean up old container"
+            sudo docker stop $OLD_CONTAINER || true
+            sudo docker rm $OLD_CONTAINER || true
+            sudo docker image prune -a -f
             
 
       - name: 📤 Copy Nginx config to EC2
@@ -122,7 +126,7 @@ jobs:
           source: nginx/app.conf
           target: /tmp/
 
-      - name: 🔁 Switch Nginx config and clean up old container
+      - name: 🔁 Switch Nginx config
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -130,9 +134,6 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: ${{ secrets.EC2_PORT }}
           script: |
+            echo "🔁 Switch Nginx config"
             sudo mv /tmp/app.conf /etc/nginx/conf.d/app.conf
             sudo nginx -t && sudo systemctl reload nginx
-            
-            sudo docker stop ${{ env.OLD_CONTAINER }} || true
-            sudo docker rm ${{ env.OLD_CONTAINER }} || true
-            sudo docker image prune -a -f
