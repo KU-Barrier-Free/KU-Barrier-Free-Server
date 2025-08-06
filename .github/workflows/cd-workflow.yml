@@ -64,17 +64,24 @@ jobs:
               NEW_PORT=9002
             fi
 
-            echo "🥳 Pulling latest Docker image (built via compose)"
-            cd ~/app-directory
-            echo "🛑 Stopping old container: \$OLD_CONTAINER"
-            docker stop \$OLD_CONTAINER || true
-
-            echo "🔨 Building updated containers"
-            docker-compose -f docker-compose.yml build
-
-            echo "🚀 Starting new container: \$NEW_CONTAINER"
-            docker-compose -f docker-compose.yml up -d \$NEW_CONTAINER
-
+            echo "🟢 NEW_CONTAINER: $NEW_CONTAINER"
+            echo "⚫️ OLD_CONTAINER: $OLD_CONTAINER"
+            echo "📦 NEW_PORT: $NEW_PORT"
+            
+            echo "🐳 Pulling latest Docker image from DockerHub"
+            docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
+            
+            echo "🛑 Stopping old container: $OLD_CONTAINER"
+            docker stop $OLD_CONTAINER || true
+          
+            echo "🚀 Starting new container: $NEW_CONTAINER"
+            docker run -d --name $NEW_CONTAINER -p $NEW_PORT:9002 \
+              -e SPRING_PROFILES_ACTIVE=prod \
+              -e PROD_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }} \
+              -e PROD_DATASOURCE_USERNAME=${{ secrets.PROD_DATASOURCE_USERNAME }} \
+              -e PROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }} \
+              ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
+            
             echo "🧪 Waiting for $NEW_CONTAINER to pass health check"
             for i in {1..10}; do
               sleep 5
@@ -90,7 +97,7 @@ jobs:
               fi
               if [ "$i" = "10" ]; then
                 echo "❌ Health check failed after multiple attempts"
-                docker-compose -f docker-compose.yml down || true
+                docker stop $NEW_CONTAINER && docker rm $NEW_CONTAINER || true
                 exit 1
               fi
             done
