@@ -46,7 +46,7 @@ public class BuildingInfoResponse {
     private double longitude;
 
 
-    public BuildingInfoResponse(Long buildingId, int number, String name, String department, String image, double latitude, double longitude, Set<String> purposes, List<Door> doors, List<Significant> significants, List<FloorResponse> floorList) {
+    public BuildingInfoResponse(Long buildingId, int number, String name, double latitude, double longitude, Set<String> purposes, List<Door> doors) {
         this.id = buildingId;
         this.number = number;
         this.name = name;
