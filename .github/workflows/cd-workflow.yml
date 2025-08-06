@@ -81,9 +81,6 @@ jobs:
             
             echo "🐳 Pulling latest Docker image from DockerHub"
             docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
-            
-            echo "🛑 Stopping old container: $OLD_CONTAINER"
-            docker stop $OLD_CONTAINER || true
           
             echo "🚀 Starting new container: $NEW_CONTAINER"
             docker run -d --name $NEW_CONTAINER -p $NEW_PORT:9002 \
@@ -92,6 +89,11 @@ jobs:
               -e PROD_DATASOURCE_USERNAME=${{ secrets.PROD_DATASOURCE_USERNAME }} \
               -e PROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }} \
               ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
+            
+            echo "🛑 Stopping old container: $OLD_CONTAINER"
+            docker stop $OLD_CONTAINER || true
+            docker rm $OLD_CONTAINER || true
+            docker image prune -a -f
             
             echo "🧪 Waiting for $NEW_CONTAINER to pass health check"
             for i in {1..10}; do
