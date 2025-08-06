@@ -30,7 +30,7 @@ public class TestController {
     @GetMapping("/actuator/health")
     @CustomExceptionDescription(TEST)
     public ResponseEntity<String> healthCheck() {
-        log.info("[healthCheck] Load Balancer Health Check");
+        log.debug("[healthCheck] Load Balancer Health Check");
         return ResponseEntity.ok("OK");
     }
 }

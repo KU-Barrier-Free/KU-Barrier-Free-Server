@@ -66,11 +66,14 @@ jobs:
 
             echo "🥳 Pulling latest Docker image (built via compose)"
             cd ~/app-directory
-            echo "🛑 Stopping existing container (if any)"
-            docker-compose -f docker-compose.yml down || true
+            echo "🛑 Stopping old container: \$OLD_CONTAINER"
+            docker stop \$OLD_CONTAINER || true
 
-            echo "🚀 Starting containers with docker-compose.yml"
-            docker-compose -f docker-compose.yml up -d --build
+            echo "🔨 Building updated containers"
+            docker-compose -f docker-compose.yml build
+
+            echo "🚀 Starting new container: \$NEW_CONTAINER"
+            docker-compose -f docker-compose.yml up -d \$NEW_CONTAINER
 
             echo "🧪 Waiting for $NEW_CONTAINER to pass health check"
             for i in {1..10}; do

@@ -4,11 +4,11 @@ services:
   kubf-blue:
     build:
       context: .
+      dockerfile: Dockerfile
     container_name: kubf-blue
-    ports:
-      - "9002:9002"
+    expose:
+      - "9002"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
       - PROD_DATASOURCE_URL=${PROD_DATASOURCE_URL}
       - PROD_DATASOURCE_USERNAME=${PROD_DATASOURCE_USERNAME}
       - PROD_DATASOURCE_PASSWORD=${PROD_DATASOURCE_PASSWORD}
@@ -22,11 +22,11 @@ services:
   kubf-green:
     build:
       context: .
+      dockerfile: Dockerfile
     container_name: kubf-green
-    ports:
-      - "9003:9002"
+    expose:
+      - "9002"
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
       - PROD_DATASOURCE_URL=${PROD_DATASOURCE_URL}
       - PROD_DATASOURCE_USERNAME=${PROD_DATASOURCE_USERNAME}
       - PROD_DATASOURCE_PASSWORD=${PROD_DATASOURCE_PASSWORD}
