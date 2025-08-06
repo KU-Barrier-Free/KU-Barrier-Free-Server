@@ -57,6 +57,7 @@ public class PathService {
 
         return new PathRecommendationsResponse(
                 findPath(startLat, startLon, destBuildingId, SHORTEST),
+                findPath(startLat, startLon, destBuildingId, NO_STAIRS),
                 findPath(startLat, startLon, destBuildingId, BARRIER_FREE)
         );
     }
@@ -127,7 +128,7 @@ public class PathService {
      * 경로 유형(PathType)에 따라 휠체어 가능 문을 우선 고려하되, 없을 경우 일반 문 중에서 선택
      */
     private Point getBestDoorSpot(Long buildingId, double fromLat, double fromLon, PathType pathType) {
-        if (pathType == BARRIER_FREE) {
+        if (pathType == NO_STAIRS || pathType == BARRIER_FREE) {
             return doorRepository.findNearestWheelchairDoorSpot(buildingId, fromLat, fromLon)
                     .orElseGet(() -> doorRepository.findNearestDoorSpot(buildingId, fromLat, fromLon)
                             .orElseThrow(() -> new BarrierKuException(DOOR_NOT_FOUND)));
