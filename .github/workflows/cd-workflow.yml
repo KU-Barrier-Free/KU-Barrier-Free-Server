@@ -52,17 +52,28 @@ jobs:
           envs: GITHUB_SHA
           script: |
             echo "📦 Checking current container"
-            CURRENT_CONTAINER=$(sudo docker ps -q -f name=kubf-green)
 
-            if [ -z "$CURRENT_CONTAINER" ]; then
-              NEW_CONTAINER="kubf-green"
-              OLD_CONTAINER="kubf-blue"
-              NEW_PORT=9003
-            else
-              NEW_CONTAINER="kubf-blue"
-              OLD_CONTAINER="kubf-green"
-              NEW_PORT=9002
-            fi
+            choose_container() {
+              if ! docker ps -a --format '{{.Names}}' | grep -q 'kubf-green'; then
+                NEW_CONTAINER="kubf-green"
+                OLD_CONTAINER="kubf-blue"
+                NEW_PORT=9002
+              elif ! docker ps -a --format '{{.Names}}' | grep -q 'kubf-blue'; then
+                NEW_CONTAINER="kubf-blue"
+                OLD_CONTAINER="kubf-green"
+                NEW_PORT=9003
+              elif docker ps --format '{{.Names}}' | grep -q 'kubf-green'; then
+                NEW_CONTAINER="kubf-blue"
+                OLD_CONTAINER="kubf-green"
+                NEW_PORT=9002
+              else
+                NEW_CONTAINER="kubf-green"
+                OLD_CONTAINER="kubf-blue"
+                NEW_PORT=9003
+              fi
+            }
+
+            choose_container
 
             echo "🟢 NEW_CONTAINER: $NEW_CONTAINER"
             echo "⚫️ OLD_CONTAINER: $OLD_CONTAINER"
