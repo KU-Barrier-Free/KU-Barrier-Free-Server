@@ -113,7 +113,7 @@ jobs:
           key: ${{ secrets.EC2_KEY }}
           port: ${{ secrets.EC2_PORT }}
           source: nginx/app.conf
-          target: /tmp/app.conf
+          target: /tmp/
 
       - name: 🛠 Move Nginx config into place and reload
         uses: appleboy/ssh-action@master
