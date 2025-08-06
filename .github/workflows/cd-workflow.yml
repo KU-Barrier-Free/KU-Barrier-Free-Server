@@ -90,11 +90,6 @@ jobs:
               -e PROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }} \
               ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
             
-            echo "🛑 Stopping old container: $OLD_CONTAINER"
-            docker stop $OLD_CONTAINER || true
-            docker rm $OLD_CONTAINER || true
-            docker image prune -a -f
-            
             echo "🧪 Waiting for $NEW_CONTAINER to pass health check"
             for i in {1..10}; do
               sleep 5
@@ -128,7 +123,7 @@ jobs:
           source: nginx/app.conf
           target: /tmp/
 
-      - name: 🛠 Move Nginx config into place and reload
+      - name: 🔁 Switch Nginx config and clean up old container
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -138,3 +133,7 @@ jobs:
           script: |
             sudo mv /tmp/app.conf /etc/nginx/conf.d/app.conf
             sudo nginx -t && sudo systemctl reload nginx
+            
+            docker stop $OLD_CONTAINER || true
+            docker rm $OLD_CONTAINER || true
+            docker image prune -a -f
