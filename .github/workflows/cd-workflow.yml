@@ -109,11 +109,8 @@ jobs:
                 exit 1
               fi
             done
-
-            echo "🚮 Cleaning up unused Docker images"
-            sudo docker image prune -f
-
-            echo "OLD_CONTAINER=$OLD_CONTAINER" >> $GITHUB_ENV
+            echo "OLD_CONTAINER=$OLD_CONTAINER" | tee -a $GITHUB_ENV
+            
 
       - name: 📤 Copy Nginx config to EC2
         uses: appleboy/scp-action@master
