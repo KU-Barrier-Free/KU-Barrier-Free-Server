@@ -2,7 +2,6 @@ package com.example.BarrierKU.domain.building.dto;
 
 
 import com.example.BarrierKU.domain.door.dto.DoorInfo;
-import com.example.BarrierKU.domain.image.DoorImage;
 import com.example.BarrierKU.domain.image.SignificantImage;
 import com.example.BarrierKU.domain.indoor.Door;
 import com.example.BarrierKU.domain.indoor.Significant;
@@ -12,7 +11,6 @@ import lombok.Getter;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -30,24 +28,23 @@ public class BuildingResponse {
     private String department;
     @Schema(description = "건물 이미지", example = "image.png")
     private String image;
-    @Schema(description = "문 정보 리스트",
+    @Schema(
+            description = "문 정보 리스트",
             example = "[{" +
                     "\"id\": 1," +
                     "\"wheelchair\": true," +
                     "\"imageUrl\": [\"https://example.com/door1.jpg\", \"https://example.com/door2.jpg\"]," +
                     "\"latitude\": 37.12345," +
-                    "\"longitude\": 127.98765" +
-                    "\"label\": A" +
-                    "}," +
-                    "{" +
+                    "\"longitude\": 127.98765," +
+                    "\"label\": \"A\"" +
+                    "}, {" +
                     "\"id\": 2," +
                     "\"wheelchair\": false," +
                     "\"imageUrl\": [\"https://example.com/door3.jpg\"]," +
                     "\"latitude\": 37.54321," +
-                    "\"longitude\": 127.11111" +
-                    "\"label\": B" +
-                    "}" +
-                    "]"
+                    "\"longitude\": 127.11111," +
+                    "\"label\": \"B\"" +
+                    "}]"
     )
     private List<DoorInfo> doorInfos;
     @Schema(description = "해당 건물에 존재하는 편의시설 종류", example = "[\"은행\", \"휴게실\", \"카페\"]")

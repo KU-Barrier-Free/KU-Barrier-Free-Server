@@ -1,9 +1,7 @@
 package com.example.BarrierKU.domain.home.dto;
 
-import com.example.BarrierKU.domain.building.dto.FloorResponse;
 import com.example.BarrierKU.domain.door.dto.DoorInfo;
 import com.example.BarrierKU.domain.indoor.Door;
-import com.example.BarrierKU.domain.indoor.Significant;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,16 +24,17 @@ public class BuildingInfoResponse {
                     "\"wheelchair\": true," +
                     "\"imageUrl\": [\"https://example.com/door1.jpg\", \"https://example.com/door2.jpg\"]," +
                     "\"latitude\": 37.12345," +
-                    "\"longitude\": 127.98765" +
+                    "\"longitude\": 127.98765," +
+                    "\"label\": \"A\"" +
                     "}," +
                     "{" +
                     "\"id\": 2," +
                     "\"wheelchair\": false," +
                     "\"imageUrl\": [\"https://example.com/door3.jpg\"]," +
                     "\"latitude\": 37.54321," +
-                    "\"longitude\": 127.11111" +
-                    "}" +
-                    "]"
+                    "\"longitude\": 127.11111," +
+                    "\"label\": \"B\"" +
+                    "}]"
     )
     private List<DoorInfo> doorInfos;
     @Schema(description = "해당 건물에 존재하는 편의시설 종류", example = "[\"은행\", \"휴게실\", \"카페\"]")
