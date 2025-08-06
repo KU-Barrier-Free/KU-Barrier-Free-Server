@@ -1,6 +1,7 @@
 package com.example.BarrierKU.domain.building.dto;
 
 
+import com.example.BarrierKU.domain.door.dto.DoorInfo;
 import com.example.BarrierKU.domain.image.DoorImage;
 import com.example.BarrierKU.domain.image.SignificantImage;
 import com.example.BarrierKU.domain.indoor.Door;
@@ -110,24 +111,6 @@ public class BuildingResponse {
     private double latitude;
     @Schema(description = "경도", example = "127.11111")
     private double longitude;
-
-    @Getter
-    @AllArgsConstructor
-    public static class DoorInfo {
-        private Long id;
-        private boolean wheelchair;
-        private List<String> imageUrl;
-        private double latitude;
-        private double longitude;
-
-        private DoorInfo(Door door) {
-            id = door.getId();
-            wheelchair = door.isWheelchair();
-            imageUrl = door.getImages().stream().map(DoorImage::getUrl).toList();
-            latitude = door.getSpot().getY();
-            longitude = door.getSpot().getX();
-        }
-    }
 
     @Getter
     @AllArgsConstructor
