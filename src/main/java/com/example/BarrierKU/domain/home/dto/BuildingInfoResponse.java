@@ -1,17 +1,13 @@
 package com.example.BarrierKU.domain.home.dto;
 
-import com.example.BarrierKU.domain.building.dto.BuildingResponse;
 import com.example.BarrierKU.domain.building.dto.FloorResponse;
 import com.example.BarrierKU.domain.door.dto.DoorInfo;
-import com.example.BarrierKU.domain.image.DoorImage;
-import com.example.BarrierKU.domain.image.SignificantImage;
 import com.example.BarrierKU.domain.indoor.Door;
 import com.example.BarrierKU.domain.indoor.Significant;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
