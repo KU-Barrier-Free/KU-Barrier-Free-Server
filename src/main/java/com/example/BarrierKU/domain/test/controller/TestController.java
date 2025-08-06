@@ -33,4 +33,9 @@ public class TestController {
         log.info("[healthCheck] Load Balancer Health Check");
         return ResponseEntity.ok("OK");
     }
+
+    @GetMapping("/")
+    public String index() {
+        return "🐮건국대학교 배리어프리 서버입니다.🐮";
+    }
 }
