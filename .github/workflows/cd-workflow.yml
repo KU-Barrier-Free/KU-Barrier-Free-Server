@@ -36,7 +36,7 @@ jobs:
       - name: 🐘 build with Gradle (without test)
         run: ./gradlew clean build -x test --stacktrace
 
-      - name: 🐳 Docker build & push
+      - name: 🐳 Docker image build & push
         run:  |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker build -f Dockerfile-prod -t ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }} .
@@ -65,7 +65,7 @@ jobs:
             fi
 
             echo "🥳 Pulling latest Docker image (built via compose)"
-            cd ~/app-directory  # adjust path as needed
+            cd ~/app-directory
             echo "🛑 Stopping existing container (if any)"
             docker-compose -f docker-compose.yml down || true
 
@@ -79,17 +79,10 @@ jobs:
               echo "Health check status: $STATUS"
               if [ "$STATUS" = "200" ]; then
                 echo "✅ Health check passed!"
-                echo "🔁 Switching traffic to $NEW_CONTAINER target group"
-                if [ "$NEW_CONTAINER" = "kubf-green" ]; then
-                  NEW_TG_ARN=${{ secrets.GREEN_TG_ARN }}
-                else
-                  NEW_TG_ARN=${{ secrets.BLUE_TG_ARN }}
-                fi
-
-                aws elbv2 modify-listener \
-                  --region ap-northeast-2 \
-                  --listener-arn ${{ secrets.LISTENER_ARN }} \
-                  --default-actions Type=forward,TargetGroupArn=$NEW_TG_ARN
+                echo "📝 Updating Nginx config to point to port $NEW_PORT"
+                echo "proxy_pass http://localhost:$NEW_PORT;" > /tmp/proxy_pass_line
+                sed -i '/proxy_pass/c\\t\tproxy_pass http://localhost:'"$NEW_PORT"';' /etc/nginx/conf.d/app.conf
+                sudo nginx -t && sudo systemctl reload nginx
                 break
               fi
               if [ "$i" = "10" ]; then
@@ -101,3 +94,24 @@ jobs:
 
             echo "🚮 Cleaning up unused Docker images"
             sudo docker image prune -f
+
+      - name: 📤 Copy Nginx config to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+          source: nginx/app.conf
+          target: /tmp/app.conf
+
+      - name: 🛠 Move Nginx config into place and reload
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_KEY }}
+          port: ${{ secrets.EC2_PORT }}
+          script: |
+            sudo mv /tmp/app.conf /etc/nginx/conf.d/app.conf
+            sudo nginx -t && sudo systemctl reload nginx
