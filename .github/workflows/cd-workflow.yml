@@ -99,7 +99,7 @@ jobs:
                 echo "✅ Health check passed!"
                 echo "📝 Updating Nginx config to point to port $NEW_PORT"
                 echo "proxy_pass http://localhost:$NEW_PORT;" > /tmp/proxy_pass_line
-                sed -i '/proxy_pass/c\\t\tproxy_pass http://localhost:'"$NEW_PORT"';' /etc/nginx/conf.d/app.conf
+                sudo sed -i '/proxy_pass/c\\t\tproxy_pass http://localhost:'"$NEW_PORT"';' /etc/nginx/conf.d/app.conf
                 sudo nginx -t && sudo systemctl reload nginx
                 break
               fi
