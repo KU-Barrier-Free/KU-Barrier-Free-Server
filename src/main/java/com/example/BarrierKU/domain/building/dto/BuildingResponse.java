@@ -37,6 +37,7 @@ public class BuildingResponse {
                     "\"imageUrl\": [\"https://example.com/door1.jpg\", \"https://example.com/door2.jpg\"]," +
                     "\"latitude\": 37.12345," +
                     "\"longitude\": 127.98765" +
+                    "\"label\": A" +
                     "}," +
                     "{" +
                     "\"id\": 2," +
@@ -44,6 +45,7 @@ public class BuildingResponse {
                     "\"imageUrl\": [\"https://example.com/door3.jpg\"]," +
                     "\"latitude\": 37.54321," +
                     "\"longitude\": 127.11111" +
+                    "\"label\": B" +
                     "}" +
                     "]"
     )
