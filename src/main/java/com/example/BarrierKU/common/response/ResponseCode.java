@@ -45,7 +45,8 @@ public enum ResponseCode {
     // path
     ILLEGAL_POINT_TYPE(false, 400, "유효하지 않은 시작점/도착점 타입입니다."),
     NODE_NOT_FOUND(false, 404, "노드를 찾을 수 없습니다."),
-    SAME_SOURCE_AND_DESTINATION(false, 400, "출발지와 도착지가 동일합니다.");
+    SAME_SOURCE_AND_DESTINATION(false, 400, "출발지와 도착지가 동일합니다."),
+    PATH_FINDING_FAILED(false, 500, "경로 탐색에 실패했습니다.");
 
 
     // notice

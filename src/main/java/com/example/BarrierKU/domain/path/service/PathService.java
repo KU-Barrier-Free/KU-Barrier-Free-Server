@@ -16,11 +16,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Point;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import static com.example.BarrierKU.common.response.ResponseCode.*;
 import static com.example.BarrierKU.domain.path.model.PathType.*;
@@ -55,12 +58,28 @@ public class PathService {
         double startLat = srcPoint.getY();
         double startLon = srcPoint.getX();
 
-        return new PathRecommendationsResponse(
-                findPath(startLat, startLon, destBuildingId, SHORTEST),
-                findPath(startLat, startLon, destBuildingId, NO_STAIRS),
-                findPath(startLat, startLon, destBuildingId, BARRIER_FREE)
-        );
+        // 비동기 병렬 실행
+        CompletableFuture<GeoJsonFeatureCollection> shortestFuture =
+                findPathAsync(startLat, startLon, destBuildingId, SHORTEST);
+        CompletableFuture<GeoJsonFeatureCollection> noStairsFuture =
+                findPathAsync(startLat, startLon, destBuildingId, NO_STAIRS);
+        CompletableFuture<GeoJsonFeatureCollection> barrierFreeFuture =
+                findPathAsync(startLat, startLon, destBuildingId, BARRIER_FREE);
+
+        // 모든 Future 완료 대기
+        CompletableFuture.allOf(shortestFuture, noStairsFuture, barrierFreeFuture).join();
+
+        try {
+            return new PathRecommendationsResponse(
+                    shortestFuture.get(),
+                    noStairsFuture.get(),
+                    barrierFreeFuture.get()
+            );
+        } catch (InterruptedException | ExecutionException e) {
+            throw new BarrierKuException(PATH_FINDING_FAILED);
+        }
     }
+
 
     /**
      * 실제 경로를 탐색하는 로직 (경로 유형에 따라 도착지 결정 및 SQL 분기)
@@ -121,6 +140,13 @@ public class PathService {
                 startPointToStartNodeDistance,
                 endNodeToEndPointDistance
         );
+    }
+
+    @Async
+    public CompletableFuture<GeoJsonFeatureCollection> findPathAsync(
+            double startLat, double startLon, Long destBuildingId, PathType pathType
+    ) {
+        return CompletableFuture.completedFuture(findPath(startLat, startLon, destBuildingId, pathType));
     }
 
 
