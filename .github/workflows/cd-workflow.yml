@@ -18,10 +18,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: ☕️ set up JDK 21
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '21'
           distribution: 'temurin'
@@ -41,7 +41,7 @@ jobs:
           docker push ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
 
       - name: 🚀 deploy to prod-server
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
@@ -91,7 +91,7 @@ jobs:
             echo "🧪 Waiting for $NEW_CONTAINER to pass health check"
             for i in {1..10}; do
               sleep 5
-              STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:$NEW_PORT/actuator/health || true)
+              STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:$NEW_PORT/health || true)
               echo "Health check status: $STATUS"
               if [ "$STATUS" = "200" ]; then
                 echo "✅ Health check passed!"
@@ -125,7 +125,7 @@ jobs:
           target: /tmp/
 
       - name: 🔁 Switch Nginx config
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}

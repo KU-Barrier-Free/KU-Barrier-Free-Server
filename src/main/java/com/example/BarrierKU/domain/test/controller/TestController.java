@@ -27,7 +27,7 @@ public class TestController {
         return BaseResponse.ok(new TestResponseDTO("테스트 예시 응답"));
     }
 
-    @GetMapping("/actuator/health")
+    @GetMapping("/health")
     @CustomExceptionDescription(TEST)
     public ResponseEntity<String> healthCheck() {
         log.info("[healthCheck] Load Balancer Health Check");
