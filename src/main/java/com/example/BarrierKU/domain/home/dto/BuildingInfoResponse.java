@@ -1,7 +1,6 @@
 package com.example.BarrierKU.domain.home.dto;
 
 import com.example.BarrierKU.domain.door.dto.DoorInfo;
-import com.example.BarrierKU.domain.indoor.Door;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -43,15 +42,4 @@ public class BuildingInfoResponse {
     private double latitude;
     @Schema(description = "경도", example = "127.11111")
     private double longitude;
-
-
-    public BuildingInfoResponse(Long buildingId, int number, String name, double latitude, double longitude, Set<String> purposes, List<Door> doors) {
-        this.id = buildingId;
-        this.number = number;
-        this.name = name;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.facilityPurposes = purposes;
-        this.doorInfos = doors.stream().map(door -> new DoorInfo(door)).toList();
-    }
 }

@@ -2,6 +2,7 @@ package com.example.BarrierKU.domain.home.service;
 
 import com.example.BarrierKU.common.exception.BarrierKuException;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
+import com.example.BarrierKU.domain.door.dto.DoorInfo;
 import com.example.BarrierKU.domain.home.dto.*;
 import com.example.BarrierKU.domain.home.repository.ObstacleRepository;
 import com.example.BarrierKU.domain.home.repository.OutsideSignificantRepository;
@@ -72,8 +73,9 @@ public class HomeService {
                 .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
         Set<String> buildingFacilities = building.getFacilityPurposes().stream()
                 .map(Purpose::getValue).collect(Collectors.toSet());
-        return new BuildingInfoResponse(buildingId, building.getNumber(), building.getName(), building.getSpot().getY(),
-                building.getSpot().getX(), buildingFacilities, building.getDoors());
+        List<DoorInfo> doorInfos = building.getDoors().stream().map(door -> new DoorInfo(door)).toList();
+        return new BuildingInfoResponse(buildingId, building.getNumber(), building.getName(), doorInfos, buildingFacilities,
+                building.getSpot().getY(), building.getSpot().getX());
     }
 
     private List<HomeEtcItem> getHomeItemWithObstacleType(List<Obstacle> obstacleList, ObstacleType type) {
