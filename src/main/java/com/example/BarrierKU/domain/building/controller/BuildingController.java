@@ -29,16 +29,6 @@ public class BuildingController {
         return BaseResponse.ok(response);
     }
 
-    @GetMapping("/{buildingId}/spaces")
-    @CustomExceptionDescription(GET_BUILDING)
-    public BaseResponse<FloorResponse> getFloorSpaces(
-            @PathVariable Long buildingId,
-            @RequestParam String floor
-    ) {
-        FloorResponse response = buildingService.getFloorInfo(buildingId, floor);
-        return BaseResponse.ok(response);
-    }
-
     @Operation(
             summary = "공간 정보 조회 API",
             description = "강의실의 책상 및 의자 형태, 사진 등의 정보를 보여주기 위한 API 입니다."

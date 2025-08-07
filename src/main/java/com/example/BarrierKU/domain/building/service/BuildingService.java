@@ -48,15 +48,6 @@ public class BuildingService {
                 purposes, doors, significants, sortedFloorList);
     }
 
-    public FloorResponse getFloorInfo(Long id, String targetFloor) {
-        Building building = getBuilding(id);
-        List<String> drawings = getDrawings(targetFloor, building);
-        Set<String> purposes = getPurposes(targetFloor, building);
-        List<SpaceSummary> spaceSummaries = getSpaceSummaries(targetFloor, building);
-
-        return new FloorResponse(drawings, purposes, spaceSummaries, targetFloor);
-    }
-
     public SpaceResponse getSpaceInfo(Long buildingId, Long spaceId, int type) {
         Room room = roomRepository.findByIdAndBuildingId(spaceId, buildingId)
                 .orElseThrow(() -> new BarrierKuException(SPACE_NOT_FOUND));
