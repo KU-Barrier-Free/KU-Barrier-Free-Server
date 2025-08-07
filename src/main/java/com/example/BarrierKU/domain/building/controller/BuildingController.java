@@ -22,6 +22,10 @@ import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.*;
 public class BuildingController {
     private final BuildingService buildingService;
 
+    @Operation(
+            summary = "건물 상세 조회 API",
+            description = "해당 건물과 층별 내부 공간 및 편의시설 종류를 보여주기 위한 API 입니다."
+    )
     @GetMapping("/{buildingId}")
     @CustomExceptionDescription(GET_BUILDING)
     public BaseResponse<BuildingResponse> getBuilding(@PathVariable Long buildingId) {
