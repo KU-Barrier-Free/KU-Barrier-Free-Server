@@ -1,4 +1,5 @@
 FROM amazoncorretto:21
 EXPOSE 9002
+RUN yum update -y && yum install -y curl
 COPY ./build/libs/*.jar ./app.jar
 ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=prod", "app.jar"]

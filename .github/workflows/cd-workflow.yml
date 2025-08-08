@@ -89,6 +89,8 @@ jobs:
             sudo nginx -t && sudo systemctl reload nginx
             
             echo "🚮 Clean up old container"
-            sudo docker stop $OLD_CONTAINER || true
-            sudo docker rm $OLD_CONTAINER || true
-            sudo docker image prune -a -f
+            if docker ps -a --format '{{.Names}}' | grep -q "$OLD_CONTAINER"; then
+              docker stop $OLD_CONTAINER
+              docker rm $OLD_CONTAINER
+            fi
+            docker image prune -a -f
