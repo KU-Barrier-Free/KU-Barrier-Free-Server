@@ -5,10 +5,6 @@ on:
     branches:
       - 'develop'
       - 'main'
-  pull_request:
-    branches:
-      - 'develop'
-      - 'main'
 
 permissions:
   contents: read
@@ -50,29 +46,8 @@ jobs:
           envs: GITHUB_SHA
           script: |
             echo "📦 Checking current container"
-
-            choose_container() {
-              if ! docker ps -a --format '{{.Names}}' | grep -q 'kubf-green'; then
-                NEW_CONTAINER="kubf-green"
-                OLD_CONTAINER="kubf-blue"
-                NEW_PORT=9002
-              elif ! docker ps -a --format '{{.Names}}' | grep -q 'kubf-blue'; then
-                NEW_CONTAINER="kubf-blue"
-                OLD_CONTAINER="kubf-green"
-                NEW_PORT=9003
-              elif docker ps --format '{{.Names}}' | grep -q 'kubf-green'; then
-                NEW_CONTAINER="kubf-blue"
-                OLD_CONTAINER="kubf-green"
-                NEW_PORT=9002
-              else
-                NEW_CONTAINER="kubf-green"
-                OLD_CONTAINER="kubf-blue"
-                NEW_PORT=9003
-              fi
-            }
-
-            choose_container
-
+            source ~/choose_container.sh
+            
             echo "🟢 NEW_CONTAINER: $NEW_CONTAINER"
             echo "⚫️ OLD_CONTAINER: $OLD_CONTAINER"
             echo "📦 NEW_PORT: $NEW_PORT"
@@ -89,49 +64,14 @@ jobs:
               ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
             
             echo "🧪 Waiting for $NEW_CONTAINER to pass health check"
-            for i in {1..10}; do
-              sleep 5
-              STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:$NEW_PORT/health || true)
-              echo "Health check status: $STATUS"
-              if [ "$STATUS" = "200" ]; then
-                echo "✅ Health check passed!"
-                echo "📝 Updating Nginx config to point to port $NEW_PORT"
-                echo "proxy_pass http://localhost:$NEW_PORT;" > /tmp/proxy_pass_line
-                sudo sed -i '/proxy_pass/c\\t\tproxy_pass http://localhost:'"$NEW_PORT"';' /etc/nginx/conf.d/app.conf
-                sudo nginx -t && sudo systemctl reload nginx
-                break
-              fi
-              if [ "$i" = "10" ]; then
-                echo "❌ Health check failed after multiple attempts"
-                docker stop $NEW_CONTAINER && docker rm $NEW_CONTAINER || true
-                exit 1
-              fi
-            done
+            bash ~/health_check.sh $NEW_PORT $NEW_CONTAINER $OLD_CONTAINER
+            
+            echo "📝 Updating Nginx config to point to port $NEW_PORT"
+            echo "proxy_pass http://localhost:$NEW_PORT;" > /tmp/proxy_pass_line
+            sudo sed -i '/proxy_pass/c\\t\tproxy_pass http://localhost:'"$NEW_PORT"';' /etc/nginx/conf.d/app.conf
+            sudo nginx -t && sudo systemctl reload nginx
             
             echo "🚮 Clean up old container"
             sudo docker stop $OLD_CONTAINER || true
             sudo docker rm $OLD_CONTAINER || true
             sudo docker image prune -a -f
-            
-
-      - name: 📤 Copy Nginx config to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_KEY }}
-          port: ${{ secrets.EC2_PORT }}
-          source: nginx/app.conf
-          target: /tmp/
-
-      - name: 🔁 Switch Nginx config
-        uses: appleboy/ssh-action@v0.1.6
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_KEY }}
-          port: ${{ secrets.EC2_PORT }}
-          script: |
-            echo "🔁 Switch Nginx config"
-            sudo mv /tmp/app.conf /etc/nginx/conf.d/app.conf
-            sudo nginx -t && sudo systemctl reload nginx

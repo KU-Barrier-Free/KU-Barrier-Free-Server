@@ -1,10 +1,6 @@
 name: KU-Barrier-Free CI with Gradle
 
 on:
-  push:
-    branches:
-      - 'main'
-      - 'develop'
   pull_request:
     branches:
       - 'main'

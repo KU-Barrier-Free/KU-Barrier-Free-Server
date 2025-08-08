@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: ${NEW_CONTAINER}
+    image: ${DOCKER_USERNAME}/${DOCKER_IMAGE}
+    ports:
+      - "${NEW_PORT}:9002"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      PROD_DATASOURCE_URL: ${PROD_DATASOURCE_URL}
+      PROD_DATASOURCE_USERNAME: ${PROD_DATASOURCE_USERNAME}
+      PROD_DATASOURCE_PASSWORD: ${PROD_DATASOURCE_PASSWORD}
+
+    restart: always     # 예외 발생 시 컨테이너 자동 재시작
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9002/actuator/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    driver: bridge

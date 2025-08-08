@@ -26,11 +26,4 @@ public class TestController {
     public BaseResponse<TestResponseDTO> testApi() {
         return BaseResponse.ok(new TestResponseDTO("테스트 예시 응답"));
     }
-
-    @GetMapping("/health")
-    @CustomExceptionDescription(TEST)
-    public ResponseEntity<String> healthCheck() {
-        log.info("[healthCheck] Load Balancer Health Check");
-        return ResponseEntity.ok("OK");
-    }
 }
