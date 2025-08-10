@@ -47,7 +47,6 @@ public class GeoJsonFactory {
                     ),
                     Map.of("type", "line", "index", lineIndex++)
             ));
-            totalDistance += startPointToStartNodeDistance;
 
             // 첫 from 노드 Point 추가
             features.add(new GeoJsonFeature(
@@ -97,7 +96,6 @@ public class GeoJsonFactory {
                     ),
                     Map.of("type", "line", "index", lineIndex++)
             ));
-            totalDistance += endNodeToEndPointDistance;
         }
 
         // 5. 도착지 Point
