@@ -69,7 +69,7 @@ public class BuildingResponse {
         }
     }
 
-    public BuildingResponse(Long buildingId, int number, String name, String department, String image, boolean lecture, double latitude, double longitude, Set<String> purposes, List<Door> doors, List<Significant> significants, List<FloorResponse> floorList) {
+    public BuildingResponse(Long buildingId, int number, String name, String department, String image, boolean lecture, double latitude, double longitude, Set<String> purposes, List<DoorInfo> doorInfos, List<Significant> significants, List<FloorResponse> floorList) {
         this.id = buildingId;
         this.number = number;
         this.name = name;
@@ -79,7 +79,7 @@ public class BuildingResponse {
         this.latitude = latitude;
         this.longitude = longitude;
         this.facilityPurposes = purposes;
-        this.doorInfos = doors.stream().map(door -> new DoorInfo(door)).toList();
+        this.doorInfos = doorInfos;
         this.significantInfos = significants.stream().map(significant -> new SignificantInfo(significant)).toList();
         this.floorList = floorList;
     }

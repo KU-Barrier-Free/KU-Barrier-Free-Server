@@ -3,6 +3,7 @@ package com.example.BarrierKU.domain.building.service;
 import com.example.BarrierKU.common.exception.BarrierKuException;
 import com.example.BarrierKU.domain.building.dto.*;
 import com.example.BarrierKU.domain.building.repository.RoomRepository;
+import com.example.BarrierKU.domain.door.dto.DoorInfo;
 import com.example.BarrierKU.domain.indoor.Building;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.indoor.Door;
@@ -32,7 +33,7 @@ public class BuildingService {
     public BuildingResponse findBuildingById(Long id) {
         Building building = getBuilding(id);
         Set<String> purposes = getPurposes(building);
-        List<Door> doors = building.getDoors();
+        List<DoorInfo> doorInfos = building.getDoors().stream().map(door->new DoorInfo(door)).toList();
         List<Significant> significants = building.getSignificants();
         Map<String, List<Room>> roomsByFloor = groupedByFloor(building);
         List<FloorResponse>floorList = getFloorResponseList(roomsByFloor, building);
@@ -45,7 +46,7 @@ public class BuildingService {
                 })).toList();
         return new BuildingResponse(id, building.getNumber(), building.getName(),
                 building.getDepartment(), building.getImage(), building.isLecture(),building.getSpot().getY(), building.getSpot().getX(),
-                purposes, doors, significants, sortedFloorList);
+                purposes, doorInfos, significants, sortedFloorList);
     }
 
     public SpaceResponse getSpaceInfo(Long buildingId, Long spaceId, int type) {
