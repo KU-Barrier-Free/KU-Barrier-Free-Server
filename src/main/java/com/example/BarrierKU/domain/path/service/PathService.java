@@ -70,7 +70,7 @@ public class PathService {
         CompletableFuture.allOf(shortestFuture, noStairsFuture, barrierFreeFuture).join();
 
         try {
-            return new PathRecommendationsResponse(
+            return PathRecommendationsResponse.of(
                     shortestFuture.get(),
                     noStairsFuture.get(),
                     barrierFreeFuture.get()
