@@ -34,18 +34,7 @@ public class BuildingResponse {
     private List<DoorInfo> doorInfos;
     @Schema(description = "해당 건물에 존재하는 편의시설 종류", example = "[\"은행\", \"휴게실\", \"카페\"]")
     private Set<String> facilityPurposes;
-    @Schema(
-            description = "특이사항 리스트",
-            example = "[{" +
-                    "\"id\": 1," +
-                    "\"description\": \"경사로\"," +
-                    "\"imageUrl\": [\"https://example.com/significant1.jpg\"]" +
-                    "}, {" +
-                    "\"id\": 2," +
-                    "\"description\": \"계단으로도 이용 가능\"," +
-                    "\"imageUrl\": [\"https://example.com/significant2.jpg\", \"https://example.com/significant3.jpg\"]" +
-                    "}]"
-    )
+    @Schema(description = "특이사항 리스트")
     private List<SignificantInfo> significantInfos;
     @Schema(description = "층별 공간 정보")
     private List<FloorResponse> floorList;
@@ -57,8 +46,11 @@ public class BuildingResponse {
     @Getter
     @AllArgsConstructor
     public static class SignificantInfo {
+        @Schema(description = "특이사항 아이디", example = "1")
         private Long id;
+        @Schema(description = "설명", example = "2층 구름다리 통로로 진입 가능")
         private String description;
+        @Schema(description = "특이사항 사진 리스트", example = "[\"image.png\", \"image2.png\"]")
         private List<String> imageUrl;
 
         private SignificantInfo(Significant significant) {
