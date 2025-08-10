@@ -41,8 +41,7 @@ public enum SwaggerResponseDescription {
             FACILITY_NOT_FOUND,
             ILLEGAL_POINT_TYPE,
             NODE_NOT_FOUND,
-            SAME_SOURCE_AND_DESTINATION,
-            PATH_FINDING_FAILED
+            SAME_SOURCE_AND_DESTINATION
     ))),
 
     DEFAULT(new LinkedHashSet<>());

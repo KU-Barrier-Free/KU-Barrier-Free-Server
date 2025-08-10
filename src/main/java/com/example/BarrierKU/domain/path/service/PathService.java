@@ -16,14 +16,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.locationtech.jts.geom.Point;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import static com.example.BarrierKU.common.response.ResponseCode.*;
 import static com.example.BarrierKU.domain.path.model.PathType.*;
@@ -58,26 +55,11 @@ public class PathService {
         double startLat = srcPoint.getY();
         double startLon = srcPoint.getX();
 
-        // 비동기 병렬 실행
-        CompletableFuture<GeoJsonFeatureCollection> shortestFuture =
-                findPathAsync(startLat, startLon, destBuildingId, SHORTEST);
-        CompletableFuture<GeoJsonFeatureCollection> noStairsFuture =
-                findPathAsync(startLat, startLon, destBuildingId, NO_STAIRS);
-        CompletableFuture<GeoJsonFeatureCollection> barrierFreeFuture =
-                findPathAsync(startLat, startLon, destBuildingId, BARRIER_FREE);
+        GeoJsonFeatureCollection shortestPath = findPath(startLat, startLon, destBuildingId, SHORTEST);
+        GeoJsonFeatureCollection noStairsPath = findPath(startLat, startLon, destBuildingId, NO_STAIRS);
+        GeoJsonFeatureCollection barrierFreePath = findPath(startLat, startLon, destBuildingId, BARRIER_FREE);
 
-        // 모든 Future 완료 대기
-        CompletableFuture.allOf(shortestFuture, noStairsFuture, barrierFreeFuture).join();
-
-        try {
-            return PathRecommendationsResponse.of(
-                    shortestFuture.get(),
-                    noStairsFuture.get(),
-                    barrierFreeFuture.get()
-            );
-        } catch (InterruptedException | ExecutionException e) {
-            throw new BarrierKuException(PATH_FINDING_FAILED);
-        }
+        return PathRecommendationsResponse.of(shortestPath, noStairsPath, barrierFreePath);
     }
 
 
@@ -141,14 +123,6 @@ public class PathService {
                 endNodeToEndPointDistance
         );
     }
-
-    @Async
-    public CompletableFuture<GeoJsonFeatureCollection> findPathAsync(
-            double startLat, double startLon, Long destBuildingId, PathType pathType
-    ) {
-        return CompletableFuture.completedFuture(findPath(startLat, startLon, destBuildingId, pathType));
-    }
-
 
     /**
      * 경로 유형(PathType)에 따라 휠체어 가능 문을 우선 고려하되, 없을 경우 일반 문 중에서 선택
