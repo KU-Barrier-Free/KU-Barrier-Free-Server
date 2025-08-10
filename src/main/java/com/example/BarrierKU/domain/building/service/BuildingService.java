@@ -44,7 +44,7 @@ public class BuildingService {
                     }
                 })).toList();
         return new BuildingResponse(id, building.getNumber(), building.getName(),
-                building.getDepartment(), building.getImage(), building.getSpot().getY(), building.getSpot().getX(),
+                building.getDepartment(), building.getImage(), building.isLecture(),building.getSpot().getY(), building.getSpot().getX(),
                 purposes, doors, significants, sortedFloorList);
     }
 

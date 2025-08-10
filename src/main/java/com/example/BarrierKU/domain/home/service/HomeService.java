@@ -74,7 +74,7 @@ public class HomeService {
         Set<String> buildingFacilities = building.getFacilityPurposes().stream()
                 .map(Purpose::getValue).collect(Collectors.toSet());
         List<DoorInfo> doorInfos = building.getDoors().stream().map(door -> new DoorInfo(door)).toList();
-        return new BuildingInfoResponse(buildingId, building.getNumber(), building.getName(), doorInfos, buildingFacilities,
+        return new BuildingInfoResponse(buildingId, building.getNumber(), building.getName(), building.isLecture(), doorInfos, buildingFacilities,
                 building.getSpot().getY(), building.getSpot().getX());
     }
 

@@ -42,7 +42,7 @@ public class Building {
 
     @Column(nullable = false)
     @NotNull
-    private Boolean lecture;
+    private boolean lecture;
 
     @OneToMany(mappedBy = "building")
     private List<Door> doors = new ArrayList<>();

@@ -28,6 +28,8 @@ public class BuildingResponse {
     private String department;
     @Schema(description = "건물 이미지", example = "image.png")
     private String image;
+    @Schema(description = "해당 건물의 강의 여부", example = "true")
+    private boolean lecture;
     @Schema(
             description = "문 정보 리스트",
             example = "[{" +
@@ -126,12 +128,13 @@ public class BuildingResponse {
         }
     }
 
-    public BuildingResponse(Long buildingId, int number, String name, String department, String image, double latitude, double longitude, Set<String> purposes, List<Door> doors, List<Significant> significants, List<FloorResponse> floorList) {
+    public BuildingResponse(Long buildingId, int number, String name, String department, String image, boolean lecture, double latitude, double longitude, Set<String> purposes, List<Door> doors, List<Significant> significants, List<FloorResponse> floorList) {
         this.id = buildingId;
         this.number = number;
         this.name = name;
         this.department = department;
         this.image = image;
+        this.lecture = lecture;
         this.latitude = latitude;
         this.longitude = longitude;
         this.facilityPurposes = purposes;

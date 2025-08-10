@@ -17,6 +17,8 @@ public class BuildingInfoResponse {
     private int number;
     @Schema(description = "건물명", example = "경영관")
     private String name;
+    @Schema(description = "건물 강의 여부", example = "true")
+    private boolean lecture;
     @Schema(description = "문 정보 리스트",
             example = "[{" +
                     "\"id\": 1," +
