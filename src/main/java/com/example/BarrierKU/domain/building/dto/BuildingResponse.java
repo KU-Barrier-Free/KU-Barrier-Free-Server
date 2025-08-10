@@ -30,24 +30,7 @@ public class BuildingResponse {
     private String image;
     @Schema(description = "해당 건물의 강의 여부", example = "true")
     private boolean lecture;
-    @Schema(
-            description = "문 정보 리스트",
-            example = "[{" +
-                    "\"id\": 1," +
-                    "\"wheelchair\": true," +
-                    "\"imageUrl\": [\"https://example.com/door1.jpg\", \"https://example.com/door2.jpg\"]," +
-                    "\"latitude\": 37.12345," +
-                    "\"longitude\": 127.98765," +
-                    "\"label\": \"A\"" +
-                    "}, {" +
-                    "\"id\": 2," +
-                    "\"wheelchair\": false," +
-                    "\"imageUrl\": [\"https://example.com/door3.jpg\"]," +
-                    "\"latitude\": 37.54321," +
-                    "\"longitude\": 127.11111," +
-                    "\"label\": \"B\"" +
-                    "}]"
-    )
+    @Schema(description = "문 정보 리스트")
     private List<DoorInfo> doorInfos;
     @Schema(description = "해당 건물에 존재하는 편의시설 종류", example = "[\"은행\", \"휴게실\", \"카페\"]")
     private Set<String> facilityPurposes;
@@ -64,49 +47,7 @@ public class BuildingResponse {
                     "}]"
     )
     private List<SignificantInfo> significantInfos;
-    @Schema(
-            description = "층별 공간 정보",
-            example = "[\n" +
-                    "  {\n" +
-                    "    \"drawings\": [\"b1_floorplan.png\"],\n" +
-                    "    \"purposes\": [\"은행\", \"휴게실\", \"카페\"],\n" +
-                    "    \"spaceSummaries\": [\n" +
-                    "      {\n" +
-                    "        \"id\": 101,\n" +
-                    "        \"roomNumber\": \"B101\",\n" +
-                    "        \"roomName\": \"세미나실\",\n" +
-                    "        \"roomComment\": \"회의 및 세미나용 공간\",\n" +
-                    "        \"imageUrls\": [\"seminar_room1.png\", \"seminar_room2.png\"],\n" +
-                    "        \"lecture\": false\n" +
-                    "      },\n" +
-                    "      {\n" +
-                    "        \"id\": 102,\n" +
-                    "        \"roomNumber\": \"B102\",\n" +
-                    "        \"roomName\": \"컴퓨터실\",\n" +
-                    "        \"roomComment\": \"수업 및 실습용 컴퓨터실\",\n" +
-                    "        \"imageUrls\": [\"computer_room1.png\"],\n" +
-                    "        \"lecture\": true\n" +
-                    "      }\n" +
-                    "    ],\n" +
-                    "    \"floor\": \"B1\"\n" +
-                    "  },\n" +
-                    "  {\n" +
-                    "    \"drawings\": [\"1f_floorplan.png\"],\n" +
-                    "    \"purposes\": [\"카페\", \"은행\"],\n" +
-                    "    \"spaceSummaries\": [\n" +
-                    "      {\n" +
-                    "        \"id\": 201,\n" +
-                    "        \"roomNumber\": \"101\",\n" +
-                    "        \"roomName\": \"카페테리아\",\n" +
-                    "        \"roomComment\": \"학생용 식당\",\n" +
-                    "        \"imageUrls\": [\"cafeteria1.png\"],\n" +
-                    "        \"lecture\": false\n" +
-                    "      }\n" +
-                    "    ],\n" +
-                    "    \"floor\": \"1\"\n" +
-                    "  }\n" +
-                    "]"
-    )
+    @Schema(description = "층별 공간 정보")
     private List<FloorResponse> floorList;
     @Schema(description = "위도", example = "37.54321")
     private double latitude;

@@ -21,7 +21,7 @@ public class DoorInfo {
     private double latitude;
     @Schema(description = "경도", example = "137.54321")
     private double longitude;
-    @Schema(description = "문 라벨", example = "\"D\"")
+    @Schema(description = "문 라벨", example = "D")
     private String label;
 
     public DoorInfo(Door door) {

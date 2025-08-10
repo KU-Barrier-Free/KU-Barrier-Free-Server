@@ -19,24 +19,7 @@ public class BuildingInfoResponse {
     private String name;
     @Schema(description = "건물 강의 여부", example = "true")
     private boolean lecture;
-    @Schema(description = "문 정보 리스트",
-            example = "[{" +
-                    "\"id\": 1," +
-                    "\"wheelchair\": true," +
-                    "\"imageUrl\": [\"https://example.com/door1.jpg\", \"https://example.com/door2.jpg\"]," +
-                    "\"latitude\": 37.12345," +
-                    "\"longitude\": 127.98765," +
-                    "\"label\": \"A\"" +
-                    "}," +
-                    "{" +
-                    "\"id\": 2," +
-                    "\"wheelchair\": false," +
-                    "\"imageUrl\": [\"https://example.com/door3.jpg\"]," +
-                    "\"latitude\": 37.54321," +
-                    "\"longitude\": 127.11111," +
-                    "\"label\": \"B\"" +
-                    "}]"
-    )
+    @Schema(description = "문 정보 리스트")
     private List<DoorInfo> doorInfos;
     @Schema(description = "해당 건물에 존재하는 편의시설 종류", example = "[\"은행\", \"휴게실\", \"카페\"]")
     private Set<String> facilityPurposes;
