@@ -55,9 +55,11 @@ public class PathService {
         double startLat = srcPoint.getY();
         double startLon = srcPoint.getX();
 
-        GeoJsonFeatureCollection shortestPath = findPath(startLat, startLon, destBuildingId, SHORTEST);
-        GeoJsonFeatureCollection noStairsPath = findPath(startLat, startLon, destBuildingId, NO_STAIRS);
-        GeoJsonFeatureCollection barrierFreePath = findPath(startLat, startLon, destBuildingId, BARRIER_FREE);
+        Node startNode = findNearestNode(startLat, startLon);
+
+        GeoJsonFeatureCollection shortestPath = findPath(startLat, startLon, startNode, destBuildingId, SHORTEST);
+        GeoJsonFeatureCollection noStairsPath = findPath(startLat, startLon, startNode, destBuildingId, NO_STAIRS);
+        GeoJsonFeatureCollection barrierFreePath = findPath(startLat, startLon, startNode, destBuildingId, BARRIER_FREE);
 
         return PathRecommendationsResponse.of(shortestPath, noStairsPath, barrierFreePath);
     }
@@ -66,53 +68,46 @@ public class PathService {
     /**
      * 실제 경로를 탐색하는 로직 (경로 유형에 따라 도착지 결정 및 SQL 분기)
      */
-    private GeoJsonFeatureCollection findPath(double startLat, double startLon, Long destBuildingId, PathType pathType) {
+    // 추가 메서드 예시(파일 내 임의 위치)
+    private GeoJsonFeatureCollection findPath(double startLat, double startLon, Node startNode, Long destBuildingId, PathType pathType) {
         Point destPoint = getBestDoorSpot(destBuildingId, startLat, startLon, pathType);
         double endLat = destPoint.getY();
         double endLon = destPoint.getX();
 
-        Node startNode = findNearestNode(startLat, startLon);
         Node endNode = findNearestNode(endLat, endLon);
 
         int source = parseNodeId(startNode.getUid());
-        int dest = parseNodeId(endNode.getUid());
+        int dest   = parseNodeId(endNode.getUid());
 
         String sql = PathSqlFactory.getSql(pathType);
         List<GraphEdge> edges = new ArrayList<>();
 
-        // 직전 row 상태를 보관
-        final String[] previousNodeUid = {null};
-        final double[] previousLat = {0};
-        final double[] previousLng = {0};
-        final double[] previousWeight = {0}; // 직전 row 의 cost
-        final double[] previousDistance = {0}; // 직전 row 의 distance(length)
+        final String[] previousNodeUid  = { null };
+        final double[] previousLat      = { 0 };
+        final double[] previousLng      = { 0 };
+        final double[] previousWeight   = { 0 };
+        final double[] previousDistance = { 0 };
 
         jdbcTemplate.query(sql, new Object[]{source, dest}, rs -> {
             String currentUid = rs.getString("uid");
-            double lat = rs.getDouble("lat");
-            double lng = rs.getDouble("lng");
-            double cost = rs.getDouble("cost");      // 현재 node → 다음 node 구간 비용
-            double distance = rs.getDouble("distance");  // 현재 node → 다음 node 구간 길이
+            double lat      = rs.getDouble("lat");
+            double lng      = rs.getDouble("lng");
+            double cost     = rs.getDouble("cost");
+            double distance = rs.getDouble("distance");
 
             if (previousNodeUid[0] != null) {
-                // “이전 → 현재” 엣지이므로, 가중치/길이는 ‘직전 row’ 값을 사용
                 edges.add(new GraphEdge(
-                        previousNodeUid[0],  // from
-                        currentUid,          // to
-                        previousLat[0],
-                        previousLng[0],
-                        lat,
-                        lng,
-                        previousWeight[0],   // 이전 row의 edge cost
-                        previousDistance[0]  // 이전 row의 edge length
+                        previousNodeUid[0], currentUid,
+                        previousLat[0], previousLng[0],
+                        lat, lng,
+                        previousWeight[0], previousDistance[0]
                 ));
             }
 
-            // 현재 row를 다음 반복의 “이전”으로 저장
-            previousNodeUid[0] = currentUid;
-            previousLat[0] = lat;
-            previousLng[0] = lng;
-            previousWeight[0] = cost;
+            previousNodeUid[0]  = currentUid;
+            previousLat[0]      = lat;
+            previousLng[0]      = lng;
+            previousWeight[0]   = cost;
             previousDistance[0] = distance;
         });
 
@@ -121,14 +116,11 @@ public class PathService {
         }
 
         double startPointToStartNodeDistance = getDistanceFromPointToNode(startLon, startLat, startNode.getUid());
-        double endNodeToEndPointDistance = getDistanceFromPointToNode(endLon, endLat, endNode.getUid());
+        double endNodeToEndPointDistance     = getDistanceFromPointToNode(endLon, endLat, endNode.getUid());
 
         return GeoJsonFactory.fromEdges(
-                edges,
-                startLat, startLon,
-                endLat, endLon,
-                startPointToStartNodeDistance,
-                endNodeToEndPointDistance
+                edges, startLat, startLon, endLat, endLon,
+                startPointToStartNodeDistance, endNodeToEndPointDistance
         );
     }
 
