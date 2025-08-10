@@ -72,25 +72,30 @@ public class PathService {
         double endLon = destPoint.getX();
 
         Node startNode = findNearestNode(startLat, startLon);
-        Node endNode = findNearestNode(endLat, endLon);
+        Node endNode   = findNearestNode(endLat, endLon);
 
         int source = parseNodeId(startNode.getUid());
-        int dest = parseNodeId(endNode.getUid());
+        int dest   = parseNodeId(endNode.getUid());
 
         String sql = PathSqlFactory.getSql(pathType);
-
         List<GraphEdge> edges = new ArrayList<>();
 
-        final String[] previousNodeUid = {null};
-        final double[] previousLat = {0};
-        final double[] previousLng = {0};
+        // 직전 row 상태를 보관
+        final String[] previousNodeUid   = { null };
+        final double[] previousLat       = { 0 };
+        final double[] previousLng       = { 0 };
+        final double[] previousWeight    = { 0 }; // 직전 row의 cost
+        final double[] previousDistance  = { 0 }; // 직전 row의 distance(length)
 
         jdbcTemplate.query(sql, new Object[]{source, dest}, rs -> {
             String currentUid = rs.getString("uid");
-            double lat = rs.getDouble("lat");
-            double lng = rs.getDouble("lng");
+            double lat       = rs.getDouble("lat");
+            double lng       = rs.getDouble("lng");
+            double cost      = rs.getDouble("cost");      // 현재 node → 다음 node 구간 비용
+            double distance  = rs.getDouble("distance");  // 현재 node → 다음 node 구간 길이
 
             if (previousNodeUid[0] != null) {
+                // “이전 → 현재” 엣지이므로, 가중치/길이는 ‘직전 row’ 값을 사용
                 edges.add(new GraphEdge(
                         previousNodeUid[0],  // from
                         currentUid,          // to
@@ -98,14 +103,17 @@ public class PathService {
                         previousLng[0],
                         lat,
                         lng,
-                        rs.getDouble("cost"),     // weight
-                        rs.getDouble("distance")  // distance
+                        previousWeight[0],   // 이전 row의 edge cost
+                        previousDistance[0]  // 이전 row의 edge length
                 ));
             }
 
-            previousNodeUid[0] = currentUid;
-            previousLat[0] = lat;
-            previousLng[0] = lng;
+            // 현재 row를 다음 반복의 “이전”으로 저장
+            previousNodeUid[0]  = currentUid;
+            previousLat[0]      = lat;
+            previousLng[0]      = lng;
+            previousWeight[0]   = cost;
+            previousDistance[0] = distance;
         });
 
         if (edges.isEmpty()) {
@@ -113,7 +121,7 @@ public class PathService {
         }
 
         double startPointToStartNodeDistance = getDistanceFromPointToNode(startLon, startLat, startNode.getUid());
-        double endNodeToEndPointDistance = getDistanceFromPointToNode(endLon, endLat, endNode.getUid());
+        double endNodeToEndPointDistance     = getDistanceFromPointToNode(endLon, endLat, endNode.getUid());
 
         return GeoJsonFactory.fromEdges(
                 edges,
@@ -123,6 +131,7 @@ public class PathService {
                 endNodeToEndPointDistance
         );
     }
+
 
     /**
      * 경로 유형(PathType)에 따라 휠체어 가능 문을 우선 고려하되, 없을 경우 일반 문 중에서 선택
