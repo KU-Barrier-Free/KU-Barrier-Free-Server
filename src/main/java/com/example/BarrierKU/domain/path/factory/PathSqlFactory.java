@@ -51,7 +51,7 @@ public class PathSqlFactory {
             ) e ON r.edge = e.id
             ORDER BY r.seq
         """;
-    };
+    }
 
     private static String getNoStairsPathSql() {
         return """
@@ -107,59 +107,76 @@ public class PathSqlFactory {
             SELECT * FROM pgr_dijkstra(
                 $$
                 SELECT * FROM (
+                    -- way
                     SELECT id,
                            CAST(SPLIT_PART(f_node, '#', 2) AS INTEGER) AS source,
                            CAST(SPLIT_PART(t_node, '#', 2) AS INTEGER) AS target,
                            CASE
                                WHEN type = 90 THEN 999999
                                ELSE (
-                                   (CASE WHEN degree > 4.8 THEN 100 WHEN degree >= 2.4 THEN 50 ELSE 0 END) * 0.5 +
-                                   (CASE WHEN width < 1 THEN 100 WHEN width < 2 THEN 50 ELSE 0 END) * 0.5
+                                   (
+                                       (CASE WHEN degree > 4.8 THEN 100 WHEN degree >= 2.4 THEN 50 ELSE 0 END) * 0.5 +
+                                       (CASE WHEN width  < 1   THEN 100 WHEN width  < 2  THEN 50 ELSE 0 END) * 0.5
+                                   ) * length
                                )
                            END AS cost,
                            CASE
                                WHEN type = 90 THEN 999999
                                ELSE (
-                                   (CASE WHEN degree > 4.8 THEN 100 WHEN degree >= 2.4 THEN 50 ELSE 0 END) * 0.5 +
-                                   (CASE WHEN width < 1 THEN 100 WHEN width < 2 THEN 50 ELSE 0 END) * 0.5
+                                   (
+                                       (CASE WHEN degree > 4.8 THEN 100 WHEN degree >= 2.4 THEN 50 ELSE 0 END) * 0.5 +
+                                       (CASE WHEN width  < 1   THEN 100 WHEN width  < 2  THEN 50 ELSE 0 END) * 0.5
+                                   ) * length
                                )
                            END AS reverse_cost
                     FROM way
+
                     UNION ALL
+                    -- crossing
                     SELECT id + 100000,
                            CAST(SPLIT_PART(f_node, '#', 2) AS INTEGER),
                            CAST(SPLIT_PART(t_node, '#', 2) AS INTEGER),
                            CASE
                                WHEN type = 90 THEN 999999
                                ELSE (
-                                   (CASE WHEN degree > 4.8 THEN 100 WHEN degree >= 2.4 THEN 50 ELSE 0 END) * 0.5 +
-                                   (CASE WHEN width < 1 THEN 100 WHEN width < 2 THEN 50 ELSE 0 END) * 0.5
+                                   (
+                                       (CASE WHEN degree > 4.8 THEN 100 WHEN degree >= 2.4 THEN 50 ELSE 0 END) * 0.5 +
+                                       (CASE WHEN width  < 1   THEN 100 WHEN width  < 2  THEN 50 ELSE 0 END) * 0.5
+                                   ) * length
                                )
                            END,
                            CASE
                                WHEN type = 90 THEN 999999
                                ELSE (
-                                   (CASE WHEN degree > 4.8 THEN 100 WHEN degree >= 2.4 THEN 50 ELSE 0 END) * 0.5 +
-                                   (CASE WHEN width < 1 THEN 100 WHEN width < 2 THEN 50 ELSE 0 END) * 0.5
+                                   (
+                                       (CASE WHEN degree > 4.8 THEN 100 WHEN degree >= 2.4 THEN 50 ELSE 0 END) * 0.5 +
+                                       (CASE WHEN width  < 1   THEN 100 WHEN width  < 2  THEN 50 ELSE 0 END) * 0.5
+                                   ) * length
                                )
                            END
                     FROM crossing
+
                     UNION ALL
+                    -- street
                     SELECT id + 200000,
                            CAST(SPLIT_PART(f_node, '#', 2) AS INTEGER),
                            CAST(SPLIT_PART(t_node, '#', 2) AS INTEGER),
                            CASE
                                WHEN type = 90 THEN 999999
                                ELSE (
-                                   (CASE WHEN degree > 4.8 THEN 100 WHEN degree >= 2.4 THEN 50 ELSE 0 END) * 0.5 +
-                                   (CASE WHEN width < 1 THEN 100 WHEN width < 2 THEN 50 ELSE 0 END) * 0.5
+                                   (
+                                       (CASE WHEN degree > 4.8 THEN 100 WHEN degree >= 2.4 THEN 50 ELSE 0 END) * 0.5 +
+                                       (CASE WHEN width  < 1   THEN 100 WHEN width  < 2  THEN 50 ELSE 0 END) * 0.5
+                                   ) * length
                                )
                            END,
                            CASE
                                WHEN type = 90 THEN 999999
                                ELSE (
-                                   (CASE WHEN degree > 4.8 THEN 100 WHEN degree >= 2.4 THEN 50 ELSE 0 END) * 0.5 +
-                                   (CASE WHEN width < 1 THEN 100 WHEN width < 2 THEN 50 ELSE 0 END) * 0.5
+                                   (
+                                       (CASE WHEN degree > 4.8 THEN 100 WHEN degree >= 2.4 THEN 50 ELSE 0 END) * 0.5 +
+                                       (CASE WHEN width  < 1   THEN 100 WHEN width  < 2  THEN 50 ELSE 0 END) * 0.5
+                                   ) * length
                                )
                            END
                     FROM street
@@ -179,5 +196,6 @@ public class PathSqlFactory {
         ORDER BY r.seq
     """;
     }
+
 
 }
