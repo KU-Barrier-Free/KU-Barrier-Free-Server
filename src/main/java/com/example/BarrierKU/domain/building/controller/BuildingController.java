@@ -2,11 +2,11 @@ package com.example.BarrierKU.domain.building.controller;
 
 import com.example.BarrierKU.common.annotation.CustomExceptionDescription;
 import com.example.BarrierKU.common.response.BaseResponse;
-import com.example.BarrierKU.domain.building.dto.FloorResponse;
 import com.example.BarrierKU.domain.building.dto.SpaceResponse;
 import com.example.BarrierKU.domain.building.dto.BuildingResponse;
 import com.example.BarrierKU.domain.building.dto.SpaceSearchResponse;
 import com.example.BarrierKU.domain.building.service.BuildingService;
+import com.example.BarrierKU.domain.building.dto.BuildingInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,10 +23,20 @@ public class BuildingController {
     private final BuildingService buildingService;
 
     @Operation(
+            summary = "건물 요약 API",
+            description = "홈 화면에서 건물을 터치할 시 나오는 바텀시트 + 문 좌표 입니다."
+    )
+    @GetMapping("/{buildingId}")
+    @CustomExceptionDescription(GET_BUILDING)
+    public BaseResponse<BuildingInfoResponse> getBuildingInfo(@PathVariable("buildingId") Long buildingId) {
+        return BaseResponse.ok(buildingService.getBuildingInfo(buildingId));
+    }
+
+    @Operation(
             summary = "건물 상세 조회 API",
             description = "해당 건물과 층별 내부 공간 및 편의시설 종류를 보여주기 위한 API 입니다."
     )
-    @GetMapping("/{buildingId}")
+    @GetMapping("/{buildingId}/spaces")
     @CustomExceptionDescription(GET_BUILDING)
     public BaseResponse<BuildingResponse> getBuilding(@PathVariable Long buildingId) {
         BuildingResponse response = buildingService.findBuildingById(buildingId);

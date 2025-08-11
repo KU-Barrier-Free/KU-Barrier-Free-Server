@@ -4,9 +4,9 @@ import com.example.BarrierKU.common.exception.BarrierKuException;
 import com.example.BarrierKU.domain.building.dto.*;
 import com.example.BarrierKU.domain.building.repository.RoomRepository;
 import com.example.BarrierKU.domain.door.dto.DoorInfo;
+import com.example.BarrierKU.domain.building.dto.BuildingInfoResponse;
 import com.example.BarrierKU.domain.indoor.Building;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
-import com.example.BarrierKU.domain.indoor.Door;
 import com.example.BarrierKU.domain.indoor.Room;
 import com.example.BarrierKU.domain.indoor.Significant;
 import com.example.BarrierKU.domain.type.Purpose;
@@ -29,6 +29,14 @@ import static com.example.BarrierKU.common.response.ResponseCode.SPACE_NOT_FOUND
 public class BuildingService {
     private final BuildingRepository buildingRepository;
     private final RoomRepository roomRepository;
+
+    public BuildingInfoResponse getBuildingInfo(Long buildingId){
+        Building building = getBuilding(buildingId);
+        Set<String> purposes = getPurposes(building);
+        List<DoorInfo> doorInfos = building.getDoors().stream().map(door -> new DoorInfo(door)).toList();
+        return new BuildingInfoResponse(buildingId, building.getNumber(), building.getName(), building.isLecture(),
+                doorInfos, purposes, building.getSpot().getY(), building.getSpot().getX());
+    }
 
     public BuildingResponse findBuildingById(Long id) {
         Building building = getBuilding(id);

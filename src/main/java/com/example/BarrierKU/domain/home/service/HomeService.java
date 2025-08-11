@@ -2,23 +2,18 @@ package com.example.BarrierKU.domain.home.service;
 
 import com.example.BarrierKU.common.exception.BarrierKuException;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
-import com.example.BarrierKU.domain.door.dto.DoorInfo;
 import com.example.BarrierKU.domain.home.dto.*;
 import com.example.BarrierKU.domain.home.repository.ObstacleRepository;
 import com.example.BarrierKU.domain.home.repository.OutsideSignificantRepository;
 import com.example.BarrierKU.domain.image.OutsideSignificantImage;
-import com.example.BarrierKU.domain.indoor.Building;
 import com.example.BarrierKU.domain.outdoor.Obstacle;
 import com.example.BarrierKU.domain.outdoor.OutsideSignificant;
 import com.example.BarrierKU.domain.type.ObstacleType;
-import com.example.BarrierKU.domain.type.Purpose;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import static com.example.BarrierKU.common.response.ResponseCode.*;
 import static com.example.BarrierKU.domain.type.ObstacleType.*;
@@ -66,16 +61,6 @@ public class HomeService {
                 outsideSignificant.getDescription(),
                 outsideSignificant.getSpot().getY(),
                 outsideSignificant.getSpot().getX());
-    }
-
-    public BuildingInfoResponse getBuildingInfo(Long buildingId){
-        Building building = buildingRepository.findById(buildingId)
-                .orElseThrow(() -> new BarrierKuException(BUILDING_NOT_FOUND));
-        Set<String> buildingFacilities = building.getFacilityPurposes().stream()
-                .map(Purpose::getValue).collect(Collectors.toSet());
-        List<DoorInfo> doorInfos = building.getDoors().stream().map(door -> new DoorInfo(door)).toList();
-        return new BuildingInfoResponse(buildingId, building.getNumber(), building.getName(), building.isLecture(), doorInfos, buildingFacilities,
-                building.getSpot().getY(), building.getSpot().getX());
     }
 
     private List<HomeEtcItem> getHomeItemWithObstacleType(List<Obstacle> obstacleList, ObstacleType type) {

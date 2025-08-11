@@ -2,7 +2,6 @@ package com.example.BarrierKU.domain.home.controller;
 
 import com.example.BarrierKU.common.annotation.CustomExceptionDescription;
 import com.example.BarrierKU.common.response.BaseResponse;
-import com.example.BarrierKU.domain.home.dto.BuildingInfoResponse;
 import com.example.BarrierKU.domain.home.dto.HomeResponse;
 import com.example.BarrierKU.domain.home.dto.OutsideSignificantResponse;
 import com.example.BarrierKU.domain.home.service.HomeService;
@@ -42,15 +41,5 @@ public class HomeController {
     @CustomExceptionDescription(GET_OUTSIDE_SIGNIFICANT_INFO)
     public BaseResponse<OutsideSignificantResponse> getOutsideSignificantInfo(@PathVariable("outsideSignificantId") Long outsideSignificantId) {
         return BaseResponse.ok(homeService.getOutsideSignificantInfo(outsideSignificantId));
-    }
-
-    @Operation(
-            summary = "건물 요약 API",
-            description = "홈 화면에서 건물을 터치할 시 나오는 바텀시트 + 문 좌표 입니다."
-    )
-    @GetMapping("/{buildingId}")
-    @CustomExceptionDescription(GET_BUILDING)
-    public BaseResponse<BuildingInfoResponse> getBuildingInfo(@PathVariable("buildingId") Long buildingId) {
-        return BaseResponse.ok(homeService.getBuildingInfo(buildingId));
     }
 }

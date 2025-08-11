@@ -1,4 +1,4 @@
-package com.example.BarrierKU.domain.home.dto;
+package com.example.BarrierKU.domain.building.dto;
 
 import com.example.BarrierKU.domain.door.dto.DoorInfo;
 import io.swagger.v3.oas.annotations.media.Schema;
