@@ -2,10 +2,7 @@ package com.example.BarrierKU.domain.home.service;
 
 import com.example.BarrierKU.common.exception.BarrierKuException;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
-import com.example.BarrierKU.domain.home.dto.HomeBuildingItem;
-import com.example.BarrierKU.domain.home.dto.HomeEtcItem;
-import com.example.BarrierKU.domain.home.dto.HomeResponse;
-import com.example.BarrierKU.domain.home.dto.OutsideSignificantResponse;
+import com.example.BarrierKU.domain.home.dto.*;
 import com.example.BarrierKU.domain.home.repository.ObstacleRepository;
 import com.example.BarrierKU.domain.home.repository.OutsideSignificantRepository;
 import com.example.BarrierKU.domain.image.OutsideSignificantImage;

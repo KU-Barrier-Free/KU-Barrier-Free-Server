@@ -24,6 +24,9 @@ public class Door {
 
     private String significant;
 
+    @Column(nullable = false)
+    private String label;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id", nullable = false)
     private Building building;
