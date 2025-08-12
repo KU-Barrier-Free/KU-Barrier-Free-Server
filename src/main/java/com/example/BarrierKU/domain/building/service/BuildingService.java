@@ -5,10 +5,13 @@ import com.example.BarrierKU.domain.building.dto.*;
 import com.example.BarrierKU.domain.building.repository.RoomRepository;
 import com.example.BarrierKU.domain.door.dto.DoorInfo;
 import com.example.BarrierKU.domain.building.dto.BuildingInfoResponse;
+import com.example.BarrierKU.domain.image.Drawing;
 import com.example.BarrierKU.domain.indoor.Building;
+import com.example.BarrierKU.domain.building.dto.BuildingResponse;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.indoor.Room;
 import com.example.BarrierKU.domain.indoor.Significant;
+import com.example.BarrierKU.domain.place.dto.SearchBuildingResponse;
 import com.example.BarrierKU.domain.type.Purpose;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -104,7 +107,7 @@ public class BuildingService {
     private List<String> getDrawings(String targetFloor, Building building) {
         return building.getDrawings().stream()
                 .filter(drawing -> drawing.getFloor().equals(targetFloor))
-                .map(drawing -> drawing.getImage())
+                .map(Drawing::getImage)
                 .toList();
     }
 
@@ -120,5 +123,12 @@ public class BuildingService {
 
     private Map<String, List<Room>> groupedByFloor(Building building) {
         return building.getRooms().stream().collect(Collectors.groupingBy(Room::getFloor));
+    }
+
+    public List<SearchBuildingResponse> getBuildings(String searchWord) {
+        List<Building> buildings = buildingRepository.findByNameContainingIgnoreCase(searchWord);
+        return buildings.stream()
+                .map(SearchBuildingResponse::new)
+                .toList();
     }
 }
