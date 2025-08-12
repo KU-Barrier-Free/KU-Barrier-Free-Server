@@ -31,6 +31,10 @@ public enum SwaggerResponseDescription {
             OUTSIDE_SIGNIFICANT_NOT_FOUND
     ))),
 
+    GET_NOTICE(new LinkedHashSet<>(Set.of(
+            NOTICE_CRAWL_FAILED
+    ))),
+
     DEFAULT(new LinkedHashSet<>());
 
     private final Set<ResponseCode> responseCodeSet;

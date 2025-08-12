@@ -38,9 +38,12 @@ public enum ResponseCode {
     FACILITY_NOT_FOUND(false, 404, "해당 편의시설을 찾을 수 없습니다."),
 
     // place
-    SPACE_NOT_FOUND(false, 404, "해당 공간을 찾을 수 없습니다.");
+    SPACE_NOT_FOUND(false, 404, "해당 공간을 찾을 수 없습니다."),
 
     // path
+
+    // notice
+    NOTICE_CRAWL_FAILED(false, 404, "공지사항을 찾을 수 없습니다.");
 
     private boolean isSuccess;
     private int code;
