@@ -29,7 +29,8 @@ public class BuildingResponse {
     private String department;
     @Schema(description = "건물 이미지", example = "image.png")
     private String image;
-    @Schema(description = "문 정보 리스트",
+    @Schema(
+            description = "문 정보 리스트",
             example = "[{" +
                     "\"id\": 1," +
                     "\"wheelchair\": true," +
@@ -129,8 +130,8 @@ public class BuildingResponse {
         this.latitude = latitude;
         this.longitude = longitude;
         this.facilityPurposes = purposes;
-        this.doorInfos = doors.stream().map(door -> new DoorInfo(door)).toList();
-        this.significantInfos = significants.stream().map(significant -> new SignificantInfo(significant)).toList();
+        this.doorInfos = doors.stream().map(DoorInfo::new).toList();
+        this.significantInfos = significants.stream().map(SignificantInfo::new).toList();
         this.floorMap = floorMap;
     }
 }
