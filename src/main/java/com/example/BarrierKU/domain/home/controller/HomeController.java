@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.DEFAULT;
-import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.GET_OUTSIDE_SIGNIFICANT_INFO;
+import static com.example.BarrierKU.common.swagger.SwaggerResponseDescription.*;
 
 @Tag(name = "Home", description = "Home API")
 @RequiredArgsConstructor

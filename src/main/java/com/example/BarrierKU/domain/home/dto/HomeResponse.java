@@ -6,21 +6,21 @@ import java.util.List;
 
 public record HomeResponse(
         @Schema(description = "건물들 정보")
-        List<HomeItem> buildings,
+        List<HomeBuildingItem> buildings,
         @Schema(description = "특이사항들 정보")
-        List<HomeItem> significants,
+        List<HomeEtcItem> significants,
         @Schema(description = "연석들 정보")
-        List<HomeItem> curbs,
+        List<HomeEtcItem> curbs,
         @Schema(description = "경사로들 정보")
-        List<HomeItem> ramps,
+        List<HomeEtcItem> ramps,
         @Schema(description = "계단들 정보")
-        List<HomeItem> stairs
+        List<HomeEtcItem> stairs
 ) {
-    public static HomeResponse of(List<HomeItem> buildings,
-                                  List<HomeItem> significants,
-                                  List<HomeItem> curbs,
-                                  List<HomeItem> ramps,
-                                  List<HomeItem> stairs) {
+    public static HomeResponse of(List<HomeBuildingItem> buildings,
+                                  List<HomeEtcItem> significants,
+                                  List<HomeEtcItem> curbs,
+                                  List<HomeEtcItem> ramps,
+                                  List<HomeEtcItem> stairs) {
         return new HomeResponse(
                 buildings,
                 significants,

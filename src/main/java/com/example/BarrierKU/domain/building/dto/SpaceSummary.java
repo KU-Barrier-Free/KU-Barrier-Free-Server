@@ -29,7 +29,7 @@ public record SpaceSummary(
                         """
         )
         List<RoomImageResponse> roomImages,
-        @Schema(description = "강의여부")
+        @Schema(description = "강의여부", example = "true")
         boolean isLecture
 ) {
     public static SpaceSummary from(Room room) {

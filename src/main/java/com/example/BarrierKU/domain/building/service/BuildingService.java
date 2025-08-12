@@ -3,16 +3,21 @@ package com.example.BarrierKU.domain.building.service;
 import com.example.BarrierKU.common.exception.BarrierKuException;
 import com.example.BarrierKU.domain.building.dto.*;
 import com.example.BarrierKU.domain.building.repository.RoomRepository;
+import com.example.BarrierKU.domain.door.dto.DoorInfo;
+import com.example.BarrierKU.domain.building.dto.BuildingInfoResponse;
+import com.example.BarrierKU.domain.image.Drawing;
 import com.example.BarrierKU.domain.indoor.Building;
+import com.example.BarrierKU.domain.building.dto.BuildingResponse;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
-import com.example.BarrierKU.domain.indoor.Door;
 import com.example.BarrierKU.domain.indoor.Room;
 import com.example.BarrierKU.domain.indoor.Significant;
+import com.example.BarrierKU.domain.place.dto.SearchBuildingResponse;
 import com.example.BarrierKU.domain.type.Purpose;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -28,25 +33,31 @@ public class BuildingService {
     private final BuildingRepository buildingRepository;
     private final RoomRepository roomRepository;
 
+    public BuildingInfoResponse getBuildingInfo(Long buildingId){
+        Building building = getBuilding(buildingId);
+        Set<String> purposes = getPurposes(building);
+        List<DoorInfo> doorInfos = building.getDoors().stream().map(door -> new DoorInfo(door)).toList();
+        return new BuildingInfoResponse(buildingId, building.getNumber(), building.getName(), building.isLecture(),
+                doorInfos, purposes, building.getSpot().getY(), building.getSpot().getX());
+    }
+
     public BuildingResponse findBuildingById(Long id) {
         Building building = getBuilding(id);
         Set<String> purposes = getPurposes(building);
-        List<Door> doors = building.getDoors();
+        List<DoorInfo> doorInfos = building.getDoors().stream().map(door->new DoorInfo(door)).toList();
         List<Significant> significants = building.getSignificants();
         Map<String, List<Room>> roomsByFloor = groupedByFloor(building);
-        Map<String, FloorResponse> floorMap = getFloorResponseMap(roomsByFloor, building);
+        List<FloorResponse>floorList = getFloorResponseList(roomsByFloor, building);
+        List<FloorResponse> sortedFloorList = floorList.stream().sorted(Comparator.comparingInt(response -> {
+                    if (response.floor().startsWith("B")) {
+                        return -Integer.parseInt(response.floor().substring(1));
+                    } else {
+                        return Integer.parseInt(response.floor());
+                    }
+                })).toList();
         return new BuildingResponse(id, building.getNumber(), building.getName(),
-                building.getDepartment(), building.getImage(), building.getSpot().getY(), building.getSpot().getX(),
-                purposes, doors, significants, floorMap);
-    }
-
-    public FloorResponse getFloorInfo(Long id, String targetFloor) {
-        Building building = getBuilding(id);
-        List<String> drawings = getDrawings(targetFloor, building);
-        Set<String> purposes = getPurposes(targetFloor, building);
-        List<SpaceSummary> spaceSummaries = getSpaceSummaries(targetFloor, building);
-
-        return new FloorResponse(drawings, purposes, spaceSummaries);
+                building.getDepartment(), building.getImage(), building.isLecture(),building.getSpot().getY(), building.getSpot().getX(),
+                purposes, doorInfos, significants, sortedFloorList);
     }
 
     public SpaceResponse getSpaceInfo(Long buildingId, Long spaceId, int type) {
@@ -55,9 +66,9 @@ public class BuildingService {
         return SpaceResponse.of(room, type);
     }
 
-    private Map<String, FloorResponse> getFloorResponseMap(Map<String, List<Room>> roomsByFloor, Building building) {
-        return roomsByFloor.entrySet().stream().collect(Collectors.toMap(
-                Map.Entry::getKey,
+    private List<FloorResponse> getFloorResponseList(Map<String, List<Room>> roomsByFloor, Building building) {
+        return roomsByFloor.entrySet().stream().map(
+
                 entry -> {
                     String floor = entry.getKey();
                     List<Room> rooms = entry.getValue();
@@ -66,9 +77,8 @@ public class BuildingService {
                     Set<String> purposesFloor = getPurposes(floor, building);
                     List<SpaceSummary> summaries = getSpaceSummaries(floor, building);
 
-                    return new FloorResponse(drawings, purposesFloor, summaries);
-                }
-        ));
+                     return new FloorResponse(drawings, purposesFloor, summaries, floor);
+                }).toList();
     }
 
     public SpaceSearchResponse searchSpace(Long buildingId, String keyword) {
@@ -97,7 +107,7 @@ public class BuildingService {
     private List<String> getDrawings(String targetFloor, Building building) {
         return building.getDrawings().stream()
                 .filter(drawing -> drawing.getFloor().equals(targetFloor))
-                .map(drawing -> drawing.getImage())
+                .map(Drawing::getImage)
                 .toList();
     }
 
@@ -113,5 +123,12 @@ public class BuildingService {
 
     private Map<String, List<Room>> groupedByFloor(Building building) {
         return building.getRooms().stream().collect(Collectors.groupingBy(Room::getFloor));
+    }
+
+    public List<SearchBuildingResponse> getBuildings(String searchWord) {
+        List<Building> buildings = buildingRepository.findByNameContainingIgnoreCase(searchWord);
+        return buildings.stream()
+                .map(SearchBuildingResponse::new)
+                .toList();
     }
 }

@@ -40,6 +40,10 @@ public class Building {
     @Column(nullable = false)
     private Point spot;
 
+    @Column(nullable = false)
+    @NotNull
+    private boolean lecture;
+
     @OneToMany(mappedBy = "building")
     private List<Door> doors = new ArrayList<>();
 
@@ -53,9 +57,7 @@ public class Building {
     private List<Facilities> facilities = new ArrayList<>();
 
     @OneToMany(mappedBy = "building")
-
     private List<Drawing> drawings = new ArrayList<>();
-
 
     @Transient
     public Set<Purpose> getFacilityPurposes() {
