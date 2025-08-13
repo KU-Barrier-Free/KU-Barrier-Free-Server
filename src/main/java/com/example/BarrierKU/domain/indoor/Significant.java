@@ -16,6 +16,7 @@ public class Significant {
     @Column(name = "significant_id")
     private Long id;
 
+    @Column(nullable = false)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)

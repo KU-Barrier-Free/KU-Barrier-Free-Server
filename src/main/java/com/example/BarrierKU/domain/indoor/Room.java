@@ -46,7 +46,6 @@ public class Room {
     @Column(nullable = false)
     private String department;
 
-    @Column(nullable = false)
     private String departmentNumber;
 
     @ManyToOne(fetch = FetchType.LAZY)
