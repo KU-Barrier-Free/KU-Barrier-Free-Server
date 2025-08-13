@@ -39,9 +39,7 @@ public class Room {
     @Column(nullable = false)
     private float floorSpace; // 평수
 
-
     @Enumerated(EnumType.STRING)
-
     @Column(nullable = false)
     private RoomType roomType; // 평탄식, 계단식
 
