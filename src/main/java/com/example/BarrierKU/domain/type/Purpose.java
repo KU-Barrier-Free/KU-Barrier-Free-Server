@@ -15,7 +15,9 @@ public enum Purpose {
     KHUB("K-Hub"),
     KCUBE("K-Cube"),
     FOYER("휴게실"),
-    PARKINGLOT("주차장");
+    PARKINGLOT("주차장"),
+    ELEVATOR("엘리베이터"),
+    TOILET("장애인화장실");
 
     private final String value;
 
