@@ -1,9 +1,7 @@
 package com.example.BarrierKU.domain.building.dto;
 
-
 import com.example.BarrierKU.domain.door.dto.DoorInfo;
 import com.example.BarrierKU.domain.image.SignificantImage;
-import com.example.BarrierKU.domain.indoor.Door;
 import com.example.BarrierKU.domain.indoor.Significant;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

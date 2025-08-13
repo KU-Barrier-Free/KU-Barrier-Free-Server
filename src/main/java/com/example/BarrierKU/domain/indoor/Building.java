@@ -1,8 +1,6 @@
 package com.example.BarrierKU.domain.indoor;
 
-
 import com.example.BarrierKU.domain.image.Drawing;
-
 
 import com.example.BarrierKU.domain.type.Purpose;
 import jakarta.persistence.*;
@@ -18,10 +16,8 @@ import java.util.stream.Collectors;
 
 @Entity
 @Getter
-
 public class Building {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "building_id")
     private Long id;
 
@@ -35,7 +31,7 @@ public class Building {
 
     @Column(nullable = false)
     @NotNull
-    private String image; // 건물 사진...?
+    private String image; // 건물 사진
 
     @Column(nullable = false)
     private Point spot;

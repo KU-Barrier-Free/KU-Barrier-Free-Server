@@ -5,7 +5,6 @@ import com.example.BarrierKU.domain.indoor.Building;
 import com.example.BarrierKU.domain.indoor.Facilities;
 import com.example.BarrierKU.domain.facility.dto.FacilitiesResponse;
 import com.example.BarrierKU.domain.facility.repository.FacilityRepository;
-import com.example.BarrierKU.domain.place.dto.SearchFacilityWithBuildingResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

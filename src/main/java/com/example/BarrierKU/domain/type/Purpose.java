@@ -1,6 +1,5 @@
 package com.example.BarrierKU.domain.type;
 
-
 import lombok.Getter;
 
 @Getter
@@ -19,7 +18,6 @@ public enum Purpose {
     PARKINGLOT("주차장");
 
     private final String value;
-
 
     Purpose(String value) {
         this.value = value;
