@@ -37,7 +37,7 @@ public record SpaceSummary(
                 room.getId(),
                 room.getRoomNumber() + "호",
                 room.getRoomName(),
-                room.getRoomComment(),
+                room.getRoomInfo().getRoomComment(),
                 room.getRoomImages().stream()
                         .map(RoomImageResponse::from)
                         .toList(),
