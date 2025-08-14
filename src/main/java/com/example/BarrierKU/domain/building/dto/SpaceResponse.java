@@ -56,8 +56,8 @@ public class SpaceResponse {
 
         String comment = "";
         if(type == 1 && room.getRoomInfo() != null) {
-            if(room.getRoomInfo().isRamp()) comment += "계단 있음 ";
-            if(room.getRoomInfo().isStair()) comment += "경사로 있음 ";
+            if(room.getRoomInfo().isStair()) comment += "계단 있음 ";
+            if(room.getRoomInfo().isRamp()) comment += "경사로 있음 ";
             if(room.getRoomInfo().getRoomComment() != null) comment += room.getRoomInfo().getRoomComment();
         }
 
