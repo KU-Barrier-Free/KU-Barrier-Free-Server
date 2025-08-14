@@ -35,6 +35,11 @@ public class RoomInfo {
     private boolean frontDoor;
     @Column(nullable = false)
     private boolean backDoor;
+    @Column(nullable = false)
+    private boolean ramp;
+    @Column(nullable = false)
+    private boolean stair;
+    private String roomComment;
 
     @OneToOne(mappedBy = "roomInfo", fetch = FetchType.LAZY)
     private Room room;

@@ -54,13 +54,20 @@ public class SpaceResponse {
 
         List<RoomImageResponse> images = room.getRoomImages().stream().map(RoomImageResponse::from).toList();
 
+        String comment = "";
+        if(type == 1 && room.getRoomInfo() != null) {
+            if(room.getRoomInfo().isRamp()) comment += "계단 있음 ";
+            if(room.getRoomInfo().isStair()) comment += "경사로 있음 ";
+            if(room.getRoomInfo().getRoomComment() != null) comment += room.getRoomInfo().getRoomComment();
+        }
+
         return new SpaceResponse(
                 room.getRoomNumber() + "호",
                 room.getRoomName(),
                 room.isLecture(),
                 room.getCapacity(),
                 room.getArea(),
-                room.getRoomComment(),
+                comment.trim(),
                 room.getFloorSpace(),
                 room.getRoomType().getValue(),
                 room.getDepartment(),

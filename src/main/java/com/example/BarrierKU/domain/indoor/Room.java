@@ -34,8 +34,6 @@ public class Room {
     @Column(nullable = false)
     private float area;
 
-    private String roomComment;
-
     @Column(nullable = false)
     private float floorSpace; // 평수
 
