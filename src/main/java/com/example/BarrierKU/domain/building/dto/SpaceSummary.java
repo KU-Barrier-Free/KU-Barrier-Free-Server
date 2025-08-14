@@ -33,11 +33,18 @@ public record SpaceSummary(
         boolean isLecture
 ) {
     public static SpaceSummary from(Room room) {
+        String comment = "";
+        if(room.getRoomInfo() != null) {
+            if(room.getRoomInfo().isStair()) comment += "계단 있음 ";
+            if(room.getRoomInfo().isRamp()) comment += "경사로 있음 ";
+            if(room.getRoomInfo().getRoomComment() != null) comment += room.getRoomInfo().getRoomComment();
+        }
+
         return new SpaceSummary(
                 room.getId(),
                 room.getRoomNumber() + "호",
                 room.getRoomName(),
-                room.getRoomInfo().getRoomComment(),
+                comment,
                 room.getRoomImages().stream()
                         .map(RoomImageResponse::from)
                         .toList(),
