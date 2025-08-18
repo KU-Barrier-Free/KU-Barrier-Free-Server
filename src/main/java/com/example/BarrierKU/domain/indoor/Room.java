@@ -41,10 +41,9 @@ public class Room {
     @Column(nullable = false)
     private RoomType roomType; // 평탄식, 계단식
 
-    @Column(nullable = false)
-    private String department;
-
-    private String departmentNumber;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id", nullable = false)
