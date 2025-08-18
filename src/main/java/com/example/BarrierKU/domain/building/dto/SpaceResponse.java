@@ -1,5 +1,6 @@
 package com.example.BarrierKU.domain.building.dto;
 
+import com.example.BarrierKU.domain.indoor.DepartmentNumber;
 import com.example.BarrierKU.domain.indoor.Room;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -61,6 +62,9 @@ public class SpaceResponse {
             if(room.getRoomInfo().getRoomComment() != null) comment += room.getRoomInfo().getRoomComment();
         }
 
+        List<DepartmentNumber> departmentNumbers = room.getDepartment().getDepartmentNumbers();
+        String departmentNumber = (departmentNumbers.isEmpty()) ? "" : departmentNumbers.get(0).getNumber();
+
         return new SpaceResponse(
                 room.getRoomNumber() + "호",
                 room.getRoomName(),
@@ -71,7 +75,7 @@ public class SpaceResponse {
                 room.getFloorSpace(),
                 room.getRoomType().getValue(),
                 room.getDepartment().getName(),
-                room.getDepartment().getDepartmentNumbers().getFirst().getNumber(),
+                departmentNumber,
                 info,
                 images
         );
