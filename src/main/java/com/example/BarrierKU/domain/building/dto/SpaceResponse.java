@@ -70,8 +70,8 @@ public class SpaceResponse {
                 comment.trim(),
                 room.getFloorSpace(),
                 room.getRoomType().getValue(),
-                room.getDepartment(),
-                room.getDepartmentNumber(),
+                room.getDepartment().getName(),
+                room.getDepartment().getDepartmentNumbers().getFirst().getNumber(),
                 info,
                 images
         );
