@@ -35,5 +35,10 @@ out/
 
 ### VS Code ###
 .vscode/
+
 /scripts
 /nginx
+
+# geoJson 내 모든 파일은 무시하되, .gitkeep은 제외
+/src/main/resources/geoJson/*
+!/src/main/resources/geoJson/.gitkeep
