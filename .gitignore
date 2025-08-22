@@ -38,3 +38,7 @@ out/
 
 /scripts
 /nginx
+
+# GeoJSON 리소스들 무시
+src/main/resources/geoJson/*.geojson
+
