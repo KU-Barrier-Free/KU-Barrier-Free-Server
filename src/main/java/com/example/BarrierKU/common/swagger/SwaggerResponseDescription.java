@@ -35,6 +35,16 @@ public enum SwaggerResponseDescription {
             NOTICE_CRAWL_FAILED
     ))),
 
+    FIND_PATH(new LinkedHashSet<>(Set.of(
+            DOOR_NOT_FOUND,
+            BUILDING_NOT_FOUND,
+            FACILITY_NOT_FOUND,
+            ILLEGAL_POINT_TYPE,
+            NODE_NOT_FOUND,
+            SAME_SOURCE_AND_DESTINATION,
+            PATH_FINDING_FAILED
+    ))),
+
     DEFAULT(new LinkedHashSet<>());
 
     private final Set<ResponseCode> responseCodeSet;
