@@ -1,6 +1,5 @@
 package com.example.BarrierKU.domain.indoor;
 
-
 import com.example.BarrierKU.domain.image.SignificantImage;
 
 import java.util.ArrayList;
@@ -17,6 +16,7 @@ public class Significant {
     @Column(name = "significant_id")
     private Long id;
 
+    @Column(nullable = false)
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)

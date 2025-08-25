@@ -36,7 +36,7 @@ public class BuildingService {
     public BuildingInfoResponse getBuildingInfo(Long buildingId){
         Building building = getBuilding(buildingId);
         Set<String> purposes = getPurposes(building);
-        List<DoorInfo> doorInfos = building.getDoors().stream().map(door -> new DoorInfo(door)).toList();
+        List<DoorInfo> doorInfos = building.getDoors().stream().map(DoorInfo::new).toList();
         return new BuildingInfoResponse(buildingId, building.getNumber(), building.getName(), building.isLecture(),
                 doorInfos, purposes, building.getSpot().getY(), building.getSpot().getX());
     }
@@ -44,7 +44,7 @@ public class BuildingService {
     public BuildingResponse findBuildingById(Long id) {
         Building building = getBuilding(id);
         Set<String> purposes = getPurposes(building);
-        List<DoorInfo> doorInfos = building.getDoors().stream().map(door->new DoorInfo(door)).toList();
+        List<DoorInfo> doorInfos = building.getDoors().stream().map(DoorInfo::new).toList();
         List<Significant> significants = building.getSignificants();
         Map<String, List<Room>> roomsByFloor = groupedByFloor(building);
         List<FloorResponse>floorList = getFloorResponseList(roomsByFloor, building);
@@ -71,7 +71,6 @@ public class BuildingService {
 
                 entry -> {
                     String floor = entry.getKey();
-                    List<Room> rooms = entry.getValue();
 
                     List<String> drawings = getDrawings(floor, building);
                     Set<String> purposesFloor = getPurposes(floor, building);

@@ -10,8 +10,7 @@ import lombok.Getter;
 @Getter
 public class Drawing {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "floor_drawing_id")
     private long id;
 

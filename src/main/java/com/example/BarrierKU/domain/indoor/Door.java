@@ -22,8 +22,6 @@ public class Door {
     @Column(nullable = false)
     private boolean wheelchair;
 
-    private String significant;
-
     @Column(nullable = false)
     private String label;
 

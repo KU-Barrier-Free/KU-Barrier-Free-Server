@@ -12,8 +12,7 @@ import java.util.List;
 @Getter
 public class Room {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "room_id")
     private Long id;
 
@@ -35,22 +34,16 @@ public class Room {
     @Column(nullable = false)
     private float area;
 
-    private String roomComment;
-
     @Column(nullable = false)
     private float floorSpace; // 평수
 
-
     @Enumerated(EnumType.STRING)
-
     @Column(nullable = false)
     private RoomType roomType; // 평탄식, 계단식
 
-    @Column(nullable = false)
-    private String department;
-
-    @Column(nullable = false)
-    private String departmentNumber;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id", nullable = false)

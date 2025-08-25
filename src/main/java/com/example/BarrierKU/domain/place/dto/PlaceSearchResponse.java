@@ -21,7 +21,6 @@ public record PlaceSearchResponse(
         this(List.of(), List.of());
     }
 
-
     public void putFacilities(List<SearchFacilityWithBuildingResponse> newFacilities) {
         facilities.addAll(newFacilities);
     }

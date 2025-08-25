@@ -1,5 +1,6 @@
 package com.example.BarrierKU.domain.building.dto;
 
+import com.example.BarrierKU.domain.indoor.DepartmentNumber;
 import com.example.BarrierKU.domain.indoor.Room;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -54,17 +55,26 @@ public class SpaceResponse {
 
         List<RoomImageResponse> images = room.getRoomImages().stream().map(RoomImageResponse::from).toList();
 
+        String comment = "";
+        if(type == 1 && room.getRoomInfo() != null) {
+            if(room.getRoomInfo().isRamp()) comment += "경사로 있음 ";
+            if(room.getRoomInfo().getRoomComment() != null) comment += room.getRoomInfo().getRoomComment();
+        }
+
+        List<DepartmentNumber> departmentNumbers = room.getDepartment().getDepartmentNumbers();
+        String departmentNumber = (departmentNumbers.isEmpty()) ? "" : departmentNumbers.get(0).getNumber();
+
         return new SpaceResponse(
                 room.getRoomNumber() + "호",
                 room.getRoomName(),
                 room.isLecture(),
                 room.getCapacity(),
                 room.getArea(),
-                room.getRoomComment(),
+                comment.trim(),
                 room.getFloorSpace(),
                 room.getRoomType().getValue(),
-                room.getDepartment(),
-                room.getDepartmentNumber(),
+                room.getDepartment().getName(),
+                departmentNumber,
                 info,
                 images
         );
