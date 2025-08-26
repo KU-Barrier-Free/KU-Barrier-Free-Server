@@ -21,7 +21,7 @@ public class Building {
     @Column(name = "building_id")
     private Long id;
 
-    private int number; // 건물 번호
+    private Integer number; // 건물 번호
 
     @Column(nullable = false)
     @NotNull
