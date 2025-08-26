@@ -6,7 +6,7 @@ import lombok.Getter;
 public enum Purpose {
     BANK("은행"),
     POSTOFFICE("우체국"),
-    CULTUER("문화시설"),
+    CULTURE("문화시설"),
     COPY("복사실"),
     STORE("복지매장"),
     RESTAURANT("식당"),
