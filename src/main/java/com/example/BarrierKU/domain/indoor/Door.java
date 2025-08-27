@@ -23,7 +23,7 @@ public class Door {
     private boolean wheelchair;
 
     @Column(nullable = false)
-    private String label;
+    private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id", nullable = false)

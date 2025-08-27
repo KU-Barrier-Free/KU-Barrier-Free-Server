@@ -30,6 +30,6 @@ public class DoorInfo {
         imageUrl = door.getImages().stream().map(DoorImage::getUrl).toList();
         latitude = door.getSpot().getY();
         longitude = door.getSpot().getX();
-        label = door.getLabel();
+        label = door.getName();
     }
 }
