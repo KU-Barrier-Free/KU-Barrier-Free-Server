@@ -8,7 +8,9 @@ public record NoticeResponse (
         @Schema(description = "날짜", example = "2025.07.30")
         String date,
         @Schema(description = "공지사항 url", example = "https://www.konkuk.ac.kr/csd/1234/subview.do?enc=Zm5j")
-        String url
+        String url,
+        @Schema(description = "번호", example = "13")
+        int number
 ) {
 
 }
