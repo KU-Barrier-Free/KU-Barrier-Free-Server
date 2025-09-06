@@ -1,5 +1,6 @@
 package com.example.BarrierKU.domain.facility.repository;
 
+import com.example.BarrierKU.config.PostgresTestConfig;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.indoor.Building;
 import com.example.BarrierKU.domain.indoor.Facilities;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import(PostgresTestConfig.class)
 class FacilityRepositoryTest {
 
     @Autowired

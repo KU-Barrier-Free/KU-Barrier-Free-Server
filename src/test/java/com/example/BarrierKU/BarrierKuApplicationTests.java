@@ -13,14 +13,6 @@ import org.testcontainers.utility.DockerImageName;
 @ActiveProfiles("test")
 @Testcontainers
 class BarrierKuApplicationTests {
-
-    @Container
-    @ServiceConnection
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
-            DockerImageName.parse("postgis/postgis:16-3.4")
-                    .asCompatibleSubstituteFor("postgres")
-    );
-
     @Test
     void contextLoads() {
     }
