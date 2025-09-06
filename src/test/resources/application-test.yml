@@ -1,0 +1,24 @@
+spring:
+  profiles:
+    group:
+      test: common
+  datasource:
+    url: jdbc:postgresql://localhost:5432/kubf_test
+    username: postgres
+    password:
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        highlight_sql: true
+    database-platform: org.hibernate.spatial.dialect.postgis.PostgisPG95Dialect
+  flyway:
+    enabled: true
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 150MB
