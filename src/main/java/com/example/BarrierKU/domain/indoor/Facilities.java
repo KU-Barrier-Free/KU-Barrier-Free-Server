@@ -3,17 +3,17 @@ package com.example.BarrierKU.domain.indoor;
 import com.example.BarrierKU.domain.type.Purpose;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Facilities {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "facilities_id")
     private Long id;
 
@@ -32,11 +32,4 @@ public class Facilities {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id", nullable = false)
     private Building building;
-
-    public Facilities(String name, Purpose purpose, String floor, Building building) {
-        this.name = name;
-        this.purpose = purpose;
-        this.floor = floor;
-        this.building = building;
-    }
 }

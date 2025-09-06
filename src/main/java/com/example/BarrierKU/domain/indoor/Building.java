@@ -1,11 +1,9 @@
 package com.example.BarrierKU.domain.indoor;
 
 import com.example.BarrierKU.domain.image.Drawing;
-
 import com.example.BarrierKU.domain.type.Purpose;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.locationtech.jts.geom.Point;
@@ -18,9 +16,10 @@ import java.util.stream.Collectors;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 public class Building {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "building_id")
     private Long id;
 
@@ -65,13 +64,5 @@ public class Building {
         return facilities.stream()
                 .map(Facilities::getPurpose)
                 .collect(Collectors.toSet());
-    }
-
-    public Building(Integer number, String name, Point spot, boolean lecture) {
-        this.number = number;
-        this.name = name;
-        this.spot = spot;
-        this.lecture = lecture;
-        this.image = "";
     }
 }
