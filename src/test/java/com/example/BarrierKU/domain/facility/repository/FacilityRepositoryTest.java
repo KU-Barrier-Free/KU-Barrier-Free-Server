@@ -46,7 +46,7 @@ class FacilityRepositoryTest {
 
     private Building newBuilding(int number, String name, org.locationtech.jts.geom.Point spot, boolean lecture) {
         Building b = new Building();
-        ReflectionTestUtils.setField(b, "buildingNumber", number);
+        ReflectionTestUtils.setField(b, "number", number);
         ReflectionTestUtils.setField(b, "name", name);
         ReflectionTestUtils.setField(b, "spot", spot);
         ReflectionTestUtils.setField(b, "lecture", lecture);
