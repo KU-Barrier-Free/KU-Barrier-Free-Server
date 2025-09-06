@@ -1,26 +1,25 @@
 package com.example.BarrierKU;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@Testcontainers
 class BarrierKuApplicationTests {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
-
-    @BeforeAll
-    void ensurePostgisExtension() {
-        // 테스트 DB에 PostGIS 확장이 활성화되어 있지 않다면 생성
-        jdbcTemplate.execute("CREATE EXTENSION IF NOT EXISTS postgis");
-    }
+    @Container
+    @ServiceConnection
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
+            DockerImageName.parse("postgis/postgis:16-3.4")
+                    .asCompatibleSubstituteFor("postgres")
+    );
 
     @Test
     void contextLoads() {
