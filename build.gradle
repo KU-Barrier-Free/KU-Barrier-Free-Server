@@ -75,13 +75,6 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
-	// Test
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
-	testImplementation 'org.testcontainers:junit-jupiter:1.20.1'
-	testImplementation 'org.testcontainers:postgresql:1.20.1'
-
 	// Swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'
 
@@ -90,6 +83,14 @@ dependencies {
 
 	// Jsoup
 	implementation 'org.jsoup:jsoup:1.21.1'
+
+	// Test
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
+	testImplementation 'org.testcontainers:junit-jupiter:1.20.1'
+	testImplementation 'org.testcontainers:postgresql:1.20.1'
+	testImplementation 'org.locationtech.jts:jts-core:1.20.0'
 }
 
 tasks.named('test') {
