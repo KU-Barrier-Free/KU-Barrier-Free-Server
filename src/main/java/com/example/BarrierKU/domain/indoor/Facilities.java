@@ -32,4 +32,11 @@ public class Facilities {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id", nullable = false)
     private Building building;
+
+    public Facilities(String name, Purpose purpose, String floor, Building building) {
+        this.name = name;
+        this.purpose = purpose;
+        this.floor = floor;
+        this.building = building;
+    }
 }
