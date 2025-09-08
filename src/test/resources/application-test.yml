@@ -2,11 +2,6 @@ spring:
   profiles:
     group:
       test: common
-  datasource:
-    url: jdbc:postgresql://localhost:5432/kubf_test
-    username: postgres
-    password:
-    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: create-drop

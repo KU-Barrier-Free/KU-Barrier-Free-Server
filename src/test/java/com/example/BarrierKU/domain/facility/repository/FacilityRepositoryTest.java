@@ -1,6 +1,7 @@
 package com.example.BarrierKU.domain.facility.repository;
 
-import com.example.BarrierKU.config.PostgresTestConfig;
+
+import com.example.BarrierKU.config.PostgisConfig;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.indoor.Building;
 import com.example.BarrierKU.domain.indoor.Facilities;
@@ -24,9 +25,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @Transactional
-@ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import(PostgresTestConfig.class)
+@ActiveProfiles("test")
+@Import(PostgisConfig.class)
 class FacilityRepositoryTest {
 
     @Autowired
@@ -66,7 +67,6 @@ class FacilityRepositoryTest {
 
         // when
         Facilities loaded = facilityRepository.findWithBuildingById(facility.getId()).orElseThrow();
-
         // then
         assertThat(loaded.getName()).isEqualTo("레스티오");
         assertThat(loaded.getBuilding().getName()).isEqualTo("공학관");
@@ -87,7 +87,8 @@ class FacilityRepositoryTest {
         facilityRepository.saveAll(List.of(f1, f2));
 
         // when
-        List<Facilities> result = facilityRepository.findByNameContainingIgnoreCase("u");
+        String keyword = "u";
+        List<Facilities> result = facilityRepository.findByNameContainingIgnoreCase(keyword);
 
         // then
         assertThat(result).extracting(Facilities::getName)
@@ -111,7 +112,8 @@ class FacilityRepositoryTest {
         facilityRepository.saveAll(List.of(f1, f2, f3, f4, f5, f6));
 
         // when
-        List<Facilities> result = facilityRepository.findAllByBuildingId(building1.getId());
+        Long buildingId = building1.getId();
+        List<Facilities> result = facilityRepository.findAllByBuildingId(buildingId);
 
         // then
         assertThat(result).extracting(Facilities::getName)
