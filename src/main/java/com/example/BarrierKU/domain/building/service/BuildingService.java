@@ -37,9 +37,7 @@ public class BuildingService {
     public BuildingInfoResponse getBuildingInfo(Long buildingId){
         Building building = getBuilding(buildingId);
         Set<String> purposes = getPurposes(building);
-        List<DoorInfo> doorInfos = building.getDoors().stream()
-                .sorted(Comparator.comparing(Door::getLabel))
-                .map(DoorInfo::new).toList();
+        List<DoorInfo> doorInfos = getDoorInfos(building);
         return new BuildingInfoResponse(buildingId, building.getNumber(), building.getName(), building.isLecture(),
                 doorInfos, purposes, building.getSpot().getY(), building.getSpot().getX());
     }
@@ -47,9 +45,7 @@ public class BuildingService {
     public BuildingResponse findBuildingById(Long id) {
         Building building = getBuilding(id);
         Set<String> purposes = getPurposes(building);
-        List<DoorInfo> doorInfos = building.getDoors().stream()
-                .sorted(Comparator.comparing(Door::getLabel))
-                .map(DoorInfo::new).toList();
+        List<DoorInfo> doorInfos = getDoorInfos(building);
         List<Significant> significants = building.getSignificants();
         Map<String, List<Room>> roomsByFloor = groupedByFloor(building);
         List<FloorResponse>floorList = getFloorResponseList(roomsByFloor, building);
@@ -106,6 +102,12 @@ public class BuildingService {
     private List<SpaceSummary> getSpaceSummaries(String targetFloor, Building building) {
         return building.getRooms().stream().filter(room -> room.getFloor().equals(targetFloor))
                 .map(SpaceSummary::from).toList();
+    }
+
+    private List<DoorInfo> getDoorInfos(Building building) {
+        return building.getDoors().stream()
+                .sorted(Comparator.comparing(Door::getLabel))
+                .map(DoorInfo::new).toList();
     }
 
     private List<String> getDrawings(String targetFloor, Building building) {
