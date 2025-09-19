@@ -47,7 +47,9 @@ public class BuildingService {
     public BuildingResponse findBuildingById(Long id) {
         Building building = getBuilding(id);
         Set<String> purposes = getPurposes(building);
-        List<DoorInfo> doorInfos = building.getDoors().stream().map(DoorInfo::new).toList();
+        List<DoorInfo> doorInfos = building.getDoors().stream()
+                .sorted(Comparator.comparing(Door::getLabel))
+                .map(DoorInfo::new).toList();
         List<Significant> significants = building.getSignificants();
         Map<String, List<Room>> roomsByFloor = groupedByFloor(building);
         List<FloorResponse>floorList = getFloorResponseList(roomsByFloor, building);
