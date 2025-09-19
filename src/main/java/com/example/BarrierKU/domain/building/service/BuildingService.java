@@ -9,6 +9,7 @@ import com.example.BarrierKU.domain.image.Drawing;
 import com.example.BarrierKU.domain.indoor.Building;
 import com.example.BarrierKU.domain.building.dto.BuildingResponse;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
+import com.example.BarrierKU.domain.indoor.Door;
 import com.example.BarrierKU.domain.indoor.Room;
 import com.example.BarrierKU.domain.indoor.Significant;
 import com.example.BarrierKU.domain.place.dto.SearchBuildingResponse;
@@ -36,7 +37,9 @@ public class BuildingService {
     public BuildingInfoResponse getBuildingInfo(Long buildingId){
         Building building = getBuilding(buildingId);
         Set<String> purposes = getPurposes(building);
-        List<DoorInfo> doorInfos = building.getDoors().stream().map(DoorInfo::new).toList();
+        List<DoorInfo> doorInfos = building.getDoors().stream()
+                .sorted(Comparator.comparing(Door::getLabel))
+                .map(DoorInfo::new).toList();
         return new BuildingInfoResponse(buildingId, building.getNumber(), building.getName(), building.isLecture(),
                 doorInfos, purposes, building.getSpot().getY(), building.getSpot().getX());
     }
