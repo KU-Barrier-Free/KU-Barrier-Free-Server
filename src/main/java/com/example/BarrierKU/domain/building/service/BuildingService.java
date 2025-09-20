@@ -18,10 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.example.BarrierKU.common.response.ResponseCode.BUILDING_NOT_FOUND;
@@ -48,7 +45,7 @@ public class BuildingService {
         List<DoorInfo> doorInfos = getDoorInfos(building);
         List<Significant> significants = building.getSignificants();
         Map<String, List<Room>> roomsByFloor = groupedByFloor(building);
-        List<FloorResponse>floorList = getFloorResponseList(roomsByFloor, building);
+        List<FloorResponse> floorList = getFloorResponseList(roomsByFloor, building);
         List<FloorResponse> sortedFloorList = floorList.stream().sorted(Comparator.comparingInt(response -> {
                     if (response.floor().startsWith("B")) {
                         return -Integer.parseInt(response.floor().substring(1));
@@ -69,7 +66,6 @@ public class BuildingService {
 
     private List<FloorResponse> getFloorResponseList(Map<String, List<Room>> roomsByFloor, Building building) {
         return roomsByFloor.entrySet().stream().map(
-
                 entry -> {
                     String floor = entry.getKey();
 
@@ -100,7 +96,9 @@ public class BuildingService {
     }
 
     private List<SpaceSummary> getSpaceSummaries(String targetFloor, Building building) {
-        return building.getRooms().stream().filter(room -> room.getFloor().equals(targetFloor))
+        return building.getRooms().stream()
+                .filter(room -> room.getFloor().equals(targetFloor))
+                .sorted(new RoomNumberComparator())
                 .map(SpaceSummary::from).toList();
     }
 
