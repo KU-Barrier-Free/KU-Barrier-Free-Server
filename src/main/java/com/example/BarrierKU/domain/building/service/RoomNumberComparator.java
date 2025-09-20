@@ -18,7 +18,7 @@ public class RoomNumberComparator implements Comparator<Room> {
         if (prefixCompare != 0) return prefixCompare;
 
         // 숫자 비교
-        int mainCompare = Integer.compare(p1.main, p2.main);
+        int mainCompare = Integer.compare(p1.num, p2.num);
         if (mainCompare != 0) return mainCompare;
 
         // suffix 비교
@@ -35,24 +35,24 @@ public class RoomNumberComparator implements Comparator<Room> {
 
     private static class ParsedRoomNumber {
         String prefix = ""; // 숫자 앞 알파벳
-        int main = Integer.MAX_VALUE; // 숫자 부분
+        int num = Integer.MAX_VALUE; // 숫자 부분
         String suffix = ""; // 숫자 뒤 알파벳
         int sub = -1; // 하이픈 뒤 숫자
     }
 
-    private ParsedRoomNumber parseRoomNumber(String number) {
+    private ParsedRoomNumber parseRoomNumber(String roomNumber) {
         ParsedRoomNumber parsed = new ParsedRoomNumber();
-        Matcher matcher = Pattern.compile("^([A-Za-z]*)(\\d+)([A-Za-z]*)?(?:-(\\d+))?$").matcher(number);
+        Matcher matcher = Pattern.compile("^([A-Za-z]*)(\\d+)([A-Za-z]*)?(?:-(\\d+))?$").matcher(roomNumber);
 
         if (matcher.matches()) {
             parsed.prefix = matcher.group(1) == null ? "" : matcher.group(1);
-            parsed.main = Integer.parseInt(matcher.group(2));
+            parsed.num = Integer.parseInt(matcher.group(2));
             parsed.suffix = matcher.group(3) == null ? "" : matcher.group(3);
             if (matcher.group(4) != null) {
                 parsed.sub = Integer.parseInt(matcher.group(4));
             }
         } else {
-            parsed.prefix = number;
+            parsed.prefix = roomNumber;
         }
         return parsed;
     }
