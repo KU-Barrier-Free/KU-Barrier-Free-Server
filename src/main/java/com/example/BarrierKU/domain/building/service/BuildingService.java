@@ -84,6 +84,7 @@ public class BuildingService {
                 .filter(room ->
                         room.getRoomName().toLowerCase().contains(keyword.toLowerCase()) || room.getRoomNumber().toLowerCase().contains(keyword.toLowerCase())
                 )
+                .sorted(new RoomNumberComparator())
                 .map(SpaceSummary::from)
                 .toList();
 
