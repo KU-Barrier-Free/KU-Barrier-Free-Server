@@ -19,7 +19,7 @@ public class BuildingResponse {
     @Schema(description = "건물 아이디", example = "1")
     private Long id;
     @Schema(description = "건물 번호", example = "2")
-    private int number;
+    private Integer number;
     @Schema(description = "건물명", example = "경영관")
     private String name;
     @Schema(description = "건물 담당 부서", example = "경영(전문)대학원, 경영대학")
