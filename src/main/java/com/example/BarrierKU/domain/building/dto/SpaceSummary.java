@@ -3,6 +3,7 @@ package com.example.BarrierKU.domain.building.dto;
 import com.example.BarrierKU.domain.indoor.Room;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.Comparator;
 import java.util.List;
 
 public record SpaceSummary(
@@ -45,6 +46,7 @@ public record SpaceSummary(
                 room.getRoomName(),
                 comment,
                 room.getRoomImages().stream()
+                        .sorted(Comparator.comparingInt(img -> img.getImageType().ordinal()))
                         .map(RoomImageResponse::from)
                         .toList(),
                 room.isLecture()
