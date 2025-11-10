@@ -3,7 +3,7 @@ name: KU-Barrier-Free CD with Gradle and Docker
 on:
   pull_request:
     branches:
-      - 'deploy/#55-ci-cd'
+      - '**'
 #  push:
 #    branches:
 #      - 'develop'
