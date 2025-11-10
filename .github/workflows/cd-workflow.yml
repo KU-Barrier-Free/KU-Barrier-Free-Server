@@ -58,7 +58,7 @@ jobs:
           envs: GITHUB_SHA
           script: |
             echo "📦 Checking current container"
-            source ~/scripts/choose_container.sh
+            source /home/ubuntu/scripts/choose_container.sh
             
             echo "🟢 NEW_CONTAINER: $NEW_CONTAINER"
             echo "⚫️ OLD_CONTAINER: $OLD_CONTAINER"
@@ -81,7 +81,7 @@ jobs:
             docker compose --env-file /home/ubuntu/.env -f docker-compose.yml up -d
             
             echo "🧪 Waiting for $NEW_CONTAINER to pass health check"
-            bash ~/scripts/health_check.sh $NEW_PORT $NEW_CONTAINER $OLD_CONTAINER || exit 1
+            bash /home/ubuntu/scripts/health_check.sh $NEW_PORT $NEW_CONTAINER $OLD_CONTAINER || exit 1
             
             echo "📝 Updating Nginx config to point to port $NEW_PORT"
             echo "proxy_pass http://localhost:$NEW_PORT;" > /tmp/proxy_pass_line
