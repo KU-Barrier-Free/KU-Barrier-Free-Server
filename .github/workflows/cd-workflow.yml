@@ -1,9 +1,6 @@
 name: KU-Barrier-Free CD with Gradle and Docker
 
 on:
-  pull_request:
-    branches:
-      - '**'
   push:
     branches:
       - 'develop'
