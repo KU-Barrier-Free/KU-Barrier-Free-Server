@@ -1,10 +1,13 @@
 name: KU-Barrier-Free CD with Gradle and Docker
 
 on:
-  push:
+  pull_request:
     branches:
-      - 'develop'
-      - 'main'
+      - 'deploy/#55-ci-cd'
+#  push:
+#    branches:
+#      - 'develop'
+#      - 'main'
 
 permissions:
   contents: read
@@ -43,7 +46,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_KEY }}
           source: "./docker-compose.yml"
-          target: "/home/ubuntu"
+          target: "/root"
 
       - name: 🚀 deploy to prod-server
         uses: appleboy/ssh-action@v0.1.6
@@ -62,20 +65,20 @@ jobs:
             echo "📦 NEW_PORT: $NEW_PORT"
             
             echo "📄 Writing .env file"
-            echo "NEW_CONTAINER=$NEW_CONTAINER" > /home/ubuntu/.env
-            echo "NEW_PORT=$NEW_PORT" >> /home/ubuntu/.env
-            echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" >> /home/ubuntu/.env
-            echo "DOCKER_IMAGE=${{ secrets.DOCKER_IMAGE }}" >> /home/ubuntu/.env
-            echo "PROD_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }}" >> /home/ubuntu/.env
-            echo "PROD_DATASOURCE_USERNAME=${{ secrets.PROD_DATASOURCE_USERNAME }}" >> /home/ubuntu/.env
-            echo "PROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }}" >> /home/ubuntu/.env
+            echo "NEW_CONTAINER=$NEW_CONTAINER" > /root/.env
+            echo "NEW_PORT=$NEW_PORT" >> /root/.env
+            echo "DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}" >> /root/.env
+            echo "DOCKER_IMAGE=${{ secrets.DOCKER_IMAGE }}" >> /root/.env
+            echo "PROD_DATASOURCE_URL=${{ secrets.PROD_DATASOURCE_URL }}" >> /root/.env
+            echo "PROD_DATASOURCE_USERNAME=${{ secrets.PROD_DATASOURCE_USERNAME }}" >> /root/.env
+            echo "PROD_DATASOURCE_PASSWORD=${{ secrets.PROD_DATASOURCE_PASSWORD }}" >> /root/.env
             
             echo "🐳 Pulling latest Docker image from DockerHub"
             docker pull ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_IMAGE }}
-          
+            
             echo "🚀 Starting new container: $NEW_CONTAINER"
-            docker compose --env-file /home/ubuntu/.env -f docker-compose.yml pull
-            docker compose --env-file /home/ubuntu/.env -f docker-compose.yml up -d
+            docker compose --env-file /root/.env -f docker-compose.yml pull
+            docker compose --env-file /root/.env -f docker-compose.yml up -d
             
             echo "🧪 Waiting for $NEW_CONTAINER to pass health check"
             bash ~/scripts/health_check.sh $NEW_PORT $NEW_CONTAINER $OLD_CONTAINER || exit 1
