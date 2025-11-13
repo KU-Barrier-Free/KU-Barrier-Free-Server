@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +33,17 @@ public class PlaceService {
                 List<SearchFacilityWithBuildingResponse> facilityResponses = facilityService.getFacilitiesByBuildingId(building.id()).stream()
                         .map(facilities -> new SearchFacilityWithBuildingResponse(facilities, building))
                         .toList();
+
+                // 중복 제거
+                facilityResponses = facilityResponses.stream()
+                        .collect(Collectors.collectingAndThen(
+                                Collectors.toMap(
+                                        f -> f.getBuildingId() + ":" + f.getName() + ":" + f.getPurpose(),
+                                        f -> f,
+                                        (f1, f2) -> f1
+                                ),
+                                map -> new ArrayList<>(map.values())
+                        ));
                 response.putFacilities(facilityResponses);
             });
             return response;
@@ -41,6 +53,17 @@ public class PlaceService {
                 .map(SearchFacilityWithBuildingResponse::new)
                 .toList();
         log.debug("[getPlaces] 편의시설 이름 조회 결과 수 = {}", facilities.size());
+
+        // 중복 제거
+        facilities = facilities.stream()
+                .collect(Collectors.collectingAndThen(
+                        Collectors.toMap(
+                                f -> f.getBuildingId() + ":" + f.getName() + ":" + f.getPurpose(),
+                                f -> f,
+                                (f1, f2) -> f1
+                        ),
+                        map -> new ArrayList<>(map.values())
+                ));
         return PlaceSearchResponse.ofFacilities(facilities);
     }
 }
