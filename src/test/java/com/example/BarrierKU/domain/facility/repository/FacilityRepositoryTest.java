@@ -78,7 +78,7 @@ class FacilityRepositoryTest {
 
     @Test
     @DisplayName("findByNameContainingIgnoreCase: 대소문자 무시 부분 검색")
-    void findByNameContainingIgnoreCase() {
+    void findByNameOrSynonym() {
         // given
         Building building = buildingRepository.save(newBuilding(2, "경영관", TestGeometryUtils.point(127.076069, 37.544311), true));
 
@@ -88,7 +88,7 @@ class FacilityRepositoryTest {
 
         // when
         String keyword = "u";
-        List<Facilities> result = facilityRepository.findByNameContainingIgnoreCase(keyword);
+        List<Facilities> result = facilityRepository.findByNameOrSynonym(keyword);
 
         // then
         assertThat(result).extracting(Facilities::getName)
