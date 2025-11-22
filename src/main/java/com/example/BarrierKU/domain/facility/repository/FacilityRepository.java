@@ -14,7 +14,7 @@ public interface FacilityRepository extends JpaRepository<Facilities, Long> {
     Optional<Facilities> findWithBuildingById(@Param("id") Long id);
 
     @Query("""
-        SELECT f FROM Facilities f
+        SELECT DISTINCT f FROM Facilities f
         JOIN FETCH f.building b
         LEFT JOIN FacilitySynonym syn
             ON f.name = syn.baseName
