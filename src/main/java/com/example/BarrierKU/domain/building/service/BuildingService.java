@@ -131,7 +131,7 @@ public class BuildingService {
     }
 
     public List<SearchBuildingResponse> getBuildings(String searchWord) {
-        List<Building> buildings = buildingRepository.findByNameContainingIgnoreCase(searchWord);
+        List<Building> buildings = buildingRepository.findByNameOrSynonyms(searchWord.replace(" ", "").toLowerCase());
         return buildings.stream()
                 .map(SearchBuildingResponse::new)
                 .toList();
