@@ -42,6 +42,8 @@ public class Building {
     @NotNull
     private boolean lecture;
 
+    private String synonyms;
+
     @OneToMany(mappedBy = "building")
     private List<Door> doors = new ArrayList<>();
 

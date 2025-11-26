@@ -38,6 +38,6 @@ public class FacilityService {
     }
 
     public List<Facilities> getFacilitiesByName(String searchWord) {
-        return facilityRepository.findByNameContainingIgnoreCase(searchWord);
+        return facilityRepository.findByNameOrSynonym(searchWord.replace(" ", "").toLowerCase());
     }
 }

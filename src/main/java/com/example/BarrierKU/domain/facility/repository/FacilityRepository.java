@@ -13,8 +13,16 @@ public interface FacilityRepository extends JpaRepository<Facilities, Long> {
     @Query("SELECT f FROM Facilities f JOIN FETCH f.building WHERE f.id = :id")
     Optional<Facilities> findWithBuildingById(@Param("id") Long id);
 
-    @Query("SELECT f FROM Facilities f JOIN FETCH f.building WHERE LOWER(f.name) LIKE LOWER(CONCAT('%', :searchWord, '%'))")
-    List<Facilities> findByNameContainingIgnoreCase(String searchWord);
+    @Query("""
+        SELECT DISTINCT f FROM Facilities f
+        JOIN FETCH f.building b
+        LEFT JOIN FacilitySynonym syn
+            ON f.name = syn.baseName
+        WHERE
+            REPLACE(LOWER(f.name), ' ', '') LIKE CONCAT('%', :searchWord, '%')
+            OR REPLACE(LOWER(syn.synonym), ' ', '') LIKE CONCAT('%', :searchWord, '%')
+    """)
+    List<Facilities> findByNameOrSynonym(String searchWord);
 
     List<Facilities> findAllByBuildingId(Long buildingId);
 }

@@ -102,14 +102,14 @@ class FacilityServiceTest {
         // given
         String keyword = "레";
         Facilities f1 = Mockito.mock(Facilities.class);
-        given(facilityRepository.findByNameContainingIgnoreCase(keyword)).willReturn(List.of(f1));
+        given(facilityRepository.findByNameOrSynonym(keyword)).willReturn(List.of(f1));
 
         // when
         List<Facilities> list = facilityService.getFacilitiesByName(keyword);
 
         // then
         assertThat(list).hasSize(1).containsExactly(f1);
-        verify(facilityRepository).findByNameContainingIgnoreCase(keyword);
+        verify(facilityRepository).findByNameOrSynonym(keyword);
     }
 
 }
