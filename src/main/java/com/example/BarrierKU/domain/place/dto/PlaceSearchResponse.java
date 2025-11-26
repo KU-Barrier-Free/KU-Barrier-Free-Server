@@ -2,6 +2,7 @@ package com.example.BarrierKU.domain.place.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Schema(description = "장소 검색 결과 응답")
@@ -10,7 +11,7 @@ public record PlaceSearchResponse(
         List<SearchFacilityWithBuildingResponse> facilities) {
 
     public static PlaceSearchResponse ofBuildings(List<SearchBuildingResponse> buildings) {
-        return new PlaceSearchResponse(buildings, List.of());
+        return new PlaceSearchResponse(buildings, new ArrayList<>());
     }
 
     public static PlaceSearchResponse ofFacilities(List<SearchFacilityWithBuildingResponse> facilities) {
