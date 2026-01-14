@@ -2,6 +2,7 @@ package com.example.BarrierKU.domain.home.controller;
 
 import com.example.BarrierKU.common.annotation.CustomExceptionDescription;
 import com.example.BarrierKU.common.response.BaseResponse;
+import com.example.BarrierKU.domain.home.dto.GateResponse;
 import com.example.BarrierKU.domain.home.dto.HomeResponse;
 import com.example.BarrierKU.domain.home.dto.OutsideSignificantResponse;
 import com.example.BarrierKU.domain.home.service.HomeService;
@@ -41,5 +42,15 @@ public class HomeController {
     @CustomExceptionDescription(GET_OUTSIDE_SIGNIFICANT_INFO)
     public BaseResponse<OutsideSignificantResponse> getOutsideSignificantInfo(@PathVariable("outsideSignificantId") Long outsideSignificantId) {
         return BaseResponse.ok(homeService.getOutsideSignificantInfo(outsideSignificantId));
+    }
+
+    @Operation(
+            summary = "출입문 조회 API",
+            description = "정문/후문/중문 등의 정보를 보여주는 API 입니다."
+    )
+    @GetMapping("/gates/{gateId}")
+    @CustomExceptionDescription(GET_GATE_INFO)
+    public BaseResponse<GateResponse> getGateInfo(@PathVariable Long gateId) {
+        return BaseResponse.ok(homeService.getGateInfo(gateId));
     }
 }
