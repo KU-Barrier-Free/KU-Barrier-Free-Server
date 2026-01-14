@@ -7,6 +7,7 @@ import com.example.BarrierKU.domain.home.repository.GateRepository;
 import com.example.BarrierKU.domain.home.repository.ObstacleRepository;
 import com.example.BarrierKU.domain.home.repository.OutsideSignificantRepository;
 import com.example.BarrierKU.domain.image.OutsideSignificantImage;
+import com.example.BarrierKU.domain.outdoor.Gate;
 import com.example.BarrierKU.domain.outdoor.Obstacle;
 import com.example.BarrierKU.domain.outdoor.OutsideSignificant;
 import com.example.BarrierKU.domain.type.ObstacleType;
@@ -73,6 +74,18 @@ public class HomeService {
                 outsideSignificant.getDescription(),
                 outsideSignificant.getSpot().getY(),
                 outsideSignificant.getSpot().getX());
+    }
+
+    public GateResponse getGateInfo(Long gateId) {
+        Gate gate = gateRepository.findById(gateId)
+                .orElseThrow(() -> new BarrierKuException(GATE_NOT_FOUND));
+
+        return GateResponse.of(
+                gate.getImageUrl(),
+                gate.getDescription(),
+                gate.getSpot().getY(),
+                gate.getSpot().getX()
+        );
     }
 
     private List<HomeEtcItem> getHomeItemWithObstacleType(List<Obstacle> obstacleList, ObstacleType type) {
