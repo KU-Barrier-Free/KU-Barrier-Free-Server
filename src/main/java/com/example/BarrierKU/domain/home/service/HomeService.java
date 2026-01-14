@@ -3,6 +3,7 @@ package com.example.BarrierKU.domain.home.service;
 import com.example.BarrierKU.common.exception.BarrierKuException;
 import com.example.BarrierKU.domain.building.repository.BuildingRepository;
 import com.example.BarrierKU.domain.home.dto.*;
+import com.example.BarrierKU.domain.home.repository.GateRepository;
 import com.example.BarrierKU.domain.home.repository.ObstacleRepository;
 import com.example.BarrierKU.domain.home.repository.OutsideSignificantRepository;
 import com.example.BarrierKU.domain.image.OutsideSignificantImage;
@@ -26,6 +27,7 @@ public class HomeService {
     private final BuildingRepository buildingRepository;
     private final ObstacleRepository obstacleRepository;
     private final OutsideSignificantRepository outsideSignificantRepository;
+    private final GateRepository gateRepository;
 
     public HomeResponse getHomeInfo() {
         List<HomeBuildingItem> buildings = buildingRepository.findAll().stream()
@@ -49,7 +51,17 @@ public class HomeService {
 
         List<HomeEtcItem> stairs = getHomeItemWithObstacleType(obstaclesList, STAIR);
 
-        return HomeResponse.of(buildings, significants, curbs, ramps, stairs);
+        List<HomeGateItem> gates =
+                gateRepository.findAll().stream()
+                        .map(gate -> HomeGateItem.of(
+                                gate.getId(),
+                                gate.getName(),
+                                gate.getSpot().getY(),
+                                gate.getSpot().getX()
+                        ))
+                        .toList();
+
+        return HomeResponse.of(buildings, significants, curbs, ramps, stairs, gates);
     }
 
     public OutsideSignificantResponse getOutsideSignificantInfo(Long outsideSignificantId) {
