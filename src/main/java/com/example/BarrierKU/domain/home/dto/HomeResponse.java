@@ -14,19 +14,23 @@ public record HomeResponse(
         @Schema(description = "경사로들 정보")
         List<HomeEtcItem> ramps,
         @Schema(description = "계단들 정보")
-        List<HomeEtcItem> stairs
+        List<HomeEtcItem> stairs,
+        @Schema(description = "출입문 정보")
+        List<HomeGateItem> gates
 ) {
     public static HomeResponse of(List<HomeBuildingItem> buildings,
                                   List<HomeEtcItem> significants,
                                   List<HomeEtcItem> curbs,
                                   List<HomeEtcItem> ramps,
-                                  List<HomeEtcItem> stairs) {
+                                  List<HomeEtcItem> stairs,
+                                  List<HomeGateItem> gates) {
         return new HomeResponse(
                 buildings,
                 significants,
                 curbs,
                 ramps,
-                stairs
+                stairs,
+                gates
         );
     }
 }

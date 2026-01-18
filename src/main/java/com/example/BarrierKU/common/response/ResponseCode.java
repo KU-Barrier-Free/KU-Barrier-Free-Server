@@ -29,6 +29,7 @@ public enum ResponseCode {
 
     // home
     OUTSIDE_SIGNIFICANT_NOT_FOUND(false, 404, "해당 교외 특이사항을 찾을 수 없습니다."),
+    GATE_NOT_FOUND(false, 404, "해당 출입문을 찾을 수 없습니다."),
 
     // building
     BUILDING_NOT_FOUND(false, 404, "해당 건물을 찾을 수 없습니다."),
@@ -47,7 +48,6 @@ public enum ResponseCode {
     NODE_NOT_FOUND(false, 404, "노드를 찾을 수 없습니다."),
     SAME_SOURCE_AND_DESTINATION(false, 400, "출발지와 도착지가 동일합니다."),
     PATH_FINDING_FAILED(false, 500, "경로 탐색에 실패했습니다."),
-
 
     // notice
     NOTICE_CRAWL_FAILED(false, 404, "공지사항을 찾을 수 없습니다.");
